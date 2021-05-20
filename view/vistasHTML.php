@@ -19,10 +19,9 @@ function HTMLheader($titulo){
     echo <<< HTML
         <body>
             <header>
-                <h1>$titulo</h1>
-                <img src="../view/hamburguesa.png" alt="Hamburguesa sonriente" width="100"/>
-                <img src="../view/hamburguesa.png" alt="Hamburguesa sonriente" width="100"/>
-                <img src="../view/hamburguesa.png" alt="Hamburguesa sonriente" width="100"/>
+                <h1>Vacunas</h1>
+                <img src='../view/jeringa.png' alt='Jeringuilla' width='100'/>
+                <h2>$titulo</h2>
             </header>
     HTML;
 }
@@ -33,17 +32,20 @@ function HTMLnav($user){
                 <ul class="ul">
     HTML;
     
-    $nav = ["Presentación", "Sobre el autor"];
-    $links = ["../view/presentacion.php", "../view/autor.php"];
-    if($user == 'C'){
-        $nav = ["Presentación", "Sobre el autor", "Listado de usuarios"];
-        $links = ["../view/presentacion.php", "../view/autor.php", "../controller/list.php"];
+    $nav = ["Calendario de vacunación"];
+    $links = ["../view/calendario.php"];
+    if($user == 'P'){
+        $nav = ["Calendario de vacunación", "Datos personales", "Cartilla de vacunación"];
+        $links = ["../view/calendario.php", "../view/datosPaciente.php", "../view/cartillaVacunacion.php"];
+    }
+    elseif($user == 'S'){
+        $nav = ["Calendario de vacunación", "Datos personales", "Cartilla de vacunación", "Búsqueda de pacientes"];
+        $links = ["../view/calendario.php", "../view/datosPaciente.php", "../view/cartillaVacunacion.php", "../view/busquedaPacientes.php"];
     }
     elseif($user == 'A'){
-        $nav = ["Presentación", "Sobre el autor", "Listado de usuarios", "Añadir usuario"];
-        $links = ["../view/presentacion.php", "../view/autor.php", "../controller/list.php", "../controller/add.php"];
+        $nav = ["Calendario de vacunación", "Datos personales", "Búsqueda de pacientes"];
+        $links = ["../view/calendario.php", "../view/datosPaciente.php", "../view/busquedaPacientes.php"];
     }
-
     foreach($nav as $k => $v)
         echo "<li> <a href='".$links[$k],"'>".$v."</a></li>";
     echo <<< HTML
@@ -57,10 +59,8 @@ function HTMLcontenido($user){
     echo <<< HTML
     <main>
             <section id='contenido' class='borde_verde'>
-                <h1> Presentación </h1>
-                <p> Administrador: Usuario: 12345678A Contraseña: 123456 </p>
-                <p> Colaborador: Usuario: 98765432C Contraseña: 654321 </p>
-                <p> Ahora eres $user </p>
+                <h1> Calendario de vacunación </h1>
+                <p> Calendario </p>
             </section>
     HTML;
 }
@@ -77,6 +77,7 @@ function HTMLformulario($user){
                         <label> Clave <input type="password" name="clave"> </label>
                         <input type="submit" name="login" value="Login">
                     </form>
+                    <a href="darAlta.php">Darse de alta en la plataforma</a>
                 </div>
         HTML;
     }else if($user=="C" || $user=="A"){
