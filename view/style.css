@@ -1,0 +1,193 @@
+body{
+    /*width: 100%;*/
+    height: 100%;
+    margin: 5px;
+}
+
+/* HEADER */
+header{
+    background-color: rgb(153, 253, 2);
+    /*width: 100%;*/
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 5px;
+}
+
+header > h1{
+    margin: 10px 30px 10px auto;
+    order: 4;
+    flex-shrink: 2;
+    font-weight: 2px;
+    
+}
+
+header > img{
+    width: 65px;
+    height: auto;
+    margin: 5px;
+    flex-grow: 0;
+    flex-shrink: 1;
+}
+
+header img:nth-child(2){
+    margin-left: 30px;
+}
+
+
+/* NAV y FOOTER (class .color y .ul)*/
+.color{
+    background-color: rgb(196, 255, 107);
+    margin: 10px 0 0 0;
+}
+
+.ul{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ul > li{
+    list-style: none;
+    padding: 5px 0;
+}
+
+.ul > li > a{
+    margin: 0;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+
+.ul > li:not(:last-child)::after{
+    content: "|";
+    font-weight: 2px;
+    color: black;
+    padding: 0 20px;
+}
+
+.ul li:first-child{
+    margin-left: 20px;
+}
+
+
+/* NAV */
+/*nav > ul > li > a{
+    background-color: rgb(214, 180, 87);
+    padding: 5px;
+}*/
+
+
+/* MAIN */
+/* MAIN - #contenido y #barra */
+.borde_verde{
+    border: 1px solid rgb(153, 253, 2);
+    margin: 5px;
+}
+
+#barra_lateral > .borde_verde{
+    margin-right: 0;
+}
+
+main{
+    margin: 5px 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: stretch;
+}
+
+/* CONTENIDO */
+#contenido{
+    background-color: rgb(216, 255, 158);
+    width: 85%;
+    height: auto;
+    margin-left: 0;
+    flex-grow: 2;
+    flex-shrink: 2;
+}
+
+#barra_lateral{
+    width: 15%;
+    margin-right: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+/* BARRA LATERAL */
+.form{
+    background-color:  rgb(255, 255, 164);
+}
+
+.form > h1{
+    font-size: 23px;
+    font-weight: normal;
+    background-color: rgb(255, 208, 0);
+    margin: 7px;
+    padding: 5px 0 5px 15px;
+}
+
+.form > form{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.form form > *{
+    margin: 7px 15px;
+}
+
+.form input{
+    border: 1px solid rgb(114, 114, 1);
+    width: 150px;
+    padding: 5px; 
+}
+
+.form form > :last-child{
+    align-self: center;
+    background-color: rgb(177, 177, 177);
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 3px 10px;
+    width: 75px;
+}
+
+.form > p{
+    padding: 10px;
+    margin: 0;
+    text-align: justify;
+}
+
+p#error{
+    color:red;
+}
+
+/* FORMULARIOS*/
+#add{
+    margin: 0px 0px 10px 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#add > label{
+    margin: 5px 5px;
+}
+
+/*LISTAR USUARIO*/
+.listado{
+    margin: 20px 30% 20px 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.inf_pers{
+    width: 25%;
+    margin-right: auto;
+    padding-left: auto
+}
