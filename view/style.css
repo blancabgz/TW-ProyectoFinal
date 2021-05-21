@@ -177,6 +177,15 @@ p#error{
     margin: 20px 45px;
 }
 
+#contenido > p{
+    text-align: justify;
+    margin: 10px 45px;
+}
+
+#contenido > img{
+    width: 250px;
+    margin: 20px 300px;
+}
 #add{
     margin: 0px 0px 10px 35%;
     display: flex;
