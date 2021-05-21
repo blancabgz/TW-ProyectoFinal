@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="estilo.css" />
+<title>Ejemplo</title>
+</head>
+<body>
+
+
+<div class='frm_ciudad'>
+  <form action='' method='POST' enctype="multipart/form-data">
+    <div class='frm_ciudad_input'>
+      <label for='ciu_nombre'>Fichero:</label>
+      <input type='file' name='fichero' />
+    </div>
+    <div class='frm_ciudad_submit'>
+      <input type='submit' value='Subir' />
+    </div>
+  </form>
+</div>
+
+
+
+
+<div class='encabezado'>
+  <h1>GeoWeb: geografía política</h1>
+  <h2>Una web con datos geográficos</h2>
+</div>
+
+<nav class='menu'>
+  <a href='listado.php'>Listado</a>
+  <a href='listado_paginado.php'>Listado Paginado</a>
+  <a href='listado_paginadoBotones.php'>Listado Paginado (botones)</a>
+</nav>
+
+<div class='msgerror'>
+  <p>Mensaje de error</p>
+</div>
+
+<div class='frm_ciudad'>
+  <form action='' method='POST'>
+    <div class='frm_ciudad_input'>
+      <label for='ciu_nombre'>Nombre:</label>
+      <input type='text' name='ciu_nombre' />
+    </div>
+    <div class='frm_ciudad_input'>
+    	<label for='ciu_comunidad'>Comunidad:</label>
+    	<input type='text' name='ciu_comunidad' />
+    </div>
+    <div class='frm_ciudad_input'>
+	    <label for='ciu_poblacion_min'>Población mínima:</label>
+    	<input type='text' name='ciu_poblacion_min' />
+    </div>
+    <div class='frm_ciudad_input'>
+	    <label for='ciu_poblacion_max'>Población máxima:</label>
+    	<input type='text' name='ciu_poblacion_max' />
+    </div>
+    <div class='frm_ciudad_submit'>
+  	  <input type='submit' value='Buscar' />
+  	</div>
+  </form>
+</div>
+
+
+
+
+<div class='frm_ciudad'>
+  <form action='' method='POST'>
+    <input type='hidden' name='id' value='xxxx'/>
+    <div class='frm_ciudad_input'>
+      <label for='ciu_nombre'>Nombre:</label>
+      <input type='text' name='ciu_nombre' />
+    </div>
+    <div class='frm_ciudad_input'>
+    	<label for='ciu_comunidad'>Comunidad:</label>
+    	<input type='text' name='ciu_comunidad' />
+    </div>
+    <div class='frm_ciudad_input'>
+	    <label for='ciu_poblacion'>Población:</label>
+    	<input type='text' name='ciu_poblacion' />
+    </div>
+    <div class='frm_ciudad_submit'>
+  	  <input type='submit' value='Modificar' />
+  	</div>
+  </form>
+</div>
+
+<div class='listado'>
+<table>
+  <tr>
+    <th>Ciudad</th>
+    <th>Comunidad</th>
+    <th>Población</th>
+  </tr>
+
+  <tr>
+    <td>Madrid</td>
+    <td>Madrid</td>
+    <td>2879052</td>
+  </tr>
+  <tr>
+    <td>Barcelona</td>
+    <td>Katalonia</td>
+    <td>1503451</td>
+  </tr>
+  <tr>
+    <td>Madrid</td>
+    <td>Madrid</td>
+    <td>2879052</td>
+  </tr>
+
+</table>
+</div>
+
+<div class='listado'>
+<table>
+  <tr>
+    <th>Ciudad</th>
+    <th>Comunidad</th>
+    <th>Población</th>
+    <th>Acción</th>
+  </tr>
+
+  <tr>
+    <td>Madrid</td>
+    <td>Madrid</td>
+    <td>2879052</td>
+    <td><form action='' method='POST'>
+          <input type='hidden' name='id' value='xxxx' />
+          <input type='submit' name='accion' value='Modificar' />
+          <input type='submit' name='accion' value='Borrar' />
+        </form>
+    </td>
+  </tr>
+  <tr>
+    <td>Barcelona</td>
+    <td>Katalonia</td>
+    <td>1503451</td>
+    <td><form action='' method='POST'>
+          <input type='hidden' name='id' value='xxxx' />
+          <input type='submit' name='accion' value='Modificar' />
+          <input type='submit' name='accion' value='Borrar' />
+        </form>
+    </td>
+  </tr>
+  <tr>
+    <td>Madrid</td>
+    <td>Madrid</td>
+    <td>2879052</td>
+    <td><form action='' method='POST'>
+          <input type='hidden' name='id' value='xxxx' />
+          <input type='submit' name='accion' value='Modificar' />
+          <input type='submit' name='accion' value='Borrar' />
+        </form>
+    </td>
+  </tr>
+
+</table>
+</div>
+
+
+<div class='paginador'>
+  <span class='paginador_elem'>
+  	<a href='#saltaraqui'>Anterior</a>
+  </span>
+  <span class='paginador_elem'>
+  	<a href='#saltaraqui'>Medio</a>
+  </span>
+  <span class='paginador_elem'>
+  	<a href='#saltaraqui'>Siguiente</a>
+  </span>
+</div>
+
+
+
+<div class='piepagina'>
+  <h1>&copy; Tecnologías Web</h2>
+</div>
+
+
+</body>
+</html>

@@ -28,6 +28,6 @@ if($rol == 'A' || $rol == 'C'){
     HTMLfooter();    
 }
 else{
-    header("Location: ../view/presentacion.php");
+    header("Location: ../view/inicio.php");
 }
 ?>

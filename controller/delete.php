@@ -9,7 +9,7 @@ $titulo="Borrar usuario";
 $form="../controller/delete.php";
 
 if($rol != 'A'){
-    header("Location: ../view/presentacion.php");
+    header("Location: ../view/inicio.php");
 }
 else{
     HTMLinicio($titulo);

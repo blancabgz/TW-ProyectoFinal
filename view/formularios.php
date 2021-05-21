@@ -1,9 +1,9 @@
 <?php
-function formularioUSU01(){
+function formularioUSU01($titulo, $user){
 echo <<< HTML
     <main>
         <section id="contenido" class="borde_verde">
-            <h1> Nuevo usuario </h1>
+            <h1> $titulo </h1>
             <form action="add.php" method="post" enctype="multipart/form-data" id="add">
                 <label> Fotografía: <input type="file" name="fotografia" value="Seleccionar fotografía"></label>
                 <label> Nombre: <input type="text" name="nombre"></label>
@@ -21,17 +21,24 @@ echo <<< HTML
                     <input type="password" name="clave2">
                 </label>
                 <label> Rol: <select name="rol">
-                    <option value="C"> Colaborador</option>
+                    <option value="P"> Paciente </option>
+                    <option value="S"> Sanitario </option>
                     <option value="A"> Administrador</option>
                 </select></label>
-                <label> Estado: <select name="estado">
+                
+HTML;
+        if($user == 'A'){
+            echo <<< HTML
+            <label> Estado: <select name="estado">
                     <option value="A"> Activo</option>
                     <option value="I"> Inactivo</option>
                 </select></label>
-                <input type="submit" name="enviarDatos" value="Enviar datos">
-            </form>
-        </section>
-HTML;
+            HTML;
+        }
+        echo "
+        <input type='submit' name='enviarDatos' value='Enviar datos'>
+        </form>
+        </section>";
 }
 
 function formularioUSU02($datos, $validar, $form, $titulo){
@@ -225,32 +232,50 @@ function formularioRol($datos, $desactivado){
     if($desactivado == '0'){
         if($datos == 'A'){
             $rol = "<select name='rol'>
-            <option value='C'> Colaborador </option>
-            <option value='A' selected> Administrador</option> </select>";
+            <option value='P'> Paciente </option>
+            <option value='S'> Sanitario </option>
+            <option value='A' selected> Administrador</option>";
         }
-        else if($datos == 'C'){
+        else if($datos == 'S'){
             $rol = "<select name='rol'>
-            <option value='C' selected> Colaborador </option>
-            <option value='A'> Administrador</option> </select>";
+            <option value='P'> Paciente </option>
+            <option value='S' selected> Sanitario </option>
+            <option value='A'> Administrador</option>";
+        }
+        else if($datos == 'P'){
+            $rol = "<select name='rol'>
+            <option value='P' selected> Paciente </option>
+            <option value='S'> Sanitario </option>
+            <option value='A'> Administrador</option>";
         }else{
             $rol = "<select name='rol'>
-            <option value='C'> Colaborador </option>
-            <option value='A'> Administrador</option> </select>";  
+            <option value='P'> Paciente </option>
+            <option value='S'> Sanitario </option>
+            <option value='A'> Administrador</option>";  
         }
     }else{
         if($datos == 'A'){
             $rol = "<select name='rol'>
-            <option value='C' disabled> Colaborador </option>
-            <option value='A' selected> Administrador</option> </select>";
+            <option value='P' disabled> Paciente </option>
+            <option value='S' disabled> Sanitario </option>
+            <option value='A' selected> Administrador</option>";
         }
-        else if($datos == 'C'){
+        else if($datos == 'S'){
             $rol = "<select name='rol'>
-            <option value='C' selected> Colaborador </option>
-            <option value='A' disabled> Administrador</option> </select>";
+            <option value='P' disabled> Paciente </option>
+            <option value='S' selected> Sanitario </option>
+            <option value='A' disabled> Administrador</option>";
+        }
+        else if($datos == 'P'){
+            $rol = "<select name='rol'>
+            <option value='P' selected> Paciente </option>
+            <option value='S' disabled> Sanitario </option>
+            <option value='A' disabled> Administrador</option>";
         }else{
             $rol = "<select name='rol'>
-            <option value='C' disabled> Colaborador </option>
-            <option value='A' disabled> Administrador</option> </select>";  
+            <option value='P' disabled> Paciente </option>
+            <option value='S' disabled> Sanitario </option>
+            <option value='A' disabled> Administrador</option>"; 
         }
     }
     return $rol;

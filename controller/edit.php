@@ -13,7 +13,7 @@ HTMLheader($titulo);
 HTMLnav($rol);
 
 if($rol != 'A' && $rol != 'C'){
-	header("Location: ../view/presentacion.php");
+	header("Location: ../view/inicio.php");
 }
 else if($rol == 'A'){
 	$titulo_form="Modificar usuario";
@@ -42,7 +42,7 @@ else if($rol == 'A'){
         }
 	}
 	else{
-		header("Location: ../view/presentacion.php");
+		header("Location: ../view/");
 	}
 }
 else if($rol == 'C'){
@@ -73,7 +73,7 @@ else if($rol == 'C'){
         }
 	}
 	else{
-		header("Location: ../view/presentacion.php");
+		header("Location: ../view/");
 	}
 }
 HTMLformulario($rol);

@@ -9,7 +9,7 @@ require_once '../model/basedatos.php';
 HTMLinicio("Login");
 HTMLheader("Login");
 HTMLnav('V');
-HTMLcontenido('V');
+HTMLcontenido("Login");
 
 //se comprueba si los datos introducidos son correctos
 if(isset($_POST['login']) && isset($_POST['usuario']) && isset($_POST['clave'])){
@@ -36,7 +36,7 @@ else{
 
 // se comprueba la acción
 if($accion == "loggeado" || $accion == "formulario"){
-    header("Location: ../view/presentacion.php");
+    header("Location: ../view/inicio.php");
 }
 elseif($accion == "redireccion"){
     header("Location: {$_SESSION['deaquivengo']}");
@@ -46,6 +46,6 @@ elseif($accion == "error_login"){
     HTMLfooter();
 }
 else{
-    header("Location: ../view/presentacion.php");
+    header("Location: ../view/inicio.php");
 }
 ?>

@@ -32,19 +32,19 @@ function HTMLnav($user){
                 <ul class="ul">
     HTML;
     
-    $nav = ["Calendario de vacunación"];
-    $links = ["../view/calendario.php"];
+    $nav = ["Inicio", "Calendario de vacunación"];
+    $links = ["../view/inicio.php", "../controller/calendario.php"];
     if($user == 'P'){
-        $nav = ["Calendario de vacunación", "Datos personales", "Cartilla de vacunación"];
-        $links = ["../view/calendario.php", "../view/datosPaciente.php", "../view/cartillaVacunacion.php"];
+        $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Cartilla de vacunación"];
+        $links = ["../view/inicio.php", "../controller/calendario.php", "../view/datosPaciente.php", "../view/cartillaVacunacion.php"];
     }
     elseif($user == 'S'){
-        $nav = ["Calendario de vacunación", "Datos personales", "Cartilla de vacunación", "Búsqueda de pacientes"];
-        $links = ["../view/calendario.php", "../view/datosPaciente.php", "../view/cartillaVacunacion.php", "../view/busquedaPacientes.php"];
+        $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Cartilla de vacunación", "Búsqueda de pacientes"];
+        $links = ["../view/inicio.php", "../controller/calendario.php", "../view/datosPaciente.php", "../view/cartillaVacunacion.php", "../view/busquedaPacientes.php"];
     }
     elseif($user == 'A'){
-        $nav = ["Calendario de vacunación", "Datos personales", "Búsqueda de pacientes"];
-        $links = ["../view/calendario.php", "../view/datosPaciente.php", "../view/busquedaPacientes.php"];
+        $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Búsqueda de pacientes"];
+        $links = ["../view/inicio.php", "../controller/calendario.php", "../view/datosPaciente.php", "../view/busquedaPacientes.php"];
     }
     foreach($nav as $k => $v)
         echo "<li> <a href='".$links[$k],"'>".$v."</a></li>";
@@ -55,32 +55,37 @@ function HTMLnav($user){
     HTML;
 }
 
-function HTMLcontenido($user){
+function HTMLcontenido($titulo){
     echo <<< HTML
     <main>
             <section id='contenido' class='borde_verde'>
-                <h1> Calendario de vacunación </h1>
-                <p> Calendario </p>
+                <h1> $titulo </h1>
+                <p> Contenido </p>
             </section>
     HTML;
 }
 
 function HTMLformulario($user){
 
-    if($user=="V"){
-        echo <<< HTML
-            <div id="barra_lateral">
-                <div class="borde_verde form">
-                    <h1> Login </h1>
-                    <form action="../controller/login.php" method="post">
-                        <label> Usuario <input type="text" name="usuario"> </label>
-                        <label> Clave <input type="password" name="clave"> </label>
-                        <input type="submit" name="login" value="Login">
+    if($user=="V" || $user == 'E'){
+        echo 
+            "<div id='barra_lateral'>
+                <div class='borde_verde form'>
+                    <h1> Login </h1>";
+
+        if($user=='E'){
+            echo "  <p id='error'> Error al identificarse, vuelva a rellenar el formulario. </p>";
+
+        }
+                    
+        echo "      <form action='../controller/login.php' method='post'>
+                        <label> Usuario <input type='text' name='usuario'> </label>
+                        <label> Clave <input type='password' name='clave'> </label>
+                        <input type='submit' name='login' value='Login'>
                     </form>
-                    <a href="darAlta.php">Darse de alta en la plataforma</a>
-                </div>
-        HTML;
-    }else if($user=="C" || $user=="A"){
+                    <a href='../controller/solicitud.php'> Solicitar darse de alta </a>
+                </div>";
+    }else if($user == "P" || $user == "A" || $user == "S"){
         echo <<< HTML
             <div id="barra_lateral">
                 <div class="borde_verde form">
@@ -91,28 +96,14 @@ function HTMLformulario($user){
                 </div>
         HTML;
     }
-    else if($user=="E"){
-        echo <<< HTML
-        <div id="barra_lateral">
-            <div class="borde_verde form">
-                <h1> Login </h1>
-                <p id="error"> Error al identificarse, vuelva a rellenar el formulario. </p>
-                <form action="../controller/login.php" method="post">
-                    <label> Usuario <input type="text" name="usuario"> </label>
-                    <label> Clave <input type="password" name="clave"> </label>
-                    <input type="submit" name="login" value="Login">
-                </form>
-            </div>
-        HTML;
-    }
 
     echo <<< HTML
         <div class="borde_verde form">
-            <h1>Receta Hamburguesas </h1>
-            <p> Para realizar unas hamburguesas deliciosas necesitaremos
-                carne picada, huevo, pan rallado y especias al gusto. 
-                Añadir todos los ingredientes y amasar, hacerle forma, 
-                cocinar en la sartén y... ¡a disfrutar!</p>
+            <h1> Estadísticas </h1>
+            <ul id='estadistica'>
+                <li>Número de vacunas totales puestas (últimos 30 días): XX </li>
+                <li>Número total de usuarios del sistema: XX </li>
+            </ul>
         </div>
     </div>
     HTML;
@@ -124,8 +115,9 @@ function HTMLfooter(){
             <footer class="color">
                 <ul class="ul">
                     <li>(C) 2020 Tecnologías Web</li>
-                    <li>Mapa del sitio</li>
-                    <li>Contacto</li>
+                    <li> Proyecto </li>
+                    <li> Blanca Abril González </li>
+                    <li> Paula Santos Ortega </li>
                 </ul>
             </footer>
         </body>

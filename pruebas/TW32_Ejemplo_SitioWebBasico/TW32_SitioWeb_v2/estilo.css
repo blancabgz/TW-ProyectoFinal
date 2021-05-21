@@ -1,0 +1,46 @@
+.activo {
+	font-weight: bold;
+}
+
+nav .activo a:link {
+	color: Brown;
+}
+nav .activo a:visited {
+	color: Brown;
+}
+
+nav {
+	background-color: AntiqueWhite;
+}
+nav h1 {
+	padding: 10px 0 0 20px;
+	margin: 0;
+}
+nav ul {
+	list-style: none;
+	padding: 0 10px 0 0;
+	margin: 0;
+}
+
+nav ul li {
+	float: left;
+	padding: 0 0 10px 20px;
+}
+
+nav:after {
+	display: block;
+	content: "";
+	clear: both;
+}
+
+footer {
+	background-color: AntiqueWhite;
+	text-align: center;
+}
+
+section {
+	background-color: GhostWhite;
+	margin: 20px;
+	padding: 20px;
+
+}

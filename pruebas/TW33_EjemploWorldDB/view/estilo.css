@@ -1,0 +1,205 @@
+/*
+  (C) 2021. Javier Martínez Baena (jbaena@ugr.es)
+  Tecnologías Web. Grado en Ingeniería Informática. Universidad de Granada.
+  Este código tiene un objetivo puramente didáctico por lo que se podría mejorar en múltiples aspectos. Pretende ejemplificar sobre la conexión con BBDD desde el lenguaje PHP para crear páginas web dinámicas usando un modelo básico MVC. Es posible que contenga errores y se distribuye para facilitar el estudio de la asignatura.
+  No se permite el uso de este código sin autorización del autor.
+*/
+
+body {
+	font-family: Arial, Verdana, Sans-serif;
+}
+/************* Cabecera de la página */
+.encabezado {
+	background-color: #BCCAD6;
+	color: #667292;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+.encabezado h1 {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.encabezado h2 {
+  font-size: 0.8em;
+  margin: 0;
+}
+
+/************* Barra de menú */
+.menu {
+	background-color: #FBEFCC;
+	color: #667292;
+	padding: 5px;
+	margin-top: 10px;	
+  font-size: 0.8em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.menu a {
+	background-color: #F9CCAC;
+	padding: 5px;
+	text-decoration: none;
+}
+
+.menu a:visited,
+.menu a:link {
+	color: #667292;
+}
+
+.menu .activo {
+	font-weight: bold;
+  background-color: #A9ACAC;
+}
+
+.menu a.activo:visited,
+.menu a.activo:link {
+	color: #f6f2d2;
+}
+
+/************* Contenidos */
+.contenidos {
+	width: 90%;
+	margin: 10px auto;
+}
+
+/************* Pie de página */
+.piepagina {
+	background-color: #BCCAD6;
+	color: #667292;
+	padding: 10px;
+	margin-top: 10px;
+}
+
+.piepagina h1 {
+  font-size: 0.6em;
+  margin: 0;
+  text-align: right;
+}
+
+/************* Barra menú paginadora */
+.paginador {
+	background-color: #CFE0E8;
+	color: #667292;
+	padding: 5px 10px;
+	text-align: center;
+	width: 400px;
+	margin: 10px auto;  /* Centrar tabla */
+}
+
+.paginador a {
+  font-size: 0.8em;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.paginador a:visited,
+.paginador a:link {
+	color: #364262;
+}
+
+/************* Edición de ciudad */
+.frm_ciudad {
+	border: solid 4px #667292;
+	margin: auto;  /* Centrar tabla */
+	font-size: smaller;
+	width: 320px;
+	padding: 10px;
+}
+
+.frm_ciudad label {
+	width: 90px;
+	/*text-align: left;*/
+	display:  inline-block;
+}
+
+.frm_ciudad .frm_ciudad_input {
+  margin-bottom: 10px;
+  /*text-align: right;*/
+}
+
+.frm_ciudad .frm_ciudad_input input {
+	width: 200px;
+}
+
+.frm_ciudad .frm_ciudad_submit {
+	text-align: center;
+	margin-right: 0px;
+}
+
+/************* Listado de ciudades */
+.listado {
+	margin: 10px 0;
+}
+
+.listado table {
+	border: solid 4px #667292;
+	margin: auto;  /* Centrar tabla */
+	border-collapse: collapse;  /* Eliminar bordes interiores */
+	font-size: smaller;
+	width: 500px;
+}
+
+.listado td,
+.listado th {
+	padding: 5px 10px;
+	text-align: left;
+}
+
+.listado .ciu_comunidad {
+	font-style: italic;
+}
+
+.listado .ciu_botones {
+	width: 100px;
+}
+
+.listado [type='submit'] {
+	font-size: xx-small;
+	width: 45px;
+	padding: 0;
+	border: solid 1px;
+}
+
+.listado [type='submit']:hover {
+  background-color: #A9ACAC;
+	color: #f6f2d2;
+}
+
+.listado table tr:nth-child(even) {
+	background-color: #B7D7E8;
+}
+
+.listado table tr:nth-child(odd) {
+	background-color: #CFE0E8;
+}
+
+/* Encabezados */
+.listado table tr:nth-child(1) {
+	background-color: #87BDD8;
+	border-bottom: solid 2px #667292;
+}
+
+/************* Mensaje de error */
+.msgerror {
+	border: solid 4px #667292;
+	margin: 10px auto;  /* Centrar tabla */
+	font-size: 1.2em;
+	width: 75%;
+	padding: 10px;
+	background-color: #EEA29A;
+	color: 0;
+}
+
+/************* Caja de texto informativo*/
+.msginfo {
+	border: solid 4px #667292;
+	margin: 10px auto;  /* Centrar tabla */
+	font-size: 1.2em;
+	width: 75%;
+	padding: 10px;
+	background-color: #BCCAD6;
+	color: 0;
+}

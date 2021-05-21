@@ -13,7 +13,7 @@ HTMLinicio($titulo);
 HTMLheader($titulo);
 HTMLnav($rol);
 if($rol != 'A'){
-	header("Location: ../view/presentacion.php");
+	header("Location: ../view/inicio.php");
 }
 else{
 	
@@ -37,7 +37,7 @@ else{
         }
 	}
 	else{
-		formularioUSU01();
+		formularioUSU01($titulo_form, $rol);
 	}
 }
 HTMLformulario($rol);

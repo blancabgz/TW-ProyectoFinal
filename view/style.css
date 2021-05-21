@@ -6,8 +6,7 @@ body{
 
 /* HEADER */
 header{
-    background-color: rgb(153, 253, 2);
-    /*width: 100%;*/
+    background-color: rgb(208, 240, 253);
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -15,29 +14,31 @@ header{
 }
 
 header > h1{
-    margin: 10px 30px 10px auto;
-    order: 4;
     flex-shrink: 2;
     font-weight: 2px;
-    
+}
+
+header > h2{
+    margin-left: auto;
 }
 
 header > img{
-    width: 65px;
+    width: 50px;
     height: auto;
-    margin: 5px;
+    transform: scaleX(-1);
+    display: block;
     flex-grow: 0;
     flex-shrink: 1;
+    margin: 0 0; 
 }
 
-header img:nth-child(2){
-    margin-left: 30px;
+header > *{
+    margin: 5px 15px;
 }
-
 
 /* NAV y FOOTER (class .color y .ul)*/
 .color{
-    background-color: rgb(196, 255, 107);
+    background-color: rgb(229, 246, 253);
     margin: 10px 0 0 0;
 }
 
@@ -83,7 +84,7 @@ header img:nth-child(2){
 /* MAIN */
 /* MAIN - #contenido y #barra */
 .borde_verde{
-    border: 1px solid rgb(153, 253, 2);
+    border: 2px solid rgb(100, 209, 255);
     margin: 5px;
 }
 
@@ -100,7 +101,7 @@ main{
 
 /* CONTENIDO */
 #contenido{
-    background-color: rgb(216, 255, 158);
+    background-color: white;
     width: 85%;
     height: auto;
     margin-left: 0;
@@ -117,13 +118,14 @@ main{
 
 /* BARRA LATERAL */
 .form{
-    background-color:  rgb(255, 255, 164);
+    background-color: rgb(255, 255, 255);
 }
 
 .form > h1{
-    font-size: 23px;
-    font-weight: normal;
-    background-color: rgb(255, 208, 0);
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+    background-color: rgb(209, 255, 185);
     margin: 7px;
     padding: 5px 0 5px 15px;
 }
@@ -140,21 +142,26 @@ main{
 }
 
 .form input{
-    border: 1px solid rgb(114, 114, 1);
+    border: 1px solid rgb(0, 0, 0);
     width: 150px;
     padding: 5px; 
 }
 
 .form form > :last-child{
     align-self: center;
-    background-color: rgb(177, 177, 177);
-    border: 1px solid gray;
+    background-color: rgb(209, 255, 185);
+    border: 1px solid rgb(136, 255, 72);
     border-radius: 5px;
     padding: 3px 10px;
     width: 75px;
 }
 
+.form > a{
+    text-decoration: none;
+    color:gray;
+}
 .form > p{
+    margin: 2px auto 2px auto;
     padding: 10px;
     margin: 0;
     text-align: justify;
@@ -164,7 +171,12 @@ p#error{
     color:red;
 }
 
+
 /* FORMULARIOS*/
+#contenido > h1{
+    margin: 20px 45px;
+}
+
 #add{
     margin: 0px 0px 10px 35%;
     display: flex;

@@ -9,7 +9,7 @@ $titulo="Ver usuario";
 $form = "../controller/see.php";
 
 if($rol != 'A' && $rol !='C'){
-    header("Location: ../view/presentacion.php");
+    header("Location: ../view/inicio.php");
 }
 else{
     HTMLinicio($titulo);

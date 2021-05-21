@@ -1,1 +1,1 @@
-<meta http-equiv="refresh" content="0; url=view/presentacion.php" />
+<meta http-equiv="refresh" content="0; url=view/inicio.php" />

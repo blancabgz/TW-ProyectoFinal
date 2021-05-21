@@ -5,7 +5,7 @@ if (session_status()==PHP_SESSION_NONE)
 if (isset($_SESSION['usuario']))
     acabarSesion();
 
-header("Location: ../view/presentacion.php");
+header("Location: ../view/inicio.php");
 
 function acabarSesion(){
     if(session_status() == PHP_SESSION_NONE){
