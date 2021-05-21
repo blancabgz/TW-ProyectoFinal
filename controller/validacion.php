@@ -124,8 +124,8 @@ function validarClave($clave, $clave2,  $validar){
 
 function validarRol($rol, $validar){
     if($rol != NULL){
-        if($rol != 'C' && $rol != 'A'){
-            $validar[] = "El rol debe ser Administrador o Colaborador.";
+        if($rol != 'A' && $rol != 'P' && $rol != 'S'){
+            $validar[] = "El rol debe ser Administrador, Paciente o Sanitario.";
         }
     }
     return $validar;
@@ -145,7 +145,8 @@ function validarDatos($datos, $user){
     $campos = procesarDatos($datos);
     $validar = [];
     $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2', 'estado', 'rol'];
-    if($user == 'c') $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2'];
+    //if($user == 'c') $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2'];
+    if($user == 'V') $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2', 'rol'];
     
     //validamos si alguno está vacío
     foreach($nonulos as $k){
@@ -161,9 +162,9 @@ function validarDatos($datos, $user){
     $validar = validarFecha($campos['fecha'], $validar);
     $validar = validarSexo($campos['sexo'], $validar);
     $validar = validarClave($campos['clave'], $campos['clave2'], $validar);
+    $validar = validarRol($campos['rol'], $validar, $user);
 
-    if($user != 'c'){
-        $validar = validarRol($campos['rol'], $validar, $user);
+    if($user != 'V'){
         $validar = validarEstado($campos['estado'], $validar, $user);
     }
     

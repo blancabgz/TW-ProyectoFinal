@@ -7,7 +7,7 @@ require_once "../view/formularios.php";
 
 $titulo="Solicitud";
 $titulo_form="Solicitud nuevo usuario";
-$form = '../controller/add.php';
+$form = '../controller/solicitud.php';
 
 HTMLinicio($titulo);
 HTMLheader($titulo);
@@ -15,24 +15,24 @@ HTMLnav($rol);
 
 //si se ha enviado los datos
 if(isset($_POST['enviarDatos'])){
-    formularioUSU03($_POST, 'a', $form, $titulo_form);
+    formularioUSU03($_POST, 'a', $form, $titulo_form, $rol);
 }
 //si es va a validar los datos
 else if(isset($_POST['validarDatos'])){
-    $validar = validarDatos($_POST, 'a');
+    $validar = validarDatos($_POST, $rol);
        
         //si hay errores
         if(!empty($validar)){
-            formularioUSU02($_POST, $validar, $form, $titulo_form);
+            formularioUSU02($_POST, $validar, $form, $titulo_form, $rol);
         }
         //si está todo OK
         else{
-            $mensaje = insertarUsuario($_POST);
+            $mensaje = insertarUsuario($_POST, $rol);
             mensaje($titulo, $mensaje);
         }
 }
 else{
-	formularioUSU01($titulo_form, $rol);
+	formularioUSU01($titulo_form, $rol, 'solicitud.php');
 }
 
 HTMLformulario($rol);

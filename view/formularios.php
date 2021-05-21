@@ -1,10 +1,10 @@
 <?php
-function formularioUSU01($titulo, $user){
+function formularioUSU01($titulo, $user, $form){
 echo <<< HTML
     <main>
         <section id="contenido" class="borde_verde">
             <h1> $titulo </h1>
-            <form action="add.php" method="post" enctype="multipart/form-data" id="add">
+            <form action=$form method="post" enctype="multipart/form-data" id="add">
                 <label> Fotografía: <input type="file" name="fotografia" value="Seleccionar fotografía"></label>
                 <label> Nombre: <input type="text" name="nombre"></label>
                 <label> Apellidos: <input type="text" name="apellidos"></label>
@@ -41,7 +41,7 @@ HTML;
         </section>";
 }
 
-function formularioUSU02($datos, $validar, $form, $titulo){
+function formularioUSU02($datos, $validar, $form, $titulo, $user){
     $campos = procesarDatos($datos);
     
     $sexo = formularioSexo($campos['sexo'], '0');
@@ -69,12 +69,13 @@ function formularioUSU02($datos, $validar, $form, $titulo){
                 <input type='password' name='clave' value='".$campos['clave']."'>
                 <input type='password' name='clave2' value='".$campos['clave2']."'>
             </label>
-            <label> Rol:".$rol." </label>
-            <label> Estado: ".$estado."
-            </label>
-            <input type='submit' name='enviarDatos' value='Enviar datos'>
-        </form>
-    ";
+            <label> Rol:".$rol." </label>";
+            if($user != 'V'){
+               echo "<label> Estado: ".$estado."
+                </label>";
+            }
+            echo "<input type='submit' name='enviarDatos' value='Enviar datos'/>
+        </form>";
     if($validar != 'e'){
         foreach($validar as $k){
             echo "<p> ".$k."</p>";
@@ -84,7 +85,7 @@ function formularioUSU02($datos, $validar, $form, $titulo){
 }
 
 //$accion: a(añadir), v(ver), e(editar), b(borrar)
-function formularioUSU03($datos, $accion, $form, $titulo){
+function formularioUSU03($datos, $accion, $form, $titulo, $user){
     $campos = procesarDatos($datos);
     $sexo = formularioSexo($campos['sexo'], '1');
     $rol = formularioRol($campos['rol'], '1');
@@ -119,14 +120,13 @@ function formularioUSU03($datos, $accion, $form, $titulo){
                 <input readonly type='password' name='clave' value='".$campos['clave']."'>
                 <input readonly type='password' name='clave2' value='".$campos['clave2']."'>
             </label>
-            <label> Rol:".$rol." </label>
-            <label> Estado: ".$estado."
-            </label>
-            ".$submit."
-        </form>
-    ";
-
-    echo "</section>";
+            <label> Rol:".$rol." </label>";
+            if($user != 'V'){
+                echo "<label> Estado: ".$estado."
+                </label>";
+            }
+            echo " ".$submit."
+        </form> </section>";
 }
 
 function formularioUSU05($datos, $validar, $form, $titulo){
@@ -234,48 +234,48 @@ function formularioRol($datos, $desactivado){
             $rol = "<select name='rol'>
             <option value='P'> Paciente </option>
             <option value='S'> Sanitario </option>
-            <option value='A' selected> Administrador</option>";
+            <option value='A' selected> Administrador</option></select>";
         }
         else if($datos == 'S'){
             $rol = "<select name='rol'>
             <option value='P'> Paciente </option>
             <option value='S' selected> Sanitario </option>
-            <option value='A'> Administrador</option>";
+            <option value='A'> Administrador</option></select>";
         }
         else if($datos == 'P'){
             $rol = "<select name='rol'>
             <option value='P' selected> Paciente </option>
             <option value='S'> Sanitario </option>
-            <option value='A'> Administrador</option>";
+            <option value='A'> Administrador</option></select>";
         }else{
             $rol = "<select name='rol'>
             <option value='P'> Paciente </option>
             <option value='S'> Sanitario </option>
-            <option value='A'> Administrador</option>";  
+            <option value='A'> Administrador</option></select>";  
         }
     }else{
         if($datos == 'A'){
             $rol = "<select name='rol'>
             <option value='P' disabled> Paciente </option>
             <option value='S' disabled> Sanitario </option>
-            <option value='A' selected> Administrador</option>";
+            <option value='A' selected> Administrador</option></select>";
         }
         else if($datos == 'S'){
             $rol = "<select name='rol'>
             <option value='P' disabled> Paciente </option>
             <option value='S' selected> Sanitario </option>
-            <option value='A' disabled> Administrador</option>";
+            <option value='A' disabled> Administrador</option></select>";
         }
         else if($datos == 'P'){
             $rol = "<select name='rol'>
             <option value='P' selected> Paciente </option>
             <option value='S' disabled> Sanitario </option>
-            <option value='A' disabled> Administrador</option>";
+            <option value='A' disabled> Administrador</option></select>";
         }else{
             $rol = "<select name='rol'>
             <option value='P' disabled> Paciente </option>
             <option value='S' disabled> Sanitario </option>
-            <option value='A' disabled> Administrador</option>"; 
+            <option value='A' disabled> Administrador</option></select>"; 
         }
     }
     return $rol;

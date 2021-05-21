@@ -32,7 +32,7 @@ else{
         }
         //si está todo OK
         else{
-            $mensaje = insertarUsuario($_POST);
+            $mensaje = insertarUsuario($_POST, $rol);
             mensaje($titulo, $mensaje);
         }
 	}

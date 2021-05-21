@@ -20,14 +20,16 @@ function desconectarBD($bd) {
 //Comprobación de los datos
 function comprobarDatos($dni, $clave){
     $bd = conectarBD();
-    $consulta = "SELECT dni, clave FROM usuario where dni='$dni'";
+    $consulta = "SELECT dni, clave, estado FROM usuarios where dni='$dni'";
     $consulta_res = mysqli_query($bd, $consulta);
     $res = false;
 
     if(mysqli_num_rows($consulta_res) > 0){
         $valores = mysqli_fetch_array($consulta_res);
-        if(password_verify($clave, $valores['clave'])){
-            $res = true;
+        if($valores['estado'] != 'I'){
+            if(password_verify($clave, $valores['clave'])){
+                $res = true;
+            }
         }
     }
 
@@ -42,7 +44,7 @@ function obtenerTipoUsuario($dni){
     $usuario = addslashes($dni);
 
     $bd = conectarBD();
-    $consulta = "SELECT rol FROM usuario where dni='$usuario'";
+    $consulta = "SELECT rol FROM usuarios where dni='$usuario'";
     $consulta_res = mysqli_query($bd, $consulta);
     $rol = '';
     if(mysqli_num_rows($consulta_res) > 0){
@@ -57,15 +59,18 @@ function obtenerTipoUsuario($dni){
     return $rol;
 }
 
-function insertarUsuario($datos){
+function insertarUsuario($datos, $user){
     $bd = conectarBD();
-    $indice = ['nombre', 'apellidos', 'dni', 'email', 'telefono', 'fecha', 'sexo', 'clave', 'rol', 'estado'];
+    $indice = ['dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
+    if($user == 'V'){
+        $datos['estado'] = 'I';
+    }
     $dni = $datos['dni'];
     $mensaje = 'Se desconoce el error. Vuelva a intentarlo.';
 
     //comprobamos que el DNI no es nulo y que no existe ya en la bd
     if($dni != null){
-        $consulta_select = "SELECT dni FROM usuario WHERE dni='$dni';";
+        $consulta_select = "SELECT dni FROM usuarios WHERE dni='$dni';";
         $consulta_res = mysqli_query($bd, $consulta_select);
 
         //si ya hay un usuario
@@ -74,13 +79,22 @@ function insertarUsuario($datos){
         }
         //si no hay ningún usuario con ese dni lo añadimos a la bd
         else{
-            $consulta = "INSERT INTO usuario VALUES ('', ";
             $datos['clave'] = password_hash($datos['clave'], PASSWORD_DEFAULT);
-
+            $consulta = "INSERT INTO usuarios (";
+            
+            //construimos las columnas a insertar
+            foreach($indice as $k){
+                if($k == 'clave'){
+                    $consulta .= $k.") VALUES (";
+                }else{
+                    $consulta .= $k.",";
+                }
+                
+            }
             //construimos la consulta con los datos del argumento
             foreach($indice as $k){
                 if($datos[$k] != ""){
-                    if($k == 'estado'){
+                    if($k == 'clave'){
                         $consulta .="'".mysqli_real_escape_string($bd,$datos[$k])."');";
                     }else{
                         $consulta .="'".mysqli_real_escape_string($bd,$datos[$k])."',";
@@ -94,6 +108,7 @@ function insertarUsuario($datos){
                     }  
                 }
             }
+            
             $consulta_res = mysqli_query($bd, $consulta);
             //si ha habido error
             if(!$consulta_res){
@@ -123,7 +138,7 @@ function actualizarUsuario($datos, $user){
 
     //comprobamos que el DNI no es nulo y que existe ya en la bd
     if($dni != null){
-        $consulta_select = "SELECT dni FROM usuario WHERE dni='$dni';";        
+        $consulta_select = "SELECT dni FROM usuarios WHERE dni='$dni';";        
         $consulta_res = mysqli_query($bd, $consulta_select);
 
         //si ya hay un usuario
@@ -132,7 +147,7 @@ function actualizarUsuario($datos, $user){
         }
         //si no hay ningún usuario con ese dni lo añadimos a la bd
         else{
-            $consulta = "UPDATE usuario SET fotografia='', ";
+            $consulta = "UPDATE usuarios SET fotografia='', ";
             $datos['clave'] = password_hash($datos['clave'], PASSWORD_DEFAULT);
             
             //construimos la consulta con los datos del argumento
@@ -174,7 +189,7 @@ function actualizarUsuario($datos, $user){
 
 function obtenerDatosUsuario($dni){
     $bd = conectarBD();
-    $consulta = "SELECT * FROM usuario WHERE dni='$dni';";
+    $consulta = "SELECT * FROM usuarios WHERE dni='$dni';";
     $consulta_res = mysqli_query($bd, $consulta);
 
     if(mysqli_num_rows($consulta_res) < 0){
@@ -189,7 +204,7 @@ function obtenerDatosUsuario($dni){
 
 function borrarUsuario($dni){
     $bd = conectarBD();
-    $consulta = "DELETE FROM usuario WHERE dni='$dni';";
+    $consulta = "DELETE FROM usuarios WHERE dni='$dni';";
     $consulta_res = mysqli_query($bd, $consulta);
 
     if(!$consulta_res){
@@ -206,7 +221,7 @@ function borrarUsuario($dni){
 function obtenerListado(){
     $bd = conectarBD();
 
-    $consulta = "SELECT nombre, apellidos, email, dni FROM usuario";
+    $consulta = "SELECT nombre, apellidos, email, dni FROM usuarios";
     $consulta_res = mysqli_query($bd, $consulta);
     $listado = 0;
     if($consulta_res){

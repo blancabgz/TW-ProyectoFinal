@@ -60,13 +60,17 @@ function HTMLnav($user){
 }
 
 function HTMLcontenido($titulo){
-    echo <<< HTML
-    <main>
-            <section id='contenido' class='borde_verde'>
-                <h1> $titulo </h1>
-                <p> Contenido </p>
-            </section>
-    HTML;
+
+    if($titulo == 'Login'){
+        echo <<< HTML
+        <main>
+                <section id='contenido' class='borde_verde'>
+                    <h1> $titulo </h1>
+                    <p> Si acaba de realizar la solicitud de alta en la plataforma, debe esperar a que la
+                    persona administradora le conceda permiso para loguearse. </p>
+                </section>
+        HTML;
+    }
 }
 
 function HTMLformulario($user){
