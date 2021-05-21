@@ -10,6 +10,10 @@ function HTMLinicio($titulo){
             <meta name="author" content="Paula Santos Ortega">
             <title>$titulo</title>
             <link rel="stylesheet" href="../view/style.css"/>
+            <!-- Bootstrap CSS -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+            <!-- Bootstrap JS -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
             <!--<base href="https://void.ugr.es/~postdata92021/practicaPHP/">-->
         </head>
     HTML;
@@ -31,7 +35,7 @@ function HTMLnav($user){
             <nav class="color">
                 <ul class="ul">
     HTML;
-    
+
     $nav = ["Inicio", "Calendario de vacunación"];
     $links = ["../view/inicio.php", "../controller/calendario.php"];
     if($user == 'P'){
@@ -68,7 +72,7 @@ function HTMLcontenido($titulo){
 function HTMLformulario($user){
 
     if($user=="V" || $user == 'E'){
-        echo 
+        echo
             "<div id='barra_lateral'>
                 <div class='borde_verde form'>
                     <h1> Login </h1>";
@@ -77,7 +81,7 @@ function HTMLformulario($user){
             echo "  <p id='error'> Error al identificarse, vuelva a rellenar el formulario. </p>";
 
         }
-                    
+
         echo "      <form action='../controller/login.php' method='post'>
                         <label> Usuario <input type='text' name='usuario'> </label>
                         <label> Clave <input type='password' name='clave'> </label>
@@ -137,18 +141,18 @@ function mostrarLista($rol, $lista){
         <!-- <img/> -->
         <div class='"."inf_pers"."'>
         <p>".$k['nombre']." ".$k['apellidos']."</p>";
-        
+
         if($k['email'] != null){
             echo "<p> ".$k['email']."</p>";
         }
-        
+
         if($rol == 'A'){
             echo "
             </div>
             <form action='../controller/see.php' method='post'>
                 <input type='submit' name='ver' value='Ver'/>
                 <input type='hidden' name='dni' value='".$k['dni']."'/>
-            </form> 
+            </form>
             <form action='../controller/edit.php' method='post'>
                 <input type='submit' name='editarUser' value='Editar'/>
                 <input type='hidden' name='dni' value='".$k['dni']."'/>
