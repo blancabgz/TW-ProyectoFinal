@@ -11,10 +11,15 @@ function HTMLinicio($titulo){
             <title>$titulo</title>
             <link rel="stylesheet" href="../view/style.css"/>
             <!-- Bootstrap CSS -->
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-            <!-- Bootstrap JS -->
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-            <!--<base href="https://void.ugr.es/~postdata92021/practicaPHP/">-->
+            <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">-->
+            <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+            <!--Bootstrap JS-->
+            <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>-->
+            <script src="bootstrap/js/bootstrap.min.js"></script>
+            <!-- JQuery -->
+            <script src="bootstrap/js/jquery-3.6.0.min.js"></script>
+            <base href="https://void.ugr.es/~postdata92021/practicaPHP/">
+            
         </head>
     HTML;
 }
@@ -33,30 +38,55 @@ function HTMLheader($titulo){
 function HTMLnav($user){
     echo <<< HTML
             <nav class="color">
-                <ul class="ul">
     HTML;
 
-    $nav = ["Inicio", "Calendario de vacunación"];
-    $links = ["../view/inicio.php", "../controller/calendario.php"];
-    if($user == 'P'){
-        $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Cartilla de vacunación"];
-        $links = ["../view/inicio.php", "../controller/calendario.php", "../controller/edit.php", "../view/cartillaVacunacion.php"];
-    }
-    elseif($user == 'S'){
-        $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Cartilla de vacunación", "Búsqueda de pacientes"];
-        $links = ["../view/inicio.php", "../controller/calendario.php", "../controller/edit.php", "../view/cartillaVacunacion.php", "../view/busquedaPacientes.php"];
-    }
-    elseif($user == 'A'){
+    if($user != 'A'){
+        $nav = ["Inicio", "Calendario de vacunación"];
+        $links = ["../view/inicio.php", "../controller/calendario.php"];
+        if($user == 'P'){
+            $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Cartilla de vacunación"];
+            $links = ["../view/inicio.php", "../controller/calendario.php", "../controller/edit.php", "../view/cartillaVacunacion.php"];
+        }
+        elseif($user == 'S'){
+            $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Cartilla de vacunación", "Búsqueda de pacientes"];
+            $links = ["../view/inicio.php", "../controller/calendario.php", "../controller/edit.php", "../view/cartillaVacunacion.php", "../view/busquedaPacientes.php"];
+        }
+        echo "<ul class='ul'>";
+        foreach($nav as $k => $v)
+            echo "<li> <a href='".$links[$k],"'>".$v."</a></li>";
+        echo "</ul>";
+    }else{
+        echo <<< HTML
+            <!--<a href='../view/inicio.php'> Inicio </a>
+            <a href='../controller/calendario.php'> Calendario de vacunación </a>
+            <div class="dropdown">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton" >
+                Gestión de usuarios </button>
+
+                <div class="dropdown-menu" aria-labelledby="dropdowmMenuButton">
+                    <a class="dropdown-item" href="../controller/add.php"> Añadir usuario </a>
+                    <a class="dropdown-item" href="../controller/list.php"> Listado de usuarios </a>
+                </div>
+            </div>-->
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown button
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+        HTML;
+
         $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Búsqueda de pacientes"];
         $links = ["../view/inicio.php", "../controller/calendario.php", "../controller/edit.php", "../view/busquedaPacientes.php"];
     }
-    foreach($nav as $k => $v)
-        echo "<li> <a href='".$links[$k],"'>".$v."</a></li>";
     echo <<< HTML
-                </ul>
-            </nav>
-        </body>
-    HTML;
+                </nav>
+            </body>
+        HTML;
 }
 
 function HTMLcontenido($titulo){

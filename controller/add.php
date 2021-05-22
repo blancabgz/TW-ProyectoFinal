@@ -37,7 +37,7 @@ else{
         }
 	}
 	else{
-		formularioUSU01($titulo_form, $rol);
+		formularioUSU01($titulo_form, $rol, $form);
 	}
 }
 HTMLformulario($rol);
