@@ -6,7 +6,7 @@ require_once "../view/vistasHTML.php";
 require_once "../view/formularios.php";
 
 $titulo="Solicitud";
-$titulo_form="Solicitud nuevo usuario";
+$titulo_form="Solicitar alta";
 $form = '../controller/solicitud.php';
 
 HTMLinicio($titulo);

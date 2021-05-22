@@ -130,8 +130,8 @@ function insertarUsuario($datos, $user){
 function actualizarUsuario($datos, $user){
     $bd = conectarBD();
     $indice = ['nombre', 'apellidos', 'dni', 'email', 'telefono', 'fecha', 'sexo', 'clave', 'rol', 'estado'];
-    if($user == 'c'){
-        $indice = ['nombre', 'apellidos', 'dni', 'email', 'telefono', 'fecha', 'sexo', 'clave'];
+    if($user == 'P' || $user == 'S'){
+        $indice = ['email', 'telefono', 'clave'];
     }
     $dni = $datos['dni'];
     $mensaje = 'Se desconoce el error. Vuelva a intentarlo.';
@@ -147,18 +147,23 @@ function actualizarUsuario($datos, $user){
         }
         //si no hay ningún usuario con ese dni lo añadimos a la bd
         else{
-            $consulta = "UPDATE usuarios SET fotografia='', ";
+            $consulta = "UPDATE usuarios SET ";
             $datos['clave'] = password_hash($datos['clave'], PASSWORD_DEFAULT);
             
             //construimos la consulta con los datos del argumento
             foreach($indice as $k){
+                //si tiene información
                 if($datos[$k] != ""){
-                    if(($user == 'c' && $k == 'clave') || ($user == 'a' && $k == 'estado')){
+                    //si es estado o clave es el final, con lo que no se pone la coma (,)
+                    if($k == 'estado' || $k == 'clave'){
                         $consulta .= " ".$k." = '".mysqli_real_escape_string($bd,$datos[$k])."' ";
-                    }else{
+                    }
+                    else{
                         $consulta .= " ".$k." = '".mysqli_real_escape_string($bd,$datos[$k])."',";
+                
                     }
                 }
+                //si está vacío se escribe '', si está vacío y es una fecha, se pone a null
                 else{
                     if($k == 'fecha'){
                         $consulta .= " ".$k." = null,";

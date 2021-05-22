@@ -129,23 +129,24 @@ function formularioUSU03($datos, $accion, $form, $titulo, $user){
         </form> </section>";
 }
 
-function formularioUSU05($datos, $validar, $form, $titulo){
+/**/
+function formularioUSU05($datos, $validar, $titulo){
     $campos = procesarDatos($datos);
-    $sexo = formularioSexo($campos['sexo'], '0');
+    $sexo = formularioSexo($campos['sexo'], '1');
     $campos['clave2'] = $campos['clave'];
 
     echo "
     <main>
     <section id='contenido' class='borde_verde'>
         <h1>".$titulo."</h1>
-        <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
+        <form action='edit.php' method='post' enctype='multipart/form-data' id='add'>
             <label> Fotografía: <input type='file' name='fotografia' value='Seleccionar fotografía'></label>
-            <label> Nombre: <input type='text' name='nombre' value='".$campos['nombre']."' ></label>
-            <label> Apellidos: <input type='text' name='apellidos' value='".$campos['apellidos']."'></label>
-            <label> DNI: <input type='text' name='dni' value='".$campos['dni']."' ></label>
+            <label> Nombre: <input readonly type='text' name='nombre' value='".$campos['nombre']."' ></label>
+            <label> Apellidos: <input readonly type='text' name='apellidos' value='".$campos['apellidos']."'></label>
+            <label> DNI: <input readonly type='text' name='dni' value='".$campos['dni']."' ></label>
             <label> Email: <input type='text' name='email' value='".$campos['email']."'></label>
             <label> Teléfono: <input type='text' name='telefono' value='".$campos['telefono']."' ></label>
-            <label> Fecha nac: <input type='date' name='fecha' value='".$campos['fecha']."' ></label>
+            <label> Fecha nac: <input readonly type='date' name='fecha' value='".$campos['fecha']."' ></label>
             <label> Sexo: ".$sexo." </label>
             <label> Clave:
                 <input type='password' name='clave' value='".$campos['clave']."'/>

@@ -12,7 +12,7 @@ HTMLinicio($titulo);
 HTMLheader($titulo);
 HTMLnav($rol);
 
-if($rol != 'A' && $rol != 'C'){
+if($rol != 'A' && $rol != 'P' && $rol != 'S'){
 	header("Location: ../view/inicio.php");
 }
 else if($rol == 'A'){
@@ -42,38 +42,35 @@ else if($rol == 'A'){
         }
 	}
 	else{
-		header("Location: ../view/");
+		header("Location: ../view/inicio.php");
 	}
 }
-else if($rol == 'C'){
+else if($rol == 'P' || $rol == 'S'){
     $titulo_form="Modificar mis datos";
 
 	//si se ha enviado los datos
 	if(isset($_POST['enviarDatos'])){
         formularioUSU06($_POST, 'e', $form, $titulo_form);
 	}
-    //si viene del listado
-    else if(isset($_POST['editarUser'])){
-        $dni = $_POST['dni'];
-        $datos = obtenerDatosUsuario($dni);
-        formularioUSU05($datos, 'e', $form, $titulo_form);
-    }
     //si es va a validar los datos
 	else if(isset($_POST['validarDatos'])){
-	    $validar = validarDatos($_POST, 'c');
+	    $validar = validarDatos($_POST, $rol);
 
         //si hay errores
         if(!empty($validar)){
-            formularioUSU05($_POST, $validar, $form, $titulo_form);
+            formularioUSU05($_POST, $validar, $titulo_form);
         }
         //si está todo OK
         else{
-            $mensaje = actualizarUsuario($_POST, 'c');
+            $mensaje = actualizarUsuario($_POST, $rol);
             mensaje($titulo_form, $mensaje);
         }
 	}
+    //si ha pulsado en Datos Personales
 	else{
-		header("Location: ../view/");
+		$dni = $_SESSION['usuario'];
+        $datos = obtenerDatosUsuario($dni);
+        formularioUSU05($datos, 'e', $titulo_form);
 	}
 }
 HTMLformulario($rol);

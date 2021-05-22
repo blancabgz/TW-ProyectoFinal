@@ -21,8 +21,8 @@ function validarNombre($nombre, $validar){
         if(!preg_match('/^([a-zA-ZñÑ.]+\s*)*$/', $nombre)){
             $validar[] = "El nombre debe componerse de letras o puntos para abreviación.";
         }
-        if(strlen($nombre) > 20){
-            $validar[] = "El nombre debe tener menos de 20 caracteres.";
+        if(strlen($nombre) > 50){
+            $validar[] = "El nombre debe tener menos de 50 caracteres.";
         }
     }
     return $validar;
@@ -33,8 +33,8 @@ function validarApellidos($apellidos, $validar){
         if(!preg_match('/^([a-zA-ZñÑ.]+\s*)*$/', $apellidos)){
             $validar[] = "Los apellidos debe componerse de letras o puntos para abreviación.";
         }
-        if(strlen($apellidos) > 20){
-            $validar[] = "Los nombre debe tener menos de 20 caracteres.";
+        if(strlen($apellidos) > 100){
+            $validar[] = "Los nombre debe tener menos de 100 caracteres.";
         }
     }
     return $validar;
@@ -54,8 +54,8 @@ function validarEmail($email, $validar){
         if(!preg_match('/^[A-z0-9._-]+@[A-z0-9][A-z0-9-]+(\.[A-z0-9_-]+)+$/', $email)){
             $validar[] = "El email debe seguir el patrón xxx@yyy.zzz .";
         }
-        if(strlen($email) > 40){
-            $validar[] = "El email debe tener menos de 40 caracteres.";
+        if(strlen($email) > 200){
+            $validar[] = "El email debe tener menos de 200 caracteres.";
         }
     }
     return $validar;
@@ -147,7 +147,7 @@ function validarDatos($datos, $user){
     $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2', 'estado', 'rol'];
     //if($user == 'c') $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2'];
     if($user == 'V') $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2', 'rol'];
-    
+    if($user == 'P' || $user == 'S') $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2'];
     //validamos si alguno está vacío
     foreach($nonulos as $k){
         if(isset($campos[$k]) && $campos[$k] == null){
@@ -162,9 +162,12 @@ function validarDatos($datos, $user){
     $validar = validarFecha($campos['fecha'], $validar);
     $validar = validarSexo($campos['sexo'], $validar);
     $validar = validarClave($campos['clave'], $campos['clave2'], $validar);
-    $validar = validarRol($campos['rol'], $validar, $user);
-
-    if($user != 'V'){
+    
+    if($user != 'P' && $user != 'S'){
+        $validar = validarRol($campos['rol'], $validar, $user);
+    }
+    
+    if($user != 'V' && $user != 'P' && $user != 'S'){
         $validar = validarEstado($campos['estado'], $validar, $user);
     }
     

@@ -40,15 +40,15 @@ function HTMLnav($user){
     $links = ["../view/inicio.php", "../controller/calendario.php"];
     if($user == 'P'){
         $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Cartilla de vacunación"];
-        $links = ["../view/inicio.php", "../controller/calendario.php", "../view/datosPaciente.php", "../view/cartillaVacunacion.php"];
+        $links = ["../view/inicio.php", "../controller/calendario.php", "../controller/edit.php", "../view/cartillaVacunacion.php"];
     }
     elseif($user == 'S'){
         $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Cartilla de vacunación", "Búsqueda de pacientes"];
-        $links = ["../view/inicio.php", "../controller/calendario.php", "../view/datosPaciente.php", "../view/cartillaVacunacion.php", "../view/busquedaPacientes.php"];
+        $links = ["../view/inicio.php", "../controller/calendario.php", "../controller/edit.php", "../view/cartillaVacunacion.php", "../view/busquedaPacientes.php"];
     }
     elseif($user == 'A'){
         $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Búsqueda de pacientes"];
-        $links = ["../view/inicio.php", "../controller/calendario.php", "../view/datosPaciente.php", "../view/busquedaPacientes.php"];
+        $links = ["../view/inicio.php", "../controller/calendario.php", "../controller/edit.php", "../view/busquedaPacientes.php"];
     }
     foreach($nav as $k => $v)
         echo "<li> <a href='".$links[$k],"'>".$v."</a></li>";
@@ -69,6 +69,28 @@ function HTMLcontenido($titulo){
                     <p> Si acaba de realizar la solicitud de alta en la plataforma, debe esperar a que la
                     persona administradora le conceda permiso para loguearse. </p>
                 </section>
+        HTML;
+    }
+    else if($titulo == 'Inicio'){
+        echo <<< HTML
+            <main>
+            <section id='contenido' class='borde_verde'>
+                <h1> $titulo </h1>
+                <!--<p> Que las vacunas  inmunizan contra enfermedades es algo que ya sabes, pero seguro que no tienes ni idea de quién creó la primera vacuna ni cómo lo consiguió.
+                Según la Organización Mundial de la Salud (OMS), una vacuna es aquella preparación destinada a generar inmunidad contra una enfermedad. Esto se logra
+                estimulando la producción de anticuerpos. Las vacunas pueden tratarse de una suspensión de microorganismos muertos o atenuados, o de productos o derivados
+                de microorganismos. Para su administración el método más habitual es la inyección, aunque algunas se administran con un vaporizador nasal u oral, sobre todo en
+                niños. Para conocer la primera vacuna hay que remontarse hasta el año 1796, en ese año Europa sufría una terrible epidemia de viruela. En Inglaterra el doctor
+                Edward Jenner observó que las mujeres que ordeñaban vacas se contagiaban de viruela vacuna y tras recuperarse se volvían inmunes a su mortal variante humana.
+                Al observar este hecho, Jenner tomó viruela de la granjera Sarah Nelmes e insertó el fluido en el niño de ocho años James Phipps, quien desarrolló la enfermedad
+                y se recuperó 48 días más tarde. Más tarde se infectó al niño con virus de la viruela humana, pero no mostró síntomas de la enfermedad. La primera vacuna fue
+                descubierta y, de hecho, la viruela ha sido la única enfermedad erradicada de la tierra. </p>
+                <img src='../vacuna.png' alt="Vacuna" width='100'> -->
+                <h2> Credenciales: </h2>
+                <p> Paciente: 12345678P Clave: 123456</p>
+                <p> Sanitario: 12345678S Clave: 123456</p>
+                <p> Administrador: 12345678A Clave: 123456</p>
+            </section>
         HTML;
     }
 }
