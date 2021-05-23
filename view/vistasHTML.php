@@ -11,14 +11,14 @@ function HTMLinicio($titulo){
             <title>$titulo</title>
             <link rel="stylesheet" href="../view/style.css"/>
             <!-- Bootstrap CSS -->
-            <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">-->
-            <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+            <!--<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">-->
             <!--Bootstrap JS-->
-            <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>-->
-            <script src="bootstrap/js/bootstrap.min.js"></script>
-            <!-- JQuery -->
-            <script src="bootstrap/js/jquery-3.6.0.min.js"></script>
-            <base href="https://void.ugr.es/~postdata92021/practicaPHP/">
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+            
+            <!--<base href="https://void.ugr.es/~postdata92021/practicaPHP/">-->
             
         </head>
     HTML;
@@ -57,7 +57,7 @@ function HTMLnav($user){
         echo "</ul>";
     }else{
         echo <<< HTML
-            <!--<a href='../view/inicio.php'> Inicio </a>
+            <a href='../view/inicio.php'> Inicio </a>
             <a href='../controller/calendario.php'> Calendario de vacunación </a>
             <div class="dropdown">
                 <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton" >
@@ -67,17 +67,18 @@ function HTMLnav($user){
                     <a class="dropdown-item" href="../controller/add.php"> Añadir usuario </a>
                     <a class="dropdown-item" href="../controller/list.php"> Listado de usuarios </a>
                 </div>
-            </div>-->
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown button
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
             </div>
+            <!--<div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Dropdown link
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>-->
         HTML;
 
         $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Búsqueda de pacientes"];
