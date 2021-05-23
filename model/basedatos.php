@@ -26,6 +26,7 @@ function comprobarDatos($dni, $clave){
 
     if(mysqli_num_rows($consulta_res) > 0){
         $valores = mysqli_fetch_array($consulta_res);
+    
         if($valores['estado'] != 'I'){
             if(password_verify($clave, $valores['clave'])){
                 $res = true;
@@ -155,7 +156,10 @@ function actualizarUsuario($datos, $user){
                 //si tiene información
                 if($datos[$k] != ""){
                     //si es estado o clave es el final, con lo que no se pone la coma (,)
-                    if($k == 'estado' || $k == 'clave'){
+                    if($user == 'A' && $k == 'estado'){
+                        $consulta .= " ".$k." = '".mysqli_real_escape_string($bd,$datos[$k])."' ";
+                    }
+                    else if($user != 'A' && $k == 'clave'){
                         $consulta .= " ".$k." = '".mysqli_real_escape_string($bd,$datos[$k])."' ";
                     }
                     else{
@@ -172,6 +176,7 @@ function actualizarUsuario($datos, $user){
                     }  
                 }
             }
+            
             $consulta .= "WHERE dni='".$dni."';";
             
             $consulta_res = mysqli_query($bd, $consulta);

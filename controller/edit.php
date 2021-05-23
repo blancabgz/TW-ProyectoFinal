@@ -20,24 +20,24 @@ else if($rol == 'A'){
 
 	//si se ha enviado los datos
 	if(isset($_POST['enviarDatos'])){
-        formularioUSU03($_POST, 'e', $form, $titulo_form);
+        formularioUSU03($_POST, 'e', $form, $titulo_form, $rol);
 	}
     //si viene del listado
     else if(isset($_POST['editarUser'])){
         $dni = $_POST['dni'];
         $datos = obtenerDatosUsuario($dni);
-        formularioUSU02($datos, 'e', $form, $titulo_form);
+        formularioUSU02($datos, 'e', $form, $titulo_form, $rol);
     }
     //si es va a validar los datos
 	else if(isset($_POST['validarDatos'])){
 	    $validar = validarDatos($_POST, 'c');
         //si hay errores
         if(!empty($validar)){
-            formularioUSU02($_POST, $validar, $form, $titulo_form);
+            formularioUSU02($_POST, $validar, $form, $titulo_form, $rol);
         }
         //si está todo OK
         else{
-            $mensaje = actualizarUsuario($_POST, 'a');
+            $mensaje = actualizarUsuario($_POST, $rol);
             mensaje($titulo_form, $mensaje);
         }
 	}
