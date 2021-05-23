@@ -100,6 +100,11 @@ main{
 }
 
 /* CONTENIDO */
+
+#contenido h1{
+  font-size: 1.8em;
+}
+
 #contenido{
     background-color: white;
     width: 85%;
@@ -109,6 +114,25 @@ main{
     flex-shrink: 2;
 }
 
+#contenido .credenciales{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+#contenido h2{
+  font-size: 1.5em;
+  color: rgb(143, 184, 255);
+}
+
+#contenido p{
+  font-size: 1em;
+}
+
+#contenido span{
+  font-weight: bold;
+}
+
 #barra_lateral{
     width: 15%;
     margin-right: 0;
@@ -116,9 +140,17 @@ main{
     flex-shrink: 1;
 }
 
+#barra_lateral a{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5em;
+}
+
 /* BARRA LATERAL */
 .form{
     background-color: rgb(255, 255, 255);
+    padding: 1em;
 }
 
 .form > h1{
@@ -130,18 +162,34 @@ main{
     padding: 5px 0 5px 15px;
 }
 
-.form > form{
+.form input{
+  margin: 0;
+}
+
+.form .btn{
+  width: 50%;
+  margin-top: 1em;
+  background-color: rgb(229, 246, 253);
+}
+
+form .boton{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* .form > form{
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
-}
+} */
 
-.form form > *{
+/* .form form > *{
     margin: 7px 15px;
-}
+} */
 
-.form input{
+/* .form input{
     border: 1px solid rgb(0, 0, 0);
     width: 150px;
     padding: 5px;
@@ -154,7 +202,7 @@ main{
     border-radius: 5px;
     padding: 3px 10px;
     width: 75px;
-}
+} */
 
 .form > a{
     text-decoration: none;

@@ -17,9 +17,9 @@ function HTMLinicio($titulo){
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-            
+
             <!--<base href="https://void.ugr.es/~postdata92021/practicaPHP/">-->
-            
+
         </head>
     HTML;
 }
@@ -68,17 +68,6 @@ function HTMLnav($user){
                     <a class="dropdown-item" href="../controller/list.php"> Listado de usuarios </a>
                 </div>
             </div>
-            <!--<div class="dropdown">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Dropdown link
-                </a>
-
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </div>-->
         HTML;
 
         $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Búsqueda de pacientes"];
@@ -106,7 +95,7 @@ function HTMLcontenido($titulo){
         echo <<< HTML
             <main>
             <section id='contenido' class='borde_verde'>
-                <h1> $titulo </h1>
+                <h1>$titulo </h1>
                 <!--<p> Que las vacunas  inmunizan contra enfermedades es algo que ya sabes, pero seguro que no tienes ni idea de quién creó la primera vacuna ni cómo lo consiguió.
                 Según la Organización Mundial de la Salud (OMS), una vacuna es aquella preparación destinada a generar inmunidad contra una enfermedad. Esto se logra
                 estimulando la producción de anticuerpos. Las vacunas pueden tratarse de una suspensión de microorganismos muertos o atenuados, o de productos o derivados
@@ -117,10 +106,13 @@ function HTMLcontenido($titulo){
                 y se recuperó 48 días más tarde. Más tarde se infectó al niño con virus de la viruela humana, pero no mostró síntomas de la enfermedad. La primera vacuna fue
                 descubierta y, de hecho, la viruela ha sido la única enfermedad erradicada de la tierra. </p>
                 <img src='../vacuna.png' alt="Vacuna" width='100'> -->
-                <h2> Credenciales: </h2>
-                <p> Paciente: 12345678P Clave: 123456</p>
-                <p> Sanitario: 12345678S Clave: 123456</p>
-                <p> Administrador: 12345678A Clave: 123456</p>
+                <div class="credenciales">
+                  <h2> Credenciales</h2>
+                  <p><span>Paciente:</span> 12345678P <span> Clave:</span> 123456</p>
+                  <p><span>Sanitario:</span> 12345678S <span>Clave:</span> 123456</p>
+                  <p> <span>Administrador:</span> 12345678A <span>Clave:</span> 123456</p>
+                </div>
+
             </section>
         HTML;
     }
@@ -131,7 +123,7 @@ function HTMLformulario($user){
     if($user=="V" || $user == 'E'){
         echo
             "<div id='barra_lateral'>
-                <div class='borde_verde form'>
+                <div class='borde_verde form form-group'>
                     <h1> Login </h1>";
 
         if($user=='E'){
@@ -139,10 +131,19 @@ function HTMLformulario($user){
 
         }
 
-        echo "      <form action='../controller/login.php' method='post'>
-                        <label> Usuario <input type='text' name='usuario'> </label>
-                        <label> Clave <input type='password' name='clave'> </label>
-                        <input type='submit' name='login' value='Login'>
+        echo "
+                    <form class='row' action='../controller/login.php' method='post'>
+                      <div class='col-12'>
+                        <label class='form-label'> Usuario </label>
+                        <input type='text' name='usuario' class='form-control'>
+                      </div>
+                      <div class='col-12'>
+                        <label class='form-label'> Clave </label>
+                        <input class='form-control' type='password' name='clave'>
+                      </div>
+                      <div class='col-12 boton'>
+                        <input class='btn' type='submit' name='login' value='Login'>
+                      </div>
                     </form>
                     <a href='../controller/solicitud.php'> Solicitar darse de alta </a>
                 </div>";
@@ -152,7 +153,9 @@ function HTMLformulario($user){
                 <div class="borde_verde form">
                     <h1> Logout </h1>
                     <form action="../controller/logout.php" method="post">
-                        <input type="submit" name="logout" value="Logout">
+                      <div class='col-12 boton'>
+                        <input class='btn' type="submit" name="logout" value="Logout">
+                      </div>
                     </form>
                 </div>
         HTML;
