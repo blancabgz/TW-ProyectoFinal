@@ -1,7 +1,7 @@
 <?php
 function procesarDatos($datos){
     $campos = [];
-    $indice = ['fotografia', 'nombre', 'apellidos', 'dni', 'email', 'telefono', 'fecha', 'sexo', 'clave', 'clave2', 'rol', 'estado'];
+    $indice = ['nombre', 'apellidos', 'dni', 'email', 'telefono', 'fecha', 'sexo', 'clave', 'clave2', 'rol', 'estado'];
     
     //copiamos los valores de los campos campos
     foreach($indice as $k){
@@ -13,6 +13,28 @@ function procesarDatos($datos){
             $campos[$k] = '';
         }
     }
+
+    //procesamos la imagen
+    $campos['fotografia'] = '';
+
+    //si fotografia existe
+    if(isset($datos['fotografia'])){
+        //si es el nombre de la imagen la codificamos
+        if(preg_match("/\/tmp\/(\d*)/", $datos['fotografia'])){
+            $campos['fotografia'] = base64_encode(file_get_contents($datos['fotografia']));
+        }
+        //si no es el nombre de la imagen, vemos si está vacía o ya recoge el contenido de la imagen
+        else{
+            if($datos['fotografia'] == ''){
+                $campos['fotografia'] = '';
+            }else $campos['fotografia'] = $datos['fotografia'];
+        }
+    }
+    //si foto existe, le asignamos el valor a fotografia
+    else if(isset($datos['foto'])){
+        $campos['fotografia'] = $datos['foto'];
+    }
+    
     return $campos;
 }
 
@@ -142,7 +164,7 @@ function validarEstado($estado, $validar){
 
 function validarDatos($datos, $user){
 
-    $campos = procesarDatos($datos);
+    $campos = $datos;
     $validar = [];
     $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2', 'estado', 'rol'];
     //if($user == 'c') $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2'];
@@ -173,4 +195,5 @@ function validarDatos($datos, $user){
     
     return $validar;
 }
+
 ?>

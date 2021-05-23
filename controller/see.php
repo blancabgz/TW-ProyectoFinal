@@ -25,10 +25,11 @@ else{
     if(isset($_POST['dni'])){
         $dni = $_POST['dni'];
         $datos = obtenerDatosUsuario($dni);
-        formularioUSU03($datos, $accion, $form, $titulo);
+        formularioUSU03($datos, $accion, $form, $titulo, $rol);
     }else{
         mensaje($titulo, 'El DNI no es correcto');
     }
+    HTMLformulario($rol);
     HTMLfooter();
 }
 ?>

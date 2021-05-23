@@ -43,7 +43,8 @@ HTML;
 
 function formularioUSU02($datos, $validar, $form, $titulo, $user){
     $campos = procesarDatos($datos);
-    
+
+    $foto = formularioFoto($campos['fotografia'], '2');
     $sexo = formularioSexo($campos['sexo'], '0');
     $rol = formularioRol($campos['rol'], '0');
     $estado = formularioEstado($campos['estado'], '0');
@@ -57,7 +58,7 @@ function formularioUSU02($datos, $validar, $form, $titulo, $user){
     <section id='contenido' class='borde_verde'>
         <h1>".$titulo."</h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
-            <label> Fotografía: <input type='file' name='fotografia' value='Seleccionar fotografía'></label>
+            ".$foto."
             <label> Nombre: <input type='text' name='nombre' value='".$campos['nombre']."' ></label>
             <label> Apellidos: <input type='text' name='apellidos' value='".$campos['apellidos']."'></label>
             <label> DNI: <input type='text' name='dni' value='".$campos['dni']."' ></label>
@@ -87,28 +88,21 @@ function formularioUSU02($datos, $validar, $form, $titulo, $user){
 //$accion: a(añadir), v(ver), e(editar), b(borrar)
 function formularioUSU03($datos, $accion, $form, $titulo, $user){
     $campos = procesarDatos($datos);
+    
+    $foto = formularioFoto($campos['fotografia'], '3');
     $sexo = formularioSexo($campos['sexo'], '1');
     $rol = formularioRol($campos['rol'], '1');
     $estado = formularioEstado($campos['estado'], '1');
-    
-    if($accion == 'v' || $accion == 'b' || $accion == 'e'){
-        $campos['clave2'] = $campos['clave'];
-    }
-    
-    if($accion == 'e' || $accion == 'a'){
-        $fotografia = "<label> Fotografía: <input readonly type='file' name='fotografia' value='Seleccionar fotografía'></label>";
-    }
-    else{
-        $fotografia = "<label> Fotografía: <input disabled type='file' name='fotografia' value='Seleccionar fotografía'></label>";
-    }
     $submit = formularioSubmit($accion);
+    
+    if($accion == 'v' || $accion == 'b' || $accion == 'e') $campos['clave2'] = $campos['clave'];
 
     echo "
     <main>
     <section id='contenido' class='borde_verde'>
         <h1> ".$titulo." </h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
-            ".$fotografia."
+            ".$foto."
             <label> Nombre: <input readonly type='text' name='nombre' value='".$campos['nombre']."' ></label>
             <label> Apellidos: <input readonly type='text' name='apellidos' value='".$campos['apellidos']."'></label>
             <label> DNI: <input readonly type='text' name='dni' value='".$campos['dni']."' ></label>
@@ -132,6 +126,8 @@ function formularioUSU03($datos, $accion, $form, $titulo, $user){
 /**/
 function formularioUSU05($datos, $validar, $titulo){
     $campos = procesarDatos($datos);
+
+    $foto = formularioFoto($campos['fotografia'], '2');
     $sexo = formularioSexo($campos['sexo'], '1');
     $campos['clave2'] = $campos['clave'];
 
@@ -140,7 +136,7 @@ function formularioUSU05($datos, $validar, $titulo){
     <section id='contenido' class='borde_verde'>
         <h1>".$titulo."</h1>
         <form action='edit.php' method='post' enctype='multipart/form-data' id='add'>
-            <label> Fotografía: <input type='file' name='fotografia' value='Seleccionar fotografía'></label>
+            ".$foto."
             <label> Nombre: <input readonly type='text' name='nombre' value='".$campos['nombre']."' ></label>
             <label> Apellidos: <input readonly type='text' name='apellidos' value='".$campos['apellidos']."'></label>
             <label> DNI: <input readonly type='text' name='dni' value='".$campos['dni']."' ></label>
@@ -168,6 +164,7 @@ function formularioUSU05($datos, $validar, $titulo){
 function formularioUSU06($datos, $accion, $form, $titulo){
     $campos = procesarDatos($datos);
     
+    $foto = formularioFoto($campos['fotografia'], '3');
     $sexo = formularioSexo($campos['sexo'], '1');
     $campos['clave2'] = $campos['clave'];
     $submit = formularioSubmit($accion);
@@ -177,7 +174,7 @@ function formularioUSU06($datos, $accion, $form, $titulo){
     <section id='contenido' class='borde_verde'>
         <h1> ".$titulo." </h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
-            <label> Fotografía: <input readonly type='file' name='fotografia' value='Seleccionar fotografía'></label>
+            ".$foto."
             <label> Nombre: <input readonly type='text' name='nombre' value='".$campos['nombre']."' ></label>
             <label> Apellidos: <input readonly type='text' name='apellidos' value='".$campos['apellidos']."'></label>
             <label> DNI: <input readonly type='text' name='dni' value='".$campos['dni']."' ></label>
@@ -328,5 +325,33 @@ function formularioSubmit($accion){
         $input = "<input type='submit' name='borrarUsuario' value='Borrar usuario definitivamente'>";
     }
     return $input;
+}
+
+//formulario para mostrar o no la imagen
+function formularioFoto($foto, $n){
+    $fotografia = '';
+    //si no se ha puesto imagen
+    if($foto == ''){
+        //y es el formulario USU03
+        if($n == '3'){
+            $fotografia = "<label> Fotografía: <input disabled type='file' name='fotografia' value='Seleccionar fotografía'></label>";
+        }
+        elseif($n == '2'){
+            $fotografia = "<label> Fotografía: <input type='file' name='fotografia' value='Seleccionar fotografía'></label>";
+        }
+    }
+    //si se ha puesto imagen
+    else{
+        if($n == '3'){
+            $fotografia = "<img src='data:img/png; base64, ".$foto." alt='imagen'/>
+            <input type='hidden' name='foto' value='".$foto."'/>";
+        }elseif($n == '2'){
+            $fotografia = "<img src='data:img/png; base64, ".$foto." alt='imagen'/>
+            <label> Fotografía: <input type='file' name='fotografia' value='Seleccionar fotografía'></label>
+            <input type='hidden' name='foto' value='".$foto."'/>";
+        }
+    }
+
+    return $fotografia;
 }
 ?>

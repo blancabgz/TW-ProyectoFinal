@@ -62,7 +62,18 @@ function obtenerTipoUsuario($dni){
 
 function insertarUsuario($datos, $user){
     $bd = conectarBD();
-    $indice = ['dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
+    
+    /*if(isset($datos['foto'])){
+        $datos['fotografia'] = $datos['foto'];
+    }*/
+
+    if(isset($datos['fotografia']) && $datos['fotografia'] != ''){
+        $indice = ['fotografia', 'dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
+    }
+    else{
+        $indice = ['dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
+    }
+
     if($user == 'V'){
         $datos['estado'] = 'I';
     }
@@ -130,9 +141,16 @@ function insertarUsuario($datos, $user){
 
 function actualizarUsuario($datos, $user){
     $bd = conectarBD();
-    $indice = ['nombre', 'apellidos', 'dni', 'email', 'telefono', 'fecha', 'sexo', 'clave', 'rol', 'estado'];
+
+    if(isset($datos['fotografia']) && $datos['fotografia'] != ''){
+        $indice = ['fotografia', 'dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
+    }
+    else{
+        $indice = ['dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
+    }
+
     if($user == 'P' || $user == 'S'){
-        $indice = ['email', 'telefono', 'clave'];
+        $indice = ['email', 'telefono', 'fotografia','clave'];
     }
     $dni = $datos['dni'];
     $mensaje = 'Se desconoce el error. Vuelva a intentarlo.';
@@ -155,11 +173,8 @@ function actualizarUsuario($datos, $user){
             foreach($indice as $k){
                 //si tiene información
                 if($datos[$k] != ""){
-                    //si es estado o clave es el final, con lo que no se pone la coma (,)
-                    if($user == 'A' && $k == 'estado'){
-                        $consulta .= " ".$k." = '".mysqli_real_escape_string($bd,$datos[$k])."' ";
-                    }
-                    else if($user != 'A' && $k == 'clave'){
+                    //si es clave es el final, con lo que no se pone la coma (,)
+                    if($k == 'clave'){
                         $consulta .= " ".$k." = '".mysqli_real_escape_string($bd,$datos[$k])."' ";
                     }
                     else{
@@ -176,7 +191,6 @@ function actualizarUsuario($datos, $user){
                     }  
                 }
             }
-            
             $consulta .= "WHERE dni='".$dni."';";
             
             $consulta_res = mysqli_query($bd, $consulta);

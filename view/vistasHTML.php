@@ -68,6 +68,25 @@ function HTMLnav($user){
                     <a class="dropdown-item" href="../controller/list.php"> Listado de usuarios </a>
                 </div>
             </div>
+            <div class="dropdown">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton" >
+                Gestión de vacunas </button>
+
+                <div class="dropdown-menu" aria-labelledby="dropdowmMenuButton">
+                    <a class="dropdown-item" href="../controller/add.php"> Calendario de vacunación </a>
+                    <a class="dropdown-item" href="../controller/list.php"> Lista de vacunas </a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton" >
+                Gestión del sistema </button>
+
+                <div class="dropdown-menu" aria-labelledby="dropdowmMenuButton">
+                    <a class="dropdown-item" href="../controller/add.php"> Log del sistema </a>
+                    <a class="dropdown-item" href="../controller/list.php"> Copia de seguridad </a>
+                    <a class="dropdown-item" href="../controller/list.php"> Restauración de BD </a>
+                </div>
+            </div>
         HTML;
 
         $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Búsqueda de pacientes"];
