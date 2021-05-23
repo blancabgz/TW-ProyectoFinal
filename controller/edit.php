@@ -94,11 +94,11 @@ else if($rol == 'P' || $rol == 'S'){
 
         //si hay errores
         if(!empty($validar)){
-            formularioUSU05($_POST, $validar, $titulo_form);
+            formularioUSU05($datos, $validar, $titulo_form);
         }
         //si está todo OK
         else{
-            $mensaje = actualizarUsuario($_POST, $rol);
+            $mensaje = actualizarUsuario($datos, $rol);
             mensaje($titulo_form, $mensaje);
         }
 	}

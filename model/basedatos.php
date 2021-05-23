@@ -144,14 +144,17 @@ function actualizarUsuario($datos, $user){
 
     if(isset($datos['fotografia']) && $datos['fotografia'] != ''){
         $indice = ['fotografia', 'dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
+        if($user == 'P' || $user == 'S'){
+            $indice = ['email', 'telefono', 'fotografia','clave'];
+        }
     }
     else{
         $indice = ['dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
+        if($user == 'P' || $user == 'S'){
+            $indice = ['email', 'telefono', 'fotografia','clave'];
+        }
     }
 
-    if($user == 'P' || $user == 'S'){
-        $indice = ['email', 'telefono', 'fotografia','clave'];
-    }
     $dni = $datos['dni'];
     $mensaje = 'Se desconoce el error. Vuelva a intentarlo.';
 
