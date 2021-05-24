@@ -102,7 +102,7 @@ function HTMLcontenido($titulo){
 
     if($titulo == 'Login'){
         echo <<< HTML
-        <main>
+        <main class='container-fluid'>
                 <section id='contenido' class='borde_verde'>
                     <h1> $titulo </h1>
                     <p> Si acaba de realizar la solicitud de alta en la plataforma, debe esperar a que la

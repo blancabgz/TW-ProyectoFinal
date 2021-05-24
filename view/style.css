@@ -158,7 +158,6 @@ main{
     font-size: 17px;
     font-weight: bold;
     background-color: rgb(209, 255, 185);
-    margin: 7px;
     padding: 5px 0 5px 15px;
 }
 
@@ -177,32 +176,6 @@ form .boton{
   align-items: center;
   justify-content: center;
 }
-
-/* .form > form{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-end;
-} */
-
-/* .form form > *{
-    margin: 7px 15px;
-} */
-
-/* .form input{
-    border: 1px solid rgb(0, 0, 0);
-    width: 150px;
-    padding: 5px;
-}
-
-.form form > :last-child{
-    align-self: center;
-    background-color: rgb(209, 255, 185);
-    border: 1px solid rgb(136, 255, 72);
-    border-radius: 5px;
-    padding: 3px 10px;
-    width: 75px;
-} */
 
 .form > a{
     text-decoration: none;
@@ -259,4 +232,28 @@ p#error{
     width: 25%;
     margin-right: auto;
     padding-left: auto
+}
+
+@media (max-width: 800px) {
+  #contenido{
+    width: 35%;
+    font-size: 70%;
+  }
+
+  #barra_lateral{
+    width: 15%;
+    font-size: 80%;
+  }
+
+  .form > h1{
+    font-size: 90%;
+  }
+
+  .form input{
+    font-size: 80%;
+  }
+
+  footer{
+    font-size: 60%;
+  }
 }
