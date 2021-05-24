@@ -166,7 +166,7 @@ main{
 }
 
 .form .btn{
-  width: 50%;
+
   margin-top: 1em;
   background-color: rgb(229, 246, 253);
 }
@@ -208,15 +208,21 @@ p#error{
     margin: 20px 300px;
 }
 #add{
-    margin: 0px 0px 10px 35%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: initial;
 }
 
-#add > label{
-    margin: 5px 5px;
+.formulario{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-group{
+  margin: 0.5em;
 }
 
 /*LISTAR USUARIO*/

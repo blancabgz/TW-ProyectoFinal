@@ -15,10 +15,10 @@ HTMLnav($rol);
 
 //si se ha enviado los datos
 if(isset($_POST['enviarDatos'])){
-    
+
     //si se ha insertado imagen
     if(isset($_FILES['fotografia']['tmp_name']) && !empty($_FILES['fotografia']['tmp_name'])){
-       
+
         //$_POST['fotografia] toma el nombre de la imagen
         $_POST['fotografia'] = $_FILES["fotografia"]["tmp_name"];
     }
@@ -39,7 +39,7 @@ if(isset($_POST['enviarDatos'])){
 else if(isset($_POST['validarDatos'])){
     $datos = procesarDatos($_POST);
     $validar = validarDatos($datos, $rol);
-       
+
     //si hay errores
     if(!empty($validar)){
         formularioUSU02($datos, $validar, $form, $titulo_form, $rol);
