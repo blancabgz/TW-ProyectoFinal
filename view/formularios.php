@@ -77,27 +77,49 @@ function formularioUSU02($datos, $validar, $form, $titulo, $user){
 
     echo "
     <main>
-    <section id='contenido' class='borde_verde'>
+    <section id='contenido' class='borde_verde formulario'>
         <h1>".$titulo."</h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
+        <div class='form-group'>
             ".$foto."
+            </div>
+            <div class='form-group'>
             <label> Nombre: <input type='text' name='nombre' value='".$campos['nombre']."' ></label>
+            </div>
+            <div class='form-group'>
             <label> Apellidos: <input type='text' name='apellidos' value='".$campos['apellidos']."'></label>
+            </div>
+            <div class='form-group'>
             <label> DNI: <input type='text' name='dni' value='".$campos['dni']."' ></label>
+            </div>
+            <div class='form-group'>
             <label> Email: <input type='text' name='email' value='".$campos['email']."'></label>
+            </div>
+            <div class='form-group'>
             <label> Teléfono: <input type='text' name='telefono' value='".$campos['telefono']."' ></label>
+            </div>
+            <div class='form-group'>
             <label> Fecha nac: <input type='date' name='fecha' value='".$campos['fecha']."' ></label>
+            </div>
+            <div class='form-group'>
             <label> Sexo: ".$sexo." </label>
+            </div>
+            <div class='form-group'>
             <label> Clave:
                 <input type='password' name='clave' value='".$campos['clave']."'>
                 <input type='password' name='clave2' value='".$campos['clave2']."'>
             </label>
+            </div>
+            <div class='form-group'>
             <label> Rol:".$rol." </label>";
             if($user != 'V'){
                echo "<label> Estado: ".$estado."
-                </label>";
+                </label> </div>";
             }
-            echo "<input type='submit' name='enviarDatos' value='Enviar datos'/>
+            echo "
+              <div class='form-group form boton'>
+                <input class='btn' type='submit' name='enviarDatos' value='Enviar datos'>
+              </div>
         </form>";
     if($validar != 'e'){
         foreach($validar as $k){
@@ -175,22 +197,43 @@ function formularioUSU05($datos, $validar, $titulo){
 
     echo "
     <main>
-    <section id='contenido' class='borde_verde'>
+    <section id='contenido' class='borde_verde formulario'>
         <h1>".$titulo."</h1>
         <form action='edit.php' method='post' enctype='multipart/form-data' id='add'>
+        <div class='form-group'>
             ".$foto."
+        </div>
+        <div class='form-group'>
             <label> Nombre: <input readonly type='text' name='nombre' value='".$campos['nombre']."' ></label>
+            </div>
+            <div class='form-group'>
             <label> Apellidos: <input readonly type='text' name='apellidos' value='".$campos['apellidos']."'></label>
+            </div>
+            <div class='form-group'>
             <label> DNI: <input readonly type='text' name='dni' value='".$campos['dni']."' ></label>
+            </div>
+            <div class='form-group'>
             <label> Email: <input type='text' name='email' value='".$campos['email']."'></label>
+            </div>
+            <div class='form-group'>
             <label> Teléfono: <input type='text' name='telefono' value='".$campos['telefono']."' ></label>
+            </div>
+            <div class='form-group'>
             <label> Fecha nac: <input readonly type='date' name='fecha' value='".$campos['fecha']."' ></label>
+            </div>
+            <div class='form-group'>
             <label> Sexo: ".$sexo." </label>
+            </div>
+            <div class='form-group'>
             <label> Clave:
                 <input type='password' name='clave' value='".$campos['clave']."'/>
                 <input type='password' name='clave2' value='".$campos['clave2']."'/>
             </label>
+            </div>
+            <div class='form-group form boton'>
             <input type='submit' name='enviarDatos' value='Enviar datos'/>
+            </div>
+
         </form>
     ";
     if($validar != 'e'){
@@ -213,21 +256,40 @@ function formularioUSU06($datos, $accion, $form, $titulo){
 
     echo "
     <main>
-    <section id='contenido' class='borde_verde'>
+    <section id='contenido' class='borde_verde formulario'>
         <h1> ".$titulo." </h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
+        <div class='form-group'>
             ".$foto."
+        </div>
+        <div class='form-group'>
             <label> Nombre: <input readonly type='text' name='nombre' value='".$campos['nombre']."' ></label>
+            </div>
+            <div class='form-group'>
             <label> Apellidos: <input readonly type='text' name='apellidos' value='".$campos['apellidos']."'></label>
+            </div>
+            <div class='form-group'>
             <label> DNI: <input readonly type='text' name='dni' value='".$campos['dni']."' ></label>
+            </div>
+            <div class='form-group'>
             <label> Email: <input readonly type='text' name='email' value='".$campos['email']."'></label>
+            </div>
+            <div class='form-group'>
             <label> Teléfono: <input readonly type='text' name='telefono' value='".$campos['telefono']."' ></label>
+            </div>
+            <div class='form-group'>
             <label> Fecha nac: <input readonly type='date' name='fecha' value='".$campos['fecha']."' ></label>
+            </div>
+            <div class='form-group'>
             <label> Sexo: ".$sexo." </label>
+            </div>
+            <div class='form-group'>
             <label> Clave:
                 <input readonly type='password' name='clave' value='".$campos['clave']."'/>
                 <input readonly type='password' name='clave2' value='".$campos['clave2']."'/>
             </label>
+            </div>
+            <div class='form-group'>
             ".$submit."
         </form>
     ";
