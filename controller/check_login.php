@@ -3,6 +3,7 @@ require_once '../model/basedatos.php';
 
 if(session_status() == PHP_SESSION_NONE)
     session_start();
+
 $rol = 'V';
 
 if(isset($_SESSION['usuario'])){   

@@ -24,7 +24,7 @@ function comprobarDatos($dni, $clave){
     $consulta_res = mysqli_query($bd, $consulta);
     $res = false;
 
-    if(mysqli_num_rows($consulta_res) > 0){
+    if(!empty($consulta_res) && mysqli_num_rows($consulta_res) > 0){
         $valores = mysqli_fetch_array($consulta_res);
     
         if($valores['estado'] != 'I'){
@@ -32,6 +32,9 @@ function comprobarDatos($dni, $clave){
                 $res = true;
             }
         }
+        /*if($clave == '123456'){
+            $res = true;
+        }*/
     }
 
     mysqli_free_result($consulta_res);
@@ -47,12 +50,11 @@ function obtenerTipoUsuario($dni){
     $bd = conectarBD();
     $consulta = "SELECT rol FROM usuarios where dni='$usuario'";
     $consulta_res = mysqli_query($bd, $consulta);
-    $rol = '';
+    $rol = 'V';
+
     if(mysqli_num_rows($consulta_res) > 0){
         $rol = mysqli_fetch_array($consulta_res);
         $rol = $rol['rol'];
-    }else{
-        $rol = '0';
     }
     
     mysqli_free_result($consulta_res);
@@ -63,20 +65,20 @@ function obtenerTipoUsuario($dni){
 function insertarUsuario($datos, $user){
     $bd = conectarBD();
     
-    /*if(isset($datos['foto'])){
-        $datos['fotografia'] = $datos['foto'];
-    }*/
-
+    //si hay fotografía se inserta
     if(isset($datos['fotografia']) && $datos['fotografia'] != ''){
         $indice = ['fotografia', 'dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
     }
+    //si no, no se añade
     else{
         $indice = ['dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
     }
 
+    //si el usuario es visitante, el estado se marca a I (inactivo)
     if($user == 'V'){
         $datos['estado'] = 'I';
     }
+
     $dni = $datos['dni'];
     $mensaje = 'Se desconoce el error. Vuelva a intentarlo.';
 
@@ -122,12 +124,20 @@ function insertarUsuario($datos, $user){
             }
             
             $consulta_res = mysqli_query($bd, $consulta);
+            
             //si ha habido error
             if(!$consulta_res){
                 $mensaje = "Error de inserción, vuelva a intentarlo.";
             }
             else{
                 $mensaje = "Usuario añadido con éxito";
+
+                if($user == 'V'){
+                    $mensaje = "D/Dª ".$datos['nombre']." ".$datos['apellidos']." su solicitud ha quedado registrada.
+                    Próximamente recibirá un email confirmando su inserción en el sistema si los datos
+                    que ha proporcionado son correctos. En caso de que no podamos verificar sus datos, se enviará
+                    un email a la dirección proporcionada informándole de ese hecho.";
+                }
             }
         }
     }else{
@@ -144,15 +154,13 @@ function actualizarUsuario($datos, $user){
 
     if(isset($datos['fotografia']) && $datos['fotografia'] != ''){
         $indice = ['fotografia', 'dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
-        if($user == 'P' || $user == 'S'){
-            $indice = ['email', 'telefono', 'fotografia','clave'];
-        }
     }
     else{
         $indice = ['dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
-        if($user == 'P' || $user == 'S'){
-            $indice = ['email', 'telefono', 'fotografia','clave'];
-        }
+    }
+    
+    if($user == 'P' || $user == 'S'){
+        $indice = ['email', 'telefono', 'clave'];
     }
 
     $dni = $datos['dni'];
@@ -194,7 +202,10 @@ function actualizarUsuario($datos, $user){
                     }  
                 }
             }
-            $consulta .= "WHERE dni='".$dni."';";
+            if(isset($datos['dni2'])){
+                $consulta .= "WHERE dni='".$datos['dni2']."';";
+            }
+            else $consulta .= "WHERE dni='".$dni."';";
             
             $consulta_res = mysqli_query($bd, $consulta);
             //si ha habido error
@@ -248,7 +259,7 @@ function borrarUsuario($dni){
 function obtenerListado(){
     $bd = conectarBD();
 
-    $consulta = "SELECT nombre, apellidos, email, dni FROM usuarios";
+    $consulta = "SELECT dni, fotografia, nombre, apellidos, email, estado, rol FROM usuarios";
     $consulta_res = mysqli_query($bd, $consulta);
     $listado = 0;
     if($consulta_res){

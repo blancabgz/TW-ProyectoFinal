@@ -139,33 +139,28 @@ function HTMLcontenido($titulo){
 
 function HTMLformulario($user){
 
-    if($user=="V" || $user == 'E'){
-        echo
-            "<div id='barra_lateral'>
+    if($user == 'E'){
+        echo <<< HTML
+            <div id='barra_lateral'>
                 <div class='borde_verde form form-group'>
-                    <h1> Login </h1>";
-
-        if($user=='E'){
-            echo "  <p id='error'> Error al identificarse, vuelva a rellenar el formulario. </p>";
-
-        }
-
-        echo "
+                    <h1> Login </h1>
+                    <p id='error'> Error al identificarse, vuelva a rellenar el formulario. </p>
                     <form class='row' action='../controller/login.php' method='post'>
-                      <div class='col-12'>
-                        <label class='form-label'> Usuario </label>
-                        <input type='text' name='usuario' class='form-control'>
-                      </div>
-                      <div class='col-12'>
-                        <label class='form-label'> Clave </label>
-                        <input class='form-control' type='password' name='clave'>
-                      </div>
-                      <div class='col-12 boton'>
-                        <input class='btn' type='submit' name='login' value='Login'>
-                      </div>
+                        <div class='col-12'>
+                            <label class='form-label'> Usuario </label>
+                            <input type='text' name='usuario' class='form-control'>
+                        </div>
+                        <div class='col-12'>
+                            <label class='form-label'> Clave </label>
+                            <input class='form-control' type='password' name='clave'>
+                        </div>
+                        <div class='col-12 boton'>
+                            <input class='btn' type='submit' name='login' value='Login'>
+                        </div>
                     </form>
                     <a href='../controller/solicitud.php'> Solicitar darse de alta </a>
-                </div>";
+                </div>
+        HTML;
     }else if($user == "P" || $user == "A" || $user == "S"){
         echo <<< HTML
             <div id="barra_lateral">
@@ -176,6 +171,28 @@ function HTMLformulario($user){
                         <input class='btn' type="submit" name="logout" value="Logout">
                       </div>
                     </form>
+                </div>
+        HTML;
+    }
+    else{
+        echo <<< HTML
+            <div id='barra_lateral'>
+                <div class='borde_verde form form-group'>
+                    <h1> Login </h1>
+                    <form class='row' action='../controller/login.php' method='post'>
+                        <div class='col-12'>
+                          <label class='form-label'> Usuario </label>
+                          <input type='text' name='usuario' class='form-control'>
+                        </div>
+                        <div class='col-12'>
+                          <label class='form-label'> Clave </label>
+                          <input class='form-control' type='password' name='clave'>
+                        </div>
+                        <div class='col-12 boton'>
+                          <input class='btn' type='submit' name='login' value='Login'>
+                        </div>
+                    </form>
+                    <a href='../controller/solicitud.php'> Solicitar darse de alta </a>
                 </div>
         HTML;
     }
@@ -208,30 +225,21 @@ function HTMLfooter(){
     HTML;
 }
 
-function mostrarLista($rol, $lista){
+function mostrarLista($lista){
     echo <<< HTML
     <main>
         <section id='contenido' class='borde_verde'>
         <h1> Listado de usuarios </h1>
     HTML;
+
     foreach($lista as $k){
-        echo "
-        <section class='"."listado"."'>
-        <!-- <img/> -->
-        <div class='"."inf_pers"."'>
-        <p>".$k['nombre']." ".$k['apellidos']."</p>";
-
-        if($k['email'] != null){
-            echo "<p> ".$k['email']."</p>";
+        if($k['fotografia'] != ''){
+            echo "<img src='data:img/png; base64, ".$k['fotografia']." alt='imagen'/>";
         }
-
-        if($rol == 'A'){
-            echo "
-            </div>
-            <form action='../controller/see.php' method='post'>
-                <input type='submit' name='ver' value='Ver'/>
-                <input type='hidden' name='dni' value='".$k['dni']."'/>
-            </form>
+        echo " ".$k['nombre']."
+         ".$k['apellidos']." 
+         ".$k['rol']." 
+         ".$k['estado']." 
             <form action='../controller/edit.php' method='post'>
                 <input type='submit' name='editarUser' value='Editar'/>
                 <input type='hidden' name='dni' value='".$k['dni']."'/>
@@ -239,21 +247,8 @@ function mostrarLista($rol, $lista){
             <form action='../controller/delete.php' method='post'>
                 <input type='submit' name='borrar' value='Borrar'/>
                 <input type='hidden' name='dni' value='".$k['dni']."'/>
-            </form>";
-        }
-        if($rol == 'C' && $_SESSION['usuario']==$k['dni']){
-            echo "
-                </div>
-                <form action='../controller/see.php' method='post'>
-                    <input type='submit' name='ver' value='Ver'/>
-                    <input type='hidden' name='dni' value='".$k['dni']."'/>
-                </form>
-                <form action='../controller/edit.php' method='post'>
-                    <input type='submit' name='editarUser' value='Editar'/>
-                    <input type='hidden' name='dni' value='".$k['dni']."'/>
-                </form>";
-        }
-        echo "</section>";
+            </form>
+            ";
     }
     echo "</section>";
 }

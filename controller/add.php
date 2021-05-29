@@ -8,56 +8,47 @@ require_once "../view/formularios.php";
 $titulo="Añadir usuario";
 $titulo_form="Nuevo usuario";
 $form = '../controller/add.php';
+$accion = 'a';
 
 HTMLinicio($titulo);
 HTMLheader($titulo);
 HTMLnav($rol);
+
+//si no es la persona administradora, se le redirige al inicio
 if($rol != 'A'){
 	header("Location: ../view/inicio.php");
 }
+//si es la persona administradora
 else{
 	
-	//si se ha enviado los datos
+	//si se ha enviado los datos, se procesa la imagen y se muestra el formulario
 	if(isset($_POST['enviarDatos'])){
-        //si se ha insertado imagen
-        if(isset($_FILES['fotografia']['tmp_name']) && !empty($_FILES['fotografia']['tmp_name'])){
-        
-            //$_POST['fotografia] toma el nombre de la imagen
-            $_POST['fotografia'] = $_FILES["fotografia"]["tmp_name"];
-        }
-        //si se viene de un formulario con la imagen ya puesta
-        else if(isset($_POST['foto'])){
-            $_POST['fotografia'] = $_POST['foto'];
-        }
-        //si no se ha insertado imagen
-        else{
-            //vemos si $_POST['fotografia] tiene valor
-            if(!isset($_POST['fotografia'])){
-                $_POST['fotografia'] = '';
-            }
-        }
-        formularioUSU03($_POST, 'a', $form, $titulo_form, $rol);
+        procesarFotografia();
+        formularioUSU03($_POST, $accion, $form, $titulo_form, $rol);
 	}
-
-    //si es va a validar los datos
+    
+    //si va a validar los datos, se procesan y validan los datos
 	else if(isset($_POST['validarDatos'])){
         $datos = procesarDatos($_POST);
-	    $validar = validarDatos($datos, 'a');
+	    $validar = validarDatos($datos, $accion);
         
-        //si hay errores
+        //si hay errores se muestra el formulario
         if(!empty($validar)){
-            formularioUSU02($datos, $validar, $form, $titulo_form, $rol);
+            formularioUSU02($datos, $validar, $form, $titulo_form, $rol, $accion);
         }
-        //si está todo OK
+        //si está todo OK, se inserta el usuario
         else{
             $mensaje = insertarUsuario($datos, $rol);
             mensaje($titulo, $mensaje);
         }
 	}
+
+    //si viene de nuevas, se le muestra el formulario
 	else{
-		formularioUSU01($titulo_form, $rol, $form);
+		formularioUSU01($titulo_form, $form);
 	}
 }
 HTMLformulario($rol);
 HTMLfooter();
+
 ?>

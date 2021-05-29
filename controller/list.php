@@ -5,7 +5,7 @@ require_once '../view/vistasHTML.php';
 
 $titulo="Listado de usuarios";
 
-if($rol == 'A' || $rol == 'C'){
+if($rol == 'A' || $rol == 'S'){
 
     HTMLinicio($titulo);
     HTMLheader($titulo);
@@ -21,7 +21,7 @@ if($rol == 'A' || $rol == 'C'){
     }
     else{
         //mostramos el listado
-        mostrarLista($rol, $lista);
+        mostrarLista($lista);
     }
 
     HTMLformulario($rol);

@@ -7,54 +7,44 @@ require_once "../view/formularios.php";
 
 $titulo="Editar usuario";
 $form = '../controller/edit.php';
+$accion = 'e';
 
 HTMLinicio($titulo);
 HTMLheader($titulo);
 HTMLnav($rol);
 
+//si no es administrador, ni paciente ni sanitario, se le redirige al inicio
 if($rol != 'A' && $rol != 'P' && $rol != 'S'){
 	header("Location: ../view/inicio.php");
 }
-else if($rol == 'A'){
-	$titulo_form="Modificar usuario";
 
-	//si se ha enviado los datos
+//si es administrador, puede modificar cualquier campo del usuario
+else if($rol == 'A'){
+	$titulo_form = "Modificar usuario";
+
+	//si se ha enviado los datos, se procesan los datos, la fotografía y se muestra el formulario
 	if(isset($_POST['enviarDatos'])){
-        //si se ha insertado imagen
-        if(isset($_FILES['fotografia']['tmp_name']) && !empty($_FILES['fotografia']['tmp_name'])){
-        
-            //$_POST['fotografia] toma el nombre de la imagen
-            $_POST['fotografia'] = $_FILES["fotografia"]["tmp_name"];
-        }
-        //si se viene de un formulario con la imagen ya puesta
-        else if(isset($_POST['foto'])){
-            $_POST['fotografia'] = $_POST['foto'];
-        }
-        //si no se ha insertado imagen
-        else{
-            //vemos si $_POST['fotografia] tiene valor
-            if(!isset($_POST['fotografia'])){
-                $_POST['fotografia'] = '';
-            }
-        }
-        formularioUSU03($_POST, 'e', $form, $titulo_form, $rol);
+        $datos = procesarDatos($_POST);
+        procesarFotografia();
+        formularioUSU03($datos, $accion, $form, $titulo_form, $rol);
 	}
-    //si viene del listado
+
+    //si viene del listado se obtiene los datos y se muestran en un formulario
     else if(isset($_POST['editarUser'])){
-        $dni = $_POST['dni'];
-        $datos = obtenerDatosUsuario($dni);
-        formularioUSU02($datos, 'e', $form, $titulo_form, $rol);
+        $datos = obtenerDatosUsuario($_POST['dni']);
+        formularioUSU02($datos, '', $form, $titulo_form, $rol, $accion);
     }
-    //si es va a validar los datos
+
+    //si va a validar los datos, se procesan y validan los datos
 	else if(isset($_POST['validarDatos'])){
         $datos = procesarDatos($_POST);
-	    $validar = validarDatos($datos, 'c');
+	    $validar = validarDatos($datos, $rol);
 
-        //si hay errores
+        //si hay errores se muestra el formulario
         if(!empty($validar)){
-            formularioUSU02($datos, $validar, $form, $titulo_form, $rol);
+            formularioUSU02($datos, $validar, $form, $titulo_form, $rol, $accion);
         }
-        //si está todo OK
+        //si está todo OK se actualiza el usuario
         else{
             $mensaje = actualizarUsuario($datos, $rol);
             mensaje($titulo_form, $mensaje);
@@ -64,49 +54,36 @@ else if($rol == 'A'){
 		header("Location: ../view/inicio.php");
 	}
 }
-else if($rol == 'P' || $rol == 'S'){
-    $titulo_form="Modificar mis datos";
 
-	//si se ha enviado los datos
-	if(isset($_POST['enviarDatos'])){//si se ha insertado imagen
-        if(isset($_FILES['fotografia']['tmp_name']) && !empty($_FILES['fotografia']['tmp_name'])){
-        
-            //$_POST['fotografia] toma el nombre de la imagen
-            $_POST['fotografia'] = $_FILES["fotografia"]["tmp_name"];
-        }
-        //si se viene de un formulario con la imagen ya puesta
-        else if(isset($_POST['foto'])){
-            $_POST['fotografia'] = $_POST['foto'];
-        }
-        //si no se ha insertado imagen
-        else{
-            //vemos si $_POST['fotografia] tiene valor
-            if(!isset($_POST['fotografia'])){
-                $_POST['fotografia'] = '';
-            }
-        }
-        formularioUSU06($_POST, 'e', $form, $titulo_form);
+//si es el paciente o el sanitario, puede modificar solo unos campos concretos
+else if($rol == 'P' || $rol == 'S'){
+    $titulo_form = "Modificar mis datos";
+
+	//si se ha enviado los datos, se procesa la imagen y los datos y se muestra el formulario
+	if(isset($_POST['enviarDatos'])){
+        formularioUSU06($_POST, $accion, $form, $titulo_form);
 	}
-    //si es va a validar los datos
+
+    //si va a validar los datos, se procesan y validan los datos
 	else if(isset($_POST['validarDatos'])){
         $datos = procesarDatos($_POST);
 	    $validar = validarDatos($datos, $rol);
 
-        //si hay errores
+        //si hay errores, se muestra el formulario
         if(!empty($validar)){
-            formularioUSU05($datos, $validar, $titulo_form);
+            formularioUSU05($datos, $validar, $form, $titulo_form);
         }
-        //si está todo OK
+        //si está todo OK se actualiza el usuario
         else{
             $mensaje = actualizarUsuario($datos, $rol);
             mensaje($titulo_form, $mensaje);
         }
 	}
+    
     //si ha pulsado en Datos Personales
 	else{
-		$dni = $_SESSION['usuario'];
-        $datos = obtenerDatosUsuario($dni);
-        formularioUSU05($datos, 'e', $titulo_form);
+        $datos = obtenerDatosUsuario($_SESSION['usuario']);
+        formularioUSU05($datos, $accion, $form, $titulo_form);
 	}
 }
 HTMLformulario($rol);

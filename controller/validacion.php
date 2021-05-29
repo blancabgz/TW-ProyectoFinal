@@ -19,6 +19,7 @@ function procesarDatos($datos){
 
     //si fotografia existe
     if(isset($datos['fotografia'])){
+        
         //si es el nombre de la imagen la codificamos
         if(preg_match("/\/tmp\/(\d*)/", $datos['fotografia'])){
             $campos['fotografia'] = base64_encode(file_get_contents($datos['fotografia']));
@@ -34,8 +35,38 @@ function procesarDatos($datos){
     else if(isset($datos['foto'])){
         $campos['fotografia'] = $datos['foto'];
     }
+
+    //procesamos el dni2
+    //si dni2 existe
+    if(isset($datos['dni2'])){
+        
+        $campos['dni2'] = $datos['dni2'];
+    }
+    else{
+        $campos['dni2'] = $campos['dni'];
+    }
     
     return $campos;
+}
+
+function procesarFotografia(){
+    //si se ha insertado imagen
+    if(isset($_FILES['fotografia']['tmp_name']) && !empty($_FILES['fotografia']['tmp_name'])){
+
+        //$_POST['fotografia] toma el nombre de la imagen
+        $_POST['fotografia'] = $_FILES["fotografia"]["tmp_name"];
+    }
+    //si se viene de un formulario con la imagen ya puesta
+    else if(isset($_POST['foto'])){
+        $_POST['fotografia'] = $_POST['foto'];
+    }
+    //si no se ha insertado imagen
+    else{
+        //vemos si $_POST['fotografia] tiene valor
+        if(!isset($_POST['fotografia'])){
+            $_POST['fotografia'] = '';
+        }
+    }
 }
 
 function validarNombre($nombre, $validar){
@@ -167,9 +198,9 @@ function validarDatos($datos, $user){
     $campos = $datos;
     $validar = [];
     $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2', 'estado', 'rol'];
-    //if($user == 'c') $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2'];
-    if($user == 'V') $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2', 'rol'];
+    if($user == 'V') $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2'];
     if($user == 'P' || $user == 'S') $nonulos = ['dni', 'nombre', 'apellidos', 'sexo', 'clave', 'clave2'];
+
     //validamos si alguno está vacío
     foreach($nonulos as $k){
         if(isset($campos[$k]) && $campos[$k] == null){
@@ -185,11 +216,8 @@ function validarDatos($datos, $user){
     $validar = validarSexo($campos['sexo'], $validar);
     $validar = validarClave($campos['clave'], $campos['clave2'], $validar);
     
-    if($user != 'P' && $user != 'S'){
+    if($user == 'A'){
         $validar = validarRol($campos['rol'], $validar, $user);
-    }
-    
-    if($user != 'V' && $user != 'P' && $user != 'S'){
         $validar = validarEstado($campos['estado'], $validar, $user);
     }
     
