@@ -24,8 +24,8 @@ else if($rol == 'A'){
 
 	//si se ha enviado los datos, se procesan los datos, la fotografía y se muestra el formulario
 	if(isset($_POST['enviarDatos'])){
-        $datos = procesarDatos($_POST);
         procesarFotografia();
+        $datos = procesarDatos($_POST);
         formularioUSU03($datos, $accion, $form, $titulo_form, $rol);
 	}
 
