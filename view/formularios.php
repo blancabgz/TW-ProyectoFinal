@@ -406,6 +406,87 @@ function formularioUSU07($datos, $validar, $form, $titulo){
     echo "</section>";
 }
 
+//formulario vacío para vacunas
+function formularioVAC01($titulo, $form){
+
+    echo <<< HTML
+         <main>
+        <section id="contenido" class="borde_verde formulario">
+            <h1> $titulo </h1>
+            <form action="$form"  method="post" enctype="multipart/form-data" id="add">
+                <div class="form-group">
+                    <label> Nombre: <input class="form-control" type="text" name="nombre"></label>
+                </div>
+                <div class="form-group">
+                    <label> Acrónimo: <input type="text" class="form-control" name="apellidos"></label>
+                </div>
+                <div class="form-group">
+                    <label> Descripción: <input type="text" class="form-control" name="dni"></label>
+                </div>
+                <div class='form-group form boton'>
+                    <input class='btn' type='submit' name='enviarDatos' value='Enviar datos'>
+                </div>
+            </form>
+        </section>
+    HTML;
+}
+
+
+//formulario para vacunas relleno para modificar
+function formularioVAC02($datos, $titulo, $form, $validar){
+    $campos = procesarDatosVacuna($datos);
+
+    echo "
+         <main>
+        <section id='contenido' class='borde_verde formulario'>
+            <h1> $titulo </h1>
+            <form action='$form'  method='post' enctype='multipart/form-data' id='add'>
+                <div class='form-group'>
+                    <label> Nombre: <input class='form-control' type='text' name='nombre' value='".$campos['nombre']."'></label>
+                </div>
+                <div class='form-group'>
+                    <label> Acrónimo: <input type='text' class='form-control' name='acronimo' value='".$campos['acronimo']."'></label>
+                </div>
+                <div class='form-group'>
+                    <label> Descripción: <input type='text' class='form-control' name='descripcion' value='".$campos['descripcion']."'></label>
+                </div>
+                <div class='form-group form boton'>
+                    <input class='btn' type='submit' name='validarDatos' value='Validar datos'>
+                </div>
+            </form>
+        </section>";
+
+    if($validar != ''){
+        foreach($validar as $k){
+            echo "<p> ".$k."</p>";
+        }
+    }
+}
+
+//formulario para vacunas relleno para no modificar
+function formularioVAC03($datos, $titulo, $form){
+    $campos = procesarDatosVacuna($datos);
+
+    echo "
+         <main>
+        <section id='contenido' class='borde_verde formulario'>
+            <h1> $titulo </h1>
+            <form action='$form'  method='post' enctype='multipart/form-data' id='add'>
+                <div class='form-group'>
+                    <label> Nombre: <input readonly class='form-control' type='text' name='nombre' value='".$campos['nombre']."'></label>
+                </div>
+                <div class='form-group'>
+                    <label> Acrónimo: <input readonly type='text' class='form-control' name='acronimo' value='".$campos['acronimo']."'></label>
+                </div>
+                <div class='form-group'>
+                    <label> Descripción: <input readonly type='text' class='form-control' name='descripcion' value='".$campos['descripcion']."'></label>
+                </div>
+                <div class='form-group form boton'>
+                    <input class='btn' type='submit' name='validarDatos' value='Validar datos'>
+                </div>
+            </form>
+        </section>";
+}
 
 function formularioSexo($datos, $desactivado){
 

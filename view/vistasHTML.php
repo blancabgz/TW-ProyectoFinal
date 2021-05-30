@@ -65,7 +65,7 @@ function HTMLnav($user){
 
                 <div class="dropdown-menu" aria-labelledby="dropdowmMenuButton">
                     <a class="dropdown-item" href="../controller/add.php"> Añadir usuario </a>
-                    <a class="dropdown-item" href="../controller/list.php"> Listado de usuarios </a>
+                    <a class="dropdown-item" href="../controller/listUser.php"> Listado de usuarios </a>
                 </div>
             </div>
             <div class="dropdown">
@@ -73,8 +73,9 @@ function HTMLnav($user){
                 Gestión de vacunas </button>
 
                 <div class="dropdown-menu" aria-labelledby="dropdowmMenuButton">
-                    <a class="dropdown-item" href="../controller/add.php"> Calendario de vacunación </a>
-                    <a class="dropdown-item" href="../controller/list.php"> Lista de vacunas </a>
+                <a class="dropdown-item" href="../controller/addVac.php"> Añadir vacuna </a>
+                    <a class="dropdown-item" href="../controller/listVac.php"> Lista de vacunas </a>
+                    <a class="dropdown-item" href="../controller/calendario.php"> Calendario de vacunación </a>
                 </div>
             </div>
             <div class="dropdown">
@@ -231,7 +232,7 @@ function mostrarLista($lista){
         <section id='contenido' class='borde_verde'>
         <h1> Listado de usuarios </h1>
     HTML;
-
+    
     foreach($lista as $k){
         if($k['fotografia'] != ''){
             echo "<img src='data:img/png; base64, ".$k['fotografia']." alt='imagen'/>";
@@ -253,6 +254,29 @@ function mostrarLista($lista){
     echo "</section>";
 }
 
+function mostrarListaVacunas($lista, $titulo){
+    echo <<< HTML
+    <main>
+        <section id='contenido' class='borde_verde'>
+        <h1> $titulo </h1>
+    HTML;
+
+    foreach($lista as $k){
+        echo "
+            ".$k['nombre']." 
+            ".$k['acronimo']."
+            <form action='../controller/editVac.php' method='post'>
+                <input type='submit' name='editarVac' value='Editar'/>
+                <input type='hidden' name='idVac' value='".$k['id']."'/>
+            </form>
+            <form action='../controller/deleteVac.php' method='post'>
+                <input type='submit' name='borrarVac' value='Borrar'/>
+                <input type='hidden' name='idVac' value='".$k['id']."'/>
+            </form>
+        ";
+    }
+    echo "</section>";
+}
 
 function mensaje($h1, $mensaje){
     echo <<< HTML

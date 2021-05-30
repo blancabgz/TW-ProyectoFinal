@@ -19,7 +19,7 @@ else{
     if(isset($_POST['ver'])){
         $accion = 'v';
     }else{
-        header("Location: ../view/list.php");
+        header("Location: ../view/listUser.php");
     }
 
     if(isset($_POST['dni'])){

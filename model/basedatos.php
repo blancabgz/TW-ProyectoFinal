@@ -276,4 +276,33 @@ function obtenerListado(){
     //0: error bd   1: no hay filas
     return $listado;
 }
+
+function obtenerListadoVacunas(){
+    $bd = conectarBD();
+
+    $consulta = "SELECT id, nombre, acronimo FROM vacunas";
+    $consulta_res = mysqli_query($bd, $consulta);
+    $listado = 0;
+    
+    if($consulta_res){
+        if(mysqli_num_rows($consulta_res) > 0){
+            $listado = mysqli_fetch_all($consulta_res, MYSQLI_ASSOC);
+        }
+        else{
+            $listado = 1;
+        }
+    }
+    //mysqli_free_results($consulta_res);
+    desconectarBD($bd);
+
+    //0: error bd   1: no hay filas
+    return $listado;
+}
+
+
+function insertarVacuna($datos){
+    $bd = contectarBD();
+
+    
+}
 ?>

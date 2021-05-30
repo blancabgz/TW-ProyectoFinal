@@ -49,6 +49,26 @@ function procesarDatos($datos){
     return $campos;
 }
 
+
+function procesarDatosVacuna($datos){
+    
+    $campos = [];
+    $indice = ['nombre', 'acronimo', 'descripcion'];
+    
+    //copiamos los valores de los campos campos
+    foreach($indice as $k){
+        if(isset($datos[$k])){
+            $campos[$k] = strip_tags($datos[$k]);
+            $campos[$k] = addslashes($datos[$k]);
+        }
+        else{
+            $campos[$k] = '';
+        }
+    }
+
+    return $campos;
+}
+
 function procesarFotografia(){
     //si se ha insertado imagen
     if(isset($_FILES['fotografia']['tmp_name']) && !empty($_FILES['fotografia']['tmp_name'])){
@@ -224,4 +244,8 @@ function validarDatos($datos, $user){
     return $validar;
 }
 
+
+function validarDatosVacuna($datos){
+    return '';
+}
 ?>
