@@ -6,8 +6,9 @@ HTMLinicio($titulo);
 HTMLheader($titulo);
 HTMLnav($rol);
 echo <<< HTML
-  <main>
-    <section id='contenido' class='borde_verde'>
+
+  <main class='row'>
+    <section id='contenido' class='borde_verde col-md-9'>
         <h1> $titulo </h1>
         <div class="container table-responsive py-5">
           <table class="table table-bordered table-hover">

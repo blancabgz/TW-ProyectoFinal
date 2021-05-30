@@ -25,7 +25,7 @@ if($rol == 'A' || $rol == 'S'){
     }
 
     HTMLformulario($rol);
-    HTMLfooter();
+    HTMLfooter();    
 }
 else{
     header("Location: ../view/inicio.php");
