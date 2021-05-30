@@ -103,6 +103,7 @@ function HTMLcontenido($titulo){
 
     if($titulo == 'Login'){
         echo <<< HTML
+        <div class="container">
         <main class='container-fluid'>
                 <section id='contenido' class='borde_verde'>
                     <h1> $titulo </h1>
@@ -113,8 +114,9 @@ function HTMLcontenido($titulo){
     }
     else if($titulo == 'Inicio'){
         echo <<< HTML
-            <main>
-            <section id='contenido' class='borde_verde'>
+
+            <main class="row">
+            <section id='contenido' class='borde_verde col-md-9 col-sm-12'>
                 <h1>$titulo </h1>
                 <!--<p> Que las vacunas  inmunizan contra enfermedades es algo que ya sabes, pero seguro que no tienes ni idea de quién creó la primera vacuna ni cómo lo consiguió.
                 Según la Organización Mundial de la Salud (OMS), una vacuna es aquella preparación destinada a generar inmunidad contra una enfermedad. Esto se logra
@@ -142,7 +144,7 @@ function HTMLformulario($user){
 
     if($user == 'E'){
         echo <<< HTML
-            <div id='barra_lateral'>
+            <div id='barra_lateral' class="col-md-3 col-sm-12">
                 <div class='borde_verde form form-group'>
                     <h1> Login </h1>
                     <p id='error'> Error al identificarse, vuelva a rellenar el formulario. </p>
@@ -164,7 +166,7 @@ function HTMLformulario($user){
         HTML;
     }else if($user == "P" || $user == "A" || $user == "S"){
         echo <<< HTML
-            <div id="barra_lateral">
+            <div id="barra_lateral" class="col-md-3 col-sm-12">
                 <div class="borde_verde form">
                     <h1> Logout </h1>
                     <form action="../controller/logout.php" method="post">
@@ -177,7 +179,7 @@ function HTMLformulario($user){
     }
     else{
         echo <<< HTML
-            <div id='barra_lateral'>
+            <div id='barra_lateral' class="col-md-3 col-sm-12">
                 <div class='borde_verde form form-group'>
                     <h1> Login </h1>
                     <form class='row' action='../controller/login.php' method='post'>
@@ -213,6 +215,7 @@ function HTMLformulario($user){
 function HTMLfooter(){
     echo <<< HTML
             </main>
+
             <footer class="color">
                 <ul class="ul">
                     <li>(C) 2020 Tecnologías Web</li>
@@ -228,19 +231,26 @@ function HTMLfooter(){
 
 function mostrarLista($lista){
     echo <<< HTML
-    <main>
-        <section id='contenido' class='borde_verde'>
+    <main class="row">
+        <section id='contenido' class='borde_verde col-md-9 col-sm-12'>
         <h1> Listado de usuarios </h1>
+        <div class="row">
+          <div class="col-12 col-sm-8 col-lg-5">
+            <ul class="list-group">
+
+
+
     HTML;
-    
+
     foreach($lista as $k){
+        echo "<div class='flex-column usuario'>";
         if($k['fotografia'] != ''){
             echo "<img src='data:img/png; base64, ".$k['fotografia']." alt='imagen'/>";
         }
-        echo " ".$k['nombre']."
-         ".$k['apellidos']." 
-         ".$k['rol']." 
-         ".$k['estado']." 
+        echo " <p>".$k['nombre']." </p>
+         <p>".$k['apellidos']." </p>
+         <p>".$k['rol']." </p>
+         <p> ".$k['estado']." </p>
             <form action='../controller/edit.php' method='post'>
                 <input type='submit' name='editarUser' value='Editar'/>
                 <input type='hidden' name='dni' value='".$k['dni']."'/>
@@ -249,21 +259,28 @@ function mostrarLista($lista){
                 <input type='submit' name='borrar' value='Borrar'/>
                 <input type='hidden' name='dni' value='".$k['dni']."'/>
             </form>
+            </div>
             ";
     }
-    echo "</section>";
+    echo "";
+    echo <<< HTML
+          </ul>
+        </div>
+      </div>
+      </section>
+    HTML;
 }
 
 function mostrarListaVacunas($lista, $titulo){
     echo <<< HTML
-    <main>
+    <main class="row">
         <section id='contenido' class='borde_verde'>
         <h1> $titulo </h1>
     HTML;
 
     foreach($lista as $k){
         echo "
-            ".$k['nombre']." 
+            ".$k['nombre']."
             ".$k['acronimo']."
             <form action='../controller/editVac.php' method='post'>
                 <input type='submit' name='editarVac' value='Editar'/>

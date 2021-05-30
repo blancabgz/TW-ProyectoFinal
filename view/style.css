@@ -93,10 +93,12 @@ header > *{
 }
 
 main{
-    margin: 5px 0;
-    display: flex;
-    justify-content: flex-end;
-    align-items: stretch;
+    width: 100%;
+    margin: 0 !important;
+}
+
+.container{
+  margin-top:1em;
 }
 
 /* CONTENIDO */
@@ -107,11 +109,8 @@ main{
 
 #contenido{
     background-color: white;
-    width: 85%;
-    height: auto;
-    margin-left: 0;
-    flex-grow: 2;
-    flex-shrink: 2;
+    margin: 0;
+    padding: 0;
 }
 
 #contenido .credenciales{
@@ -134,10 +133,8 @@ main{
 }
 
 #barra_lateral{
-    width: 15%;
-    margin-right: 0;
-    flex-grow: 1;
-    flex-shrink: 1;
+  margin: 0;
+  padding: 0;
 }
 
 #barra_lateral a{
@@ -240,14 +237,17 @@ p#error{
     padding-left: auto
 }
 
+.usuario img{
+  width: 20%;
+}
+
 @media (max-width: 800px) {
   #contenido{
-    width: 35%;
+    /* width: 35%; */
     font-size: 70%;
   }
 
   #barra_lateral{
-    width: 15%;
     font-size: 80%;
   }
 
