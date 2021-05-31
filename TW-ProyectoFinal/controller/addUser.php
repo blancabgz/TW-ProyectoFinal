@@ -7,7 +7,7 @@ require_once "../view/formularios.php";
 
 $titulo="Añadir usuario";
 $titulo_form="Nuevo usuario";
-$form = '../controller/add.php';
+$form = '../controller/addUser.php';
 $accion = 'a';
 
 HTMLinicio($titulo);

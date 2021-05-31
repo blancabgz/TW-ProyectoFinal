@@ -7,95 +7,121 @@ HTMLinicio($titulo);
 HTMLheader($titulo);
 HTMLnav($rol);
 
-//se establece la cabecera de la tabla
-//cabeceraCalendario();
+//se muestra la cabecera del calendario
+cabeceraCalendario($titulo);
 
-//se obtienen los datos de la vacunas
+//se obtienen las vacunas y el calendario
 $vacunas = obtenerListadoVacunas();
 $calendario = obtenerCalendarioVacunas();
-$cabecera = ['Vacuna', 'Pre natal', '0 meses', '2 meses',
-'4 meses', '11 meses', '12 meses', '15 meses', '3 años', '6 años',
-'12 años', '14 años', '18 años', '50 años', '65 años', '> 65 años'];
 
+//se muestra el cuerpo del calendario
+cuerpoCalendario($calendario, $vacunas);
 
-echo "
-<main class='row'>
-  <section id='contenido' class='borde_verde col-md-9'>
-	  <h1> $titulo </h1>
-	  <div class='container table-responsive py-5'>
-			<table class='table table-bordered table-hover'>
-				<tr>";
- 
-foreach($cabecera as $cab){
-	echo "<th scope='col'>".$cab."</th>";
-}
-echo "
-				</tr>
-		  </table>
-	  </div>
-  </section>";
-
-/*
-echo <<< HTML
-
-  <main class='row'>
-    <section id='contenido' class='borde_verde col-md-9'>
-        <h1> $titulo </h1>
-        <div class="container table-responsive py-5">
-          	<table class="table table-bordered table-hover">
-              	<tr>
-                	<th scope="col">Vacuna</th>
-                	<th scope="col">Pre natal</th>
-HTML;	
-                	for ($i=0; $i<5 ; $i+=2) {
-                	  echo "<th scope='col'> " . $i . " meses</th>";
-                	}
-
-                	for ($j=11; $j < 13 ; $j++) {
-                	  echo "<th scope='col'> " . $j . " meses</th>";
-                	}
-                	echo "<th scope='col'> 15 meses</th>";
-                	for ($k=3; $k<13 ; $k*=2) {
-                	  echo "<th scope='col'> " . $k . " años</th>";
-                	}
-echo <<< HTML
-					<th scope="col">14 años</th>
-					<th scope="col">18 años</th>
-					<th scope="col">50 años</th>
-					<th scope="col">65 años</th>
-					<th scope="col">>65 años</th>
-              	</tr>
-			</table>
-		</div>
-	</section>
-HTML;
-
-/*echo <<< HTML
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-HTML;
-*/
-	foreach($calendario as $c){
-		//obtenemos el id de la vacuna
-		$id = $c['idvacuna'];
-
-		foreach($vacunas as $v){
-			if($v['id'] == $id){
-				$nombre = $v['nombre'];
-				$mes_ini;
-			}
-		}
-		
-	}
 
 HTMLformulario($rol);
 HTMLfooter();
+
+
+
+function obtenerNombreVacuna($lista, $id){
+	foreach($lista as $v){
+		if($v['id'] == $id){
+			$nombre = $v['nombre'];
+		}
+	}
+	return $nombre;
+}
+
+function obtenerAcronimo($lista, $id){
+	foreach($lista as $v){
+		if($v['id'] == $id){
+			$acronimo = $v['acronimo'];
+		}
+	}
+	return $acronimo;
+}
+
+function cabeceraCalendario($titulo){
+	$cabecera = ['Vacuna', 'Pre natal', '0 meses', '2 meses', '4 meses',
+		'11 meses', '12 meses', '15 meses', '3 años', '6 años', '12 años',
+		'14 años', '18 años', '50 años', '65 años', '> 65 años'];
+
+	echo <<< HTML
+	<main class='row'>
+	  <section id='contenido' class='borde_verde col-md-9'>
+		  <h1> $titulo </h1>
+		  <div class='container table-responsive py-5'>
+				<table class='table table-bordered table-hover'>
+					<tr>
+	HTML;
+	 
+	foreach($cabecera as $cab){
+		echo "<th scope='col'>".$cab."</th>";
+	}
+	echo "</tr>";
+}
+
+function cuerpoCalendario($calendario, $vacunas){
+	$indice =  ['nombre', '-1', '0', '2', '4', '11', '12', '15', '36', '72',
+	'144', '168', '216', '600', '780', '781'];
+
+	$vacOld = 0;
+	$fech = 0;
+	
+	/* VERSIÓN 2 */
+	//para cada fila del calendario obtenido
+	foreach($calendario as $c){
+	
+		$vacActual = $c['idvacuna'];
+		if($vacActual != $vacOld){
+			echo "</tr>";
+		}
+	
+		//recorremos el índice
+		foreach($indice as $i){
+	
+			//si la vacuna es la misma, rellenamos en la misma línea
+			if($vacActual == $vacOld){
+				//si el mes que estamos mirando es posterior al que ya se ha puesto
+				if($i > $fech && $i != 'nombre'){
+	
+					//si ini <= i <= fin
+					if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
+						$acronimo = obtenerAcronimo($vacunas, $c['idvacuna']);
+						echo "<th scope='col'>".$acronimo." </th>";
+					}
+					//si i < ini
+					else if($i < $c['meses_ini']){
+						echo "<th scope='col'> </th>";
+					}
+					else if($i > $c['meses_fin']){
+						$fech = $c['meses_fin'];
+						break;
+					}
+				}
+			}else{
+				//si estamos rellenando el nombre, obtenemos el nombre de la vacuna
+				if($i == 'nombre'){
+					$nombre = obtenerNombreVacuna($vacunas, $c['idvacuna']);
+					echo "<th scope='col'>".$nombre."</th>";
+				}
+				//si ini <= i <= fin
+				else if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
+					$acronimo = obtenerAcronimo($vacunas, $c['idvacuna']);
+					echo "<th scope='col'>".$acronimo." </th>";
+				}
+				//si i < ini
+				else if($i < $c['meses_ini']){
+					echo "<th scope='col'> </th>";
+				}
+				else if($i > $c['meses_fin']){
+					$fech = $c['meses_fin'];
+					break;
+				}
+			}
+		}	
+		$vacOld = $vacActual;
+	}
+	echo "</table> </div> </section>";
+}
 ?>

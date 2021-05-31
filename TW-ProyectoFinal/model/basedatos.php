@@ -453,4 +453,26 @@ function obtenerCalendarioVacunas(){
     //0: error bd   1: no hay filas
     return $calendario;
 }
+
+function obtenerCalendarioIDVacuna($id){
+    $bd = conectarBD();
+
+    $consulta = "SELECT * FROM calendario WHERE idvacuna='$id';";
+    $consulta_res = mysqli_query($bd, $consulta);
+    $calendario = 0;
+    
+    if($consulta_res){
+        if(mysqli_num_rows($consulta_res) > 0){
+            $calendario = mysqli_fetch_all($consulta_res, MYSQLI_ASSOC);
+        }
+        else{
+            $calendario = 1;
+        }
+    }
+    //mysqli_free_results($consulta_res);
+    desconectarBD($bd);
+
+    //0: error bd   1: no hay filas
+    return $calendario;
+}
 ?>

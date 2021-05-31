@@ -9,6 +9,7 @@ function HTMLinicio($titulo){
             <meta charset="utf-8">
             <meta name="author" content="Paula Santos Ortega">
             <title>$titulo</title>
+            <!--<base href="https://localhosts/~paula/TW-ProyectoFinal/">-->
             <link rel="stylesheet" href="../view/style.css"/>
             <!-- Bootstrap CSS -->
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
@@ -37,7 +38,10 @@ function HTMLheader($titulo){
 
 function HTMLnav($user){
     echo <<< HTML
-            <nav class="color">
+            <nav class="color navbar navbar-light navbar-expand-lg">
+              <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContentLG" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
     HTML;
 
     if($user != 'A'){
@@ -51,25 +55,32 @@ function HTMLnav($user){
             $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Cartilla de vacunación", "Búsqueda de pacientes"];
             $links = ["../view/inicio.php", "../controller/calendario.php", "../controller/editUser.php", "../view/cartillaVacunacion.php", "../view/busquedaPacientes.php"];
         }
-        echo "<ul class='ul'>";
+        echo "<div class='collapse navbar-collapse' id='navbarSupportedContent'>
+        <ul class='navbar-nav mr-auto navbarident'>";
         foreach($nav as $k => $v)
-            echo "<li> <a href='".$links[$k],"'>".$v."</a></li>";
+            echo "<li class='nav-item'> <a class ='nav-link' href='".$links[$k],"'>".$v."</a></li>";
         echo "</ul>";
     }else{
         echo <<< HTML
-            <a href='../view/inicio.php'> Inicio </a>
-            <a href='../controller/calendario.php'> Calendario de vacunación </a>
-            <div class="dropdown">
-                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton" >
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto navbarident">
+            <li class="nav-item">
+              <a class ='nav-link' href='../view/inicio.php'> Inicio </a>
+            </li>
+            <li class="nav-item">
+              <a class ='nav-link' href='../controller/calendario.php'> Calendario de vacunación </a>
+            </li>
+            <li class="nav-item dropdown">
+                <button type="button" class="btn nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton" >
                 Gestión de usuarios </button>
 
                 <div class="dropdown-menu" aria-labelledby="dropdowmMenuButton">
-                    <a class="dropdown-item" href="../controller/add.php"> Añadir usuario </a>
+                    <a class="dropdown-item" href="../controller/addUser.php"> Añadir usuario </a>
                     <a class="dropdown-item" href="../controller/listUser.php"> Listado de usuarios </a>
                 </div>
-            </div>
-            <div class="dropdown">
-                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton" >
+            </li>
+            <li class="dropdown">
+                <button type="button" class="btn nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton" >
                 Gestión de vacunas </button>
 
                 <div class="dropdown-menu" aria-labelledby="dropdowmMenuButton">
@@ -77,21 +88,21 @@ function HTMLnav($user){
                     <a class="dropdown-item" href="../controller/listVac.php"> Lista de vacunas </a>
                     <a class="dropdown-item" href="../controller/calendario.php"> Calendario de vacunación </a>
                 </div>
-            </div>
-            <div class="dropdown">
-                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton" >
+            </li>
+            <li class="dropdown">
+                <button type="button" class="btn nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton" >
                 Gestión del sistema </button>
 
                 <div class="dropdown-menu" aria-labelledby="dropdowmMenuButton">
-                    <a class="dropdown-item" href="../controller/add.php"> Log del sistema </a>
+                    <a class="dropdown-item" href="../controller/addUser.php"> Log del sistema </a>
                     <a class="dropdown-item" href="../controller/list.php"> Copia de seguridad </a>
                     <a class="dropdown-item" href="../controller/list.php"> Restauración de BD </a>
                 </div>
-            </div>
+            </li>
+          </ul>
+          </div>
         HTML;
 
-        $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Búsqueda de pacientes"];
-        $links = ["../view/inicio.php", "../controller/calendario.php", "../controller/editUser.php", "../view/busquedaPacientes.php"];
     }
     echo <<< HTML
                 </nav>
@@ -233,45 +244,57 @@ function mostrarLista($lista){
     <main class="row">
         <section id='contenido' class='borde_verde col-md-9 col-sm-12'>
         <h1> Listado de usuarios </h1>
-        <div class="row">
-          <div class="col-12 col-sm-8 col-lg-5">
-            <ul class="list-group">
-
+        <div class="row listausuarios">
+            <table class="table table-striped table-responsive">
+              <thead>
+                <tr>
+                  <th>Foto</th>
+                  <th>Nombre</th>
+                  <th>Apellidos</th>
+                  <th>Rol</th>
+                  <th>Estado</th>
+                  <th>Editar</th>
+                  <th>Borrar</th>
+                </tr>
+              </thead>
+              <tbody>
 
 
     HTML;
 
     foreach($lista as $k){
         echo "
-        <div class='container usuario list-content'>
-          <ul class='list-group'>
-            <li class='list-group-item text-left'>
+          <tr>
         ";
-        if($k['fotografia'] != ''){
-            echo "<img class='img-responsive img-rounded img-thumbnail' src='data:img/png; base64, ".$k['fotografia']." alt='imagen'/>";
-        }
-        echo " <label class='name'>".$k['nombre']." </label>
-         <label>".$k['apellidos']." </label>
-         <label>".$k['rol']." </label>
-         <label> ".$k['estado']." </label>
-         <label class='pull-right'>
-            <form action='../controller/editUser.php' method='post'>
-                <input type='submit' name='editarUser' value='Editar'/>
-                <input type='hidden' name='dni' value='".$k['dni']."'/>
-            </form>
-            <form action='../controller/deleteUser.php' method='post'>
-                <input class='btn btn-danger  btn-xs glyphicon glyphicon-trash' type='submit' name='borrar' value='Borrar'/>
-                <input type='hidden' name='dni' value='".$k['dni']."'/>
-            </form>
-          </label>
-            </div>
+          if($k['fotografia'] != ''){
+              echo "<td><img class='img-responsive img-rounded img-thumbnail' src='data:img/png; base64, ".$k['fotografia']." alt='imagen'/></td>";
+          }else{
+            echo "<td><img class='img-responsive img-rounded img-thumbnail' src='../not-available.png' alt='imagen'/></td>";
+          }
+          echo " <td><label class='name'>".$k['nombre']." </label></td>
+           <td><label>".$k['apellidos']." </label></td>
+           <td><label>".$k['rol']." </label></td>
+           <td><label> ".$k['estado']." </label></td>
+           <td><label class='float-right'>
+              <form action='../controller/editUser.php' method='post'>
+                  <input class='btn btn-primary  btn-xs glyphicon glyphicon-trash' type='submit' name='editarUser' value='Editar'/>
+                  <input type='hidden' name='dni' value='".$k['dni']."'/>
+              </form>
+          </label></td>
+          <td><label class='pull-right'>
+              <form action='../controller/deleteUser.php' method='post'>
+                  <input class='btn btn-danger  btn-xs glyphicon glyphicon-trash' type='submit' name='borrar' value='Borrar'/>
+                  <input type='hidden' name='dni' value='".$k['dni']."'/>
+              </form>
+          </label></td>
+        </tr>
             ";
     }
     echo "";
     echo <<< HTML
-          </ul>
+            </tbody>
+          </table>
         </div>
-      </div>
       </section>
     HTML;
 }
