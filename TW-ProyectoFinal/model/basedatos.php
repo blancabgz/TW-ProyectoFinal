@@ -343,7 +343,6 @@ function insertarVacuna($datos){
             }else{
                 $consulta .= $k.",";
             }
-            
         }
         //construimos la consulta con los datos del argumento
         foreach($indice as $k){
@@ -436,7 +435,7 @@ function borrarVacuna($id){
 function obtenerCalendarioVacunas(){
     $bd = conectarBD();
 
-    $consulta = "SELECT * FROM calendario";
+    $consulta = "SELECT * FROM calendario;";
     $consulta_res = mysqli_query($bd, $consulta);
     $calendario = 0;
     

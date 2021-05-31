@@ -13,7 +13,29 @@ HTMLnav($rol);
 //se obtienen los datos de la vacunas
 $vacunas = obtenerListadoVacunas();
 $calendario = obtenerCalendarioVacunas();
+$cabecera = ['Vacuna', 'Pre natal', '0 meses', '2 meses',
+'4 meses', '11 meses', '12 meses', '15 meses', '3 años', '6 años',
+'12 años', '14 años', '18 años', '50 años', '65 años', '> 65 años'];
 
+
+echo "
+<main class='row'>
+  <section id='contenido' class='borde_verde col-md-9'>
+	  <h1> $titulo </h1>
+	  <div class='container table-responsive py-5'>
+			<table class='table table-bordered table-hover'>
+				<tr>";
+ 
+foreach($cabecera as $cab){
+	echo "<th scope='col'>".$cab."</th>";
+}
+echo "
+				</tr>
+		  </table>
+	  </div>
+  </section>";
+
+/*
 echo <<< HTML
 
   <main class='row'>
@@ -47,6 +69,7 @@ echo <<< HTML
 		</div>
 	</section>
 HTML;
+
 /*echo <<< HTML
               <tr>
                 <th scope="row">1</th>
@@ -59,16 +82,19 @@ HTML;
         </div>
       </section>
 HTML;
-
-	foreach($calendario as $k){
-		$nombre = array_search($k['idvacuna'], $vacunas);
-		echo "<br> hi".$nombre;
-		echo "
-			<tr>
-				<th scope='row'>".$nombre."
-			";
-	}
 */
+	foreach($calendario as $c){
+		//obtenemos el id de la vacuna
+		$id = $c['idvacuna'];
+
+		foreach($vacunas as $v){
+			if($v['id'] == $id){
+				$nombre = $v['nombre'];
+				$mes_ini;
+			}
+		}
+		
+	}
 
 HTMLformulario($rol);
 HTMLfooter();

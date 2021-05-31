@@ -103,9 +103,8 @@ function HTMLcontenido($titulo){
 
     if($titulo == 'Login'){
         echo <<< HTML
-        <div class="container">
-        <main class='container-fluid'>
-                <section id='contenido' class='borde_verde'>
+        <main class='row'>
+                <section id='contenido' class='borde_verde col-md-9 col-sm-12'>
                     <h1> $titulo </h1>
                     <p> Si acaba de realizar la solicitud de alta en la plataforma, debe esperar a que la
                     persona administradora le conceda permiso para loguearse. </p>
@@ -243,22 +242,28 @@ function mostrarLista($lista){
     HTML;
 
     foreach($lista as $k){
-        echo "<div class='flex-column usuario'>";
+        echo "
+        <div class='container usuario list-content'>
+          <ul class='list-group'>
+            <li class='list-group-item text-left'>
+        ";
         if($k['fotografia'] != ''){
-            echo "<img src='data:img/png; base64, ".$k['fotografia']." alt='imagen'/>";
+            echo "<img class='img-responsive img-rounded img-thumbnail' src='data:img/png; base64, ".$k['fotografia']." alt='imagen'/>";
         }
-        echo " <p>".$k['nombre']." </p>
-         <p>".$k['apellidos']." </p>
-         <p>".$k['rol']." </p>
-         <p> ".$k['estado']." </p>
+        echo " <label class='name'>".$k['nombre']." </label>
+         <label>".$k['apellidos']." </label>
+         <label>".$k['rol']." </label>
+         <label> ".$k['estado']." </label>
+         <label class='pull-right'>
             <form action='../controller/editUser.php' method='post'>
                 <input type='submit' name='editarUser' value='Editar'/>
                 <input type='hidden' name='dni' value='".$k['dni']."'/>
             </form>
             <form action='../controller/deleteUser.php' method='post'>
-                <input type='submit' name='borrar' value='Borrar'/>
+                <input class='btn btn-danger  btn-xs glyphicon glyphicon-trash' type='submit' name='borrar' value='Borrar'/>
                 <input type='hidden' name='dni' value='".$k['dni']."'/>
             </form>
+          </label>
             </div>
             ";
     }
