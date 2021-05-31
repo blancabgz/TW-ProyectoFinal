@@ -1,0 +1,265 @@
+body{
+    /*width: 100%;*/
+    height: 100%;
+    margin: 5px;
+}
+
+/* HEADER */
+header{
+    background-color: rgb(208, 240, 253);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 5px;
+}
+
+header > h1{
+    flex-shrink: 2;
+    font-weight: 2px;
+}
+
+header > h2{
+    margin-left: auto;
+}
+
+header > img{
+    width: 50px;
+    height: auto;
+    transform: scaleX(-1);
+    display: block;
+    flex-grow: 0;
+    flex-shrink: 1;
+    margin: 0 0;
+}
+
+header > *{
+    margin: 5px 15px;
+}
+
+/* NAV y FOOTER (class .color y .ul)*/
+.color{
+    background-color: rgb(229, 246, 253);
+    margin: 10px 0 0 0;
+}
+
+.ul{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ul > li{
+    list-style: none;
+    padding: 5px 0;
+}
+
+.ul > li > a{
+    margin: 0;
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+
+.ul > li:not(:last-child)::after{
+    content: "|";
+    font-weight: 2px;
+    color: black;
+    padding: 0 20px;
+}
+
+.ul li:first-child{
+    margin-left: 20px;
+}
+
+
+/* NAV */
+/*nav > ul > li > a{
+    background-color: rgb(214, 180, 87);
+    padding: 5px;
+}*/
+
+
+/* MAIN */
+/* MAIN - #contenido y #barra */
+.borde_verde{
+    border: 2px solid rgb(100, 209, 255);
+    margin: 5px;
+}
+
+#barra_lateral > .borde_verde{
+    margin-right: 0;
+}
+
+main{
+    width: 100%;
+    margin: 0 !important;
+}
+
+.container{
+  margin-top:1em;
+}
+
+/* CONTENIDO */
+
+#contenido h1{
+  font-size: 1.8em;
+}
+
+#contenido{
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+
+#contenido .credenciales{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+#contenido h2{
+  font-size: 1.5em;
+  color: rgb(143, 184, 255);
+}
+
+#contenido p{
+  font-size: 1em;
+}
+
+#contenido span{
+  font-weight: bold;
+}
+
+#barra_lateral{
+  margin: 0;
+  padding: 0;
+}
+
+#barra_lateral a{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5em;
+}
+
+/* BARRA LATERAL */
+.form{
+    background-color: rgb(255, 255, 255);
+    padding: 1em;
+}
+
+.form > h1{
+    text-align: center;
+    font-size: 17px;
+    font-weight: bold;
+    background-color: rgb(209, 255, 185);
+    padding: 5px 0 5px 15px;
+}
+
+.form input{
+  margin: 0;
+}
+
+.form .btn{
+
+  margin-top: 1em;
+  background-color: rgb(229, 246, 253);
+}
+
+form .boton{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form > a{
+    text-decoration: none;
+    color:gray;
+}
+.form > p{
+    margin: 2px auto 2px auto;
+    padding: 10px;
+    margin: 0;
+    text-align: justify;
+}
+
+p#error{
+    color:red;
+}
+
+
+/* FORMULARIOS*/
+#contenido > h1{
+    margin: 20px 45px;
+}
+
+#contenido > p{
+    text-align: justify;
+    margin: 10px 45px;
+}
+
+#contenido > img{
+    width: 250px;
+    margin: 20px 300px;
+}
+#add{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: initial;
+}
+
+.formulario{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-group{
+  margin: 0.5em;
+}
+
+/*LISTAR USUARIO*/
+.listado{
+    margin: 20px 30% 20px 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.inf_pers{
+    width: 25%;
+    margin-right: auto;
+    padding-left: auto
+}
+
+.usuario img{
+  width: 20%;
+}
+
+@media (max-width: 800px) {
+  #contenido{
+    /* width: 35%; */
+    font-size: 70%;
+  }
+
+  #barra_lateral{
+    font-size: 80%;
+  }
+
+  .form > h1{
+    font-size: 90%;
+  }
+
+  .form input{
+    font-size: 80%;
+  }
+
+  footer{
+    font-size: 60%;
+  }
+}
