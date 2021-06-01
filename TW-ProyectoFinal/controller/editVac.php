@@ -26,7 +26,13 @@ if($rol == 'A'){
     else if(isset($_POST['editVac'])){
         $_SESSION['idVac'] = $_POST['idVac'];
         $datos = obtenerDatosVacuna($_SESSION['idVac']);
-        formularioVAC02($datos, $titulo, $form, '');
+        
+        if(is_array($datos)){
+            formularioVAC02($datos, $titulo, $form, '');
+        }
+        else{
+            mensaje($titulo, $datos);
+        }
     }
 
     //si va a validar los datos, se procesan y validan los datos

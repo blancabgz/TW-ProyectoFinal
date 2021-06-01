@@ -5,11 +5,14 @@ require_once 'credenciales.php';
 // Conexión a la BBDD
 function conectarBD(){
     $bd = mysqli_connect(DB_HOST, DB_USER, DB_PASSWD, DB_DATABASE);
+    $dato = 1;
+    
     if(!$bd)
-        return "Error al conectarse a la base de datos(".mysqli_connect_errno()."): ".mysqli_connect_error();
+        $dato = 0;
 
     mysqli_set_charset($bd,"utf8");
 
+    //dato: 0 -> error; dato: 1 -> se ha conectado
     return $bd;
 }
 
@@ -22,26 +25,35 @@ function desconectarBD($bd) {
 //Comprobación de los datos
 function comprobarDatos($dni, $clave){
     $bd = conectarBD();
-    $consulta = "SELECT dni, clave, estado FROM usuarios where dni='$dni'";
-    $consulta_res = mysqli_query($bd, $consulta);
-    $res = false;
 
-    if(!empty($consulta_res) && mysqli_num_rows($consulta_res) > 0){
-        $valores = mysqli_fetch_array($consulta_res);
-    
-        if($valores['estado'] != 'I'){
-            if(password_verify($clave, $valores['clave'])){
-                $res = true;
+    //si se ha conectado a la bd, realizamos la consulta
+    if($bd){
+
+        $consulta = "SELECT dni, clave, estado FROM usuarios where dni='$dni'";
+        $consulta_res = mysqli_query($bd, $consulta);
+        $res = 0;
+
+        if(!empty($consulta_res) && mysqli_num_rows($consulta_res) > 0){
+            $valores = mysqli_fetch_array($consulta_res);
+        
+            if($valores['estado'] != 'I'){
+                if(password_verify($clave, $valores['clave'])){
+                    $res = 1;
+                }
             }
+            /*if($clave == '123456'){
+                $res = true;
+            }*/
         }
-        /*if($clave == '123456'){
-            $res = true;
-        }*/
+
+        mysqli_free_result($consulta_res);
+        mysqli_close($bd);
+    }
+    else{
+        $res = 2;
     }
 
-    mysqli_free_result($consulta_res);
-    mysqli_close($bd);
-
+    //0: error de identif. ; 1: identificado ; 2: error bd
     return $res;
 }
 
@@ -68,85 +80,90 @@ function obtenerTipoUsuario($dni){
 function insertarUsuario($datos, $user){
     $bd = conectarBD();
     
-    //si hay fotografía se inserta
-    if(isset($datos['fotografia']) && $datos['fotografia'] != ''){
-        $indice = ['fotografia', 'dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
-    }
-    //si no, no se añade
-    else{
-        $indice = ['dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
-    }
-
-    //si el usuario es visitante, el estado se marca a I (inactivo)
-    if($user == 'V'){
-        $datos['estado'] = 'I';
-    }
-
-    $dni = $datos['dni'];
-    $mensaje = 'Se desconoce el error. Vuelva a intentarlo.';
-
-    //comprobamos que el DNI no es nulo y que no existe ya en la bd
-    if($dni != null){
-        $consulta_select = "SELECT dni FROM usuarios WHERE dni='$dni';";
-        $consulta_res = mysqli_query($bd, $consulta_select);
-
-        //si ya hay un usuario
-        if(mysqli_num_rows($consulta_res) > 0){
-            $mensaje = "No se ha realizado la inserción del usuario, ya existe uno con ese DNI.";
+    if($bd){
+        //si hay fotografía se inserta
+        if(isset($datos['fotografia']) && $datos['fotografia'] != ''){
+            $indice = ['fotografia', 'dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
         }
-        //si no hay ningún usuario con ese dni lo añadimos a la bd
+        //si no, no se añade
         else{
-            $datos['clave'] = password_hash($datos['clave'], PASSWORD_DEFAULT);
-            $consulta = "INSERT INTO usuarios (";
-            
-            //construimos las columnas a insertar
-            foreach($indice as $k){
-                if($k == 'clave'){
-                    $consulta .= $k.") VALUES (";
-                }else{
-                    $consulta .= $k.",";
-                }
-                
+            $indice = ['dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
+        }
+
+        //si el usuario es visitante, el estado se marca a I (inactivo)
+        if($user == 'V'){
+            $datos['estado'] = 'I';
+        }
+
+        $dni = $datos['dni'];
+        $mensaje = 'Se desconoce el error. Vuelva a intentarlo.';
+
+        //comprobamos que el DNI no es nulo y que no existe ya en la bd
+        if($dni != null){
+            $consulta_select = "SELECT dni FROM usuarios WHERE dni='$dni';";
+            $consulta_res = mysqli_query($bd, $consulta_select);
+
+            //si ya hay un usuario
+            if(mysqli_num_rows($consulta_res) > 0){
+                $mensaje = "No se ha realizado la inserción del usuario, ya existe uno con ese DNI.";
             }
-            //construimos la consulta con los datos del argumento
-            foreach($indice as $k){
-                if($datos[$k] != ""){
+            //si no hay ningún usuario con ese dni lo añadimos a la bd
+            else{
+                $datos['clave'] = password_hash($datos['clave'], PASSWORD_DEFAULT);
+                $consulta = "INSERT INTO usuarios (";
+
+                //construimos las columnas a insertar
+                foreach($indice as $k){
                     if($k == 'clave'){
-                        $consulta .="'".mysqli_real_escape_string($bd,$datos[$k])."');";
+                        $consulta .= $k.") VALUES (";
                     }else{
-                        $consulta .="'".mysqli_real_escape_string($bd,$datos[$k])."',";
+                        $consulta .= $k.",";
+                    }
+
+                }
+                //construimos la consulta con los datos del argumento
+                foreach($indice as $k){
+                    if($datos[$k] != ""){
+                        if($k == 'clave'){
+                            $consulta .="'".mysqli_real_escape_string($bd,$datos[$k])."');";
+                        }else{
+                            $consulta .="'".mysqli_real_escape_string($bd,$datos[$k])."',";
+                        }
+                    }
+                    else{
+                        if($k == 'fecha'){
+                            $consulta .= " null,";
+                        }else{
+                            $consulta .= " '',";
+                        }  
                     }
                 }
-                else{
-                    if($k == 'fecha'){
-                        $consulta .= " null,";
-                    }else{
-                        $consulta .= " '',";
-                    }  
-                }
-            }
-            
-            $consulta_res = mysqli_query($bd, $consulta);
-            
-            //si ha habido error
-            if(!$consulta_res){
-                $mensaje = "Error de inserción, vuelva a intentarlo.";
-            }
-            else{
-                $mensaje = "Usuario añadido con éxito";
 
-                if($user == 'V'){
-                    $mensaje = "D/Dª ".$datos['nombre']." ".$datos['apellidos']." su solicitud ha quedado registrada.
-                    Próximamente recibirá un email confirmando su inserción en el sistema si los datos
-                    que ha proporcionado son correctos. En caso de que no podamos verificar sus datos, se enviará
-                    un email a la dirección proporcionada informándole de ese hecho.";
+                $consulta_res = mysqli_query($bd, $consulta);
+
+                //si ha habido error
+                if(!$consulta_res){
+                    $mensaje = "Error de inserción, vuelva a intentarlo.";
+                }
+                else{
+                    $mensaje = "Usuario añadido con éxito";
+
+                    if($user == 'V'){
+                        $mensaje = "D/Dª ".$datos['nombre']." ".$datos['apellidos']." su solicitud ha quedado registrada.
+                        Próximamente recibirá un email confirmando su inserción en el sistema si los datos
+                        que ha proporcionado son correctos. En caso de que no podamos verificar sus datos, se enviará
+                        un email a la dirección proporcionada informándole de ese hecho.";
+                    }
                 }
             }
+        }else{
+            $mensaje = "El DNI no puede ser nulo.";
         }
-    }else{
-        $mensaje = "El DNI no puede ser nulo.";
+        mysqli_close($bd);
     }
-    mysqli_close($bd);
+    else{
+        $mensaje = "Error al conectarse a la base de datos.";
+    }
     
     //0: éxito;   1: dni existe     2: error inserción      3: dni null
     return $mensaje;    
@@ -155,87 +172,99 @@ function insertarUsuario($datos, $user){
 function actualizarUsuario($datos, $user, $dniOld){
     $bd = conectarBD();
 
-    if(isset($datos['fotografia']) && $datos['fotografia'] != ''){
-        $indice = ['fotografia', 'dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
+    if($bd){
+        if(isset($datos['fotografia']) && $datos['fotografia'] != ''){
+            $indice = ['fotografia', 'dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
+        }
+        else{
+            $indice = ['dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
+        }
+
+        if($user == 'P' || $user == 'S'){
+            $indice = ['email', 'telefono', 'clave'];
+        }
+
+        $dni = $datos['dni'];
+        $mensaje = 'Se desconoce el error. Vuelva a intentarlo.';
+
+        //comprobamos que el DNI no es nulo y que existe ya en la bd
+        if($dni != null){
+            $consulta_select = "SELECT nombre FROM usuarios WHERE dni='$dni';";        
+            $consulta_res = mysqli_query($bd, $consulta_select);
+
+            //si ya hay un usuario
+            if(mysqli_num_rows($consulta_res) < 0){
+                $mensaje = "No se ha realizado la actualización del usuario, ya existe uno con dicho DNI.";
+            }
+            //si no hay ningún usuario con ese dni lo añadimos a la bd
+            else{
+                $consulta = "UPDATE usuarios SET ";
+                $datos['clave'] = password_hash($datos['clave'], PASSWORD_DEFAULT);
+
+                //construimos la consulta con los datos del argumento
+                foreach($indice as $k){
+                    //si tiene información
+                    if($datos[$k] != ""){
+                        //si es clave es el final, con lo que no se pone la coma (,)
+                        if($k == 'clave'){
+                            $consulta .= " ".$k." = '".mysqli_real_escape_string($bd,$datos[$k])."' ";
+                        }
+                        else{
+                            $consulta .= " ".$k." = '".mysqli_real_escape_string($bd,$datos[$k])."',";
+                        
+                        }
+                    }
+                    //si está vacío se escribe '', si está vacío y es una fecha, se pone a null
+                    else{
+                        if($k == 'fecha'){
+                            $consulta .= " ".$k." = null,";
+                        }else{
+                            $consulta .= " ".$k." = '',";
+                        }  
+                    }
+                }
+
+                $consulta .= "WHERE dni='".$dniOld."';";
+
+                $consulta_res = mysqli_query($bd, $consulta);
+                //si ha habido error
+                if(!$consulta_res){
+                    $mensaje = "Error de actualización, vuelva a intentarlo.";
+                }
+                else{
+                    $mensaje = "Usuario actualizado con éxito";
+                }
+            }
+        }else{
+            $mensaje = "El DNI no puede ser nulo.";
+        }
+        mysqli_close($bd);
     }
     else{
-        $indice = ['dni', 'nombre', 'apellidos', 'email', 'fecha', 'sexo', 'telefono', 'rol', 'estado', 'clave'];
+        $mensaje = "Error al conectarse a la base de datos.";
     }
-    
-    if($user == 'P' || $user == 'S'){
-        $indice = ['email', 'telefono', 'clave'];
-    }
-
-    $dni = $datos['dni'];
-    $mensaje = 'Se desconoce el error. Vuelva a intentarlo.';
-
-    //comprobamos que el DNI no es nulo y que existe ya en la bd
-    if($dni != null){
-        $consulta_select = "SELECT nombre FROM usuarios WHERE dni='$dni';";        
-        $consulta_res = mysqli_query($bd, $consulta_select);
-
-        //si ya hay un usuario
-        if(mysqli_num_rows($consulta_res) < 0){
-            $mensaje = "No se ha realizado la actualización del usuario, ya existe uno con dicho DNI.";
-        }
-        //si no hay ningún usuario con ese dni lo añadimos a la bd
-        else{
-            $consulta = "UPDATE usuarios SET ";
-            $datos['clave'] = password_hash($datos['clave'], PASSWORD_DEFAULT);
-            
-            //construimos la consulta con los datos del argumento
-            foreach($indice as $k){
-                //si tiene información
-                if($datos[$k] != ""){
-                    //si es clave es el final, con lo que no se pone la coma (,)
-                    if($k == 'clave'){
-                        $consulta .= " ".$k." = '".mysqli_real_escape_string($bd,$datos[$k])."' ";
-                    }
-                    else{
-                        $consulta .= " ".$k." = '".mysqli_real_escape_string($bd,$datos[$k])."',";
-                
-                    }
-                }
-                //si está vacío se escribe '', si está vacío y es una fecha, se pone a null
-                else{
-                    if($k == 'fecha'){
-                        $consulta .= " ".$k." = null,";
-                    }else{
-                        $consulta .= " ".$k." = '',";
-                    }  
-                }
-            }
-            
-            $consulta .= "WHERE dni='".$dniOld."';";
-            
-            $consulta_res = mysqli_query($bd, $consulta);
-            //si ha habido error
-            if(!$consulta_res){
-                //$mensaje = $consulta_res;
-                $mensaje = "Error de actualización, vuelva a intentarlo.";
-            }
-            else{
-                $mensaje = "Usuario actualizado con éxito";
-            }
-        }
-    }else{
-        $mensaje = "El DNI no puede ser nulo.";
-    }
-    mysqli_close($bd);
     
     return $mensaje;    
 }
 
+
 function obtenerDatosUsuario($dni){
     $bd = conectarBD();
-    $consulta = "SELECT * FROM usuarios WHERE dni='$dni';";
-    $consulta_res = mysqli_query($bd, $consulta);
 
-    if(mysqli_num_rows($consulta_res) < 0){
-        $datos = 1;
-    }
-    else{
-        $datos = mysqli_fetch_array($consulta_res, MYSQLI_ASSOC);
+    if($bd){
+        $consulta = "SELECT * FROM usuarios WHERE dni='$dni';";
+        $consulta_res = mysqli_query($bd, $consulta);
+
+        if(mysqli_num_rows($consulta_res) < 0){
+            $datos = "No hay datos para dicho usuario.";
+        }
+        else{
+            $datos = mysqli_fetch_array($consulta_res, MYSQLI_ASSOC);
+        }
+
+        mysqli_close($bd);
+    }else{
+        $datos = "Error al conectarse a la base de datos.";
     }
 
     return $datos;
@@ -243,37 +272,45 @@ function obtenerDatosUsuario($dni){
 
 function borrarUsuario($dni){
     $bd = conectarBD();
-    $consulta = "DELETE FROM usuarios WHERE dni='$dni';";
-    $consulta_res = mysqli_query($bd, $consulta);
 
-    if(!$consulta_res){
-        $mensaje = 'No se ha podido eliminar el usuario con DNI'.$dni.'.';
+    if($bd){
+        $consulta = "DELETE FROM usuarios WHERE dni='$dni';";
+        $consulta_res = mysqli_query($bd, $consulta);
+
+        if(!$consulta_res){
+            $mensaje = 'No se ha podido eliminar el usuario con DNI'.$dni.'.';
+        }
+        else{
+            $mensaje = "Usuario eliminado con éxito.";
+        }
     }
     else{
-        $mensaje = "Usuario eliminado con éxito.";
+        $mensaje = "Error al conectarse a la base de datos.";
     }
-
 
     return $mensaje;
 }
 
 function obtenerListado(){
     $bd = conectarBD();
-
-    $consulta = "SELECT dni, fotografia, nombre, apellidos, email, estado, rol FROM usuarios";
-    $consulta_res = mysqli_query($bd, $consulta);
     $listado = 0;
-    if($consulta_res){
-        if(mysqli_num_rows($consulta_res) > 0){
-            $listado = mysqli_fetch_all($consulta_res, MYSQLI_ASSOC);
-        }
-        else{
-            $listado = 1;
-        }
-    }
-    //mysqli_free_results($consulta_res);
-    desconectarBD($bd);
 
+    if($bd){
+        $consulta = "SELECT dni, fotografia, nombre, apellidos, email, estado, rol FROM usuarios";
+        $consulta_res = mysqli_query($bd, $consulta);
+        $listado = 0;
+        if($consulta_res){
+            if(mysqli_num_rows($consulta_res) > 0){
+                $listado = mysqli_fetch_all($consulta_res, MYSQLI_ASSOC);
+            }
+            else{
+                $listado = 1;
+            }
+        }
+        //mysqli_free_results($consulta_res);
+        desconectarBD($bd);
+    }
+    
     //0: error bd   1: no hay filas
     return $listado;
 }
@@ -282,22 +319,23 @@ function obtenerListado(){
 /* GESTIÓN DE LAS VACUNAS */
 function obtenerListadoVacunas(){
     $bd = conectarBD();
-
-    $consulta = "SELECT id, nombre, acronimo FROM vacunas";
-    $consulta_res = mysqli_query($bd, $consulta);
     $listado = 0;
-    
-    if($consulta_res){
-        if(mysqli_num_rows($consulta_res) > 0){
-            $listado = mysqli_fetch_all($consulta_res, MYSQLI_ASSOC);
-        }
-        else{
-            $listado = 1;
-        }
-    }
-    //mysqli_free_results($consulta_res);
-    desconectarBD($bd);
 
+    if($bd){
+        $consulta = "SELECT id, nombre, acronimo FROM vacunas";
+        $consulta_res = mysqli_query($bd, $consulta);
+        
+        if($consulta_res){
+            if(mysqli_num_rows($consulta_res) > 0){
+                $listado = mysqli_fetch_all($consulta_res, MYSQLI_ASSOC);
+            }
+            else{
+                $listado = 1;
+            }
+        }
+        //mysqli_free_results($consulta_res);
+        desconectarBD($bd);
+    }
     //0: error bd   1: no hay filas
     return $listado;
 }
@@ -305,14 +343,19 @@ function obtenerListadoVacunas(){
 function obtenerDatosVacuna($id){
     $bd = conectarBD();
 
-    $consulta = "SELECT * FROM vacunas WHERE id='$id';";
-    $consulta_res = mysqli_query($bd, $consulta);
+    if($bd){
+        $consulta = "SELECT * FROM vacunas WHERE id='$id';";
+        $consulta_res = mysqli_query($bd, $consulta);
 
-    if(mysqli_num_rows($consulta_res) < 0){
-        $datos = 1;
+        if(mysqli_num_rows($consulta_res) < 0){
+            $datos = "Error en la consulta.";
+        }
+        else{
+            $datos = mysqli_fetch_array($consulta_res, MYSQLI_ASSOC);
+        }
     }
     else{
-        $datos = mysqli_fetch_array($consulta_res, MYSQLI_ASSOC);
+        $datos = "Error en la conexión con la base de datos.";
     }
 
     return $datos;
@@ -434,21 +477,23 @@ function borrarVacuna($id){
 
 function obtenerCalendarioVacunas(){
     $bd = conectarBD();
-
-    $consulta = "SELECT * FROM calendario;";
-    $consulta_res = mysqli_query($bd, $consulta);
     $calendario = 0;
-    
-    if($consulta_res){
-        if(mysqli_num_rows($consulta_res) > 0){
-            $calendario = mysqli_fetch_all($consulta_res, MYSQLI_ASSOC);
+
+    if($bd){
+        $consulta = "SELECT * FROM calendario;";
+        $consulta_res = mysqli_query($bd, $consulta);
+        
+        if($consulta_res){
+            if(mysqli_num_rows($consulta_res) > 0){
+                $calendario = mysqli_fetch_all($consulta_res, MYSQLI_ASSOC);
+            }
+            else{
+                $calendario = 1;
+            }
         }
-        else{
-            $calendario = 1;
-        }
+        //mysqli_free_results($consulta_res);
+        desconectarBD($bd);
     }
-    //mysqli_free_results($consulta_res);
-    desconectarBD($bd);
 
     //0: error bd   1: no hay filas
     return $calendario;
@@ -478,31 +523,43 @@ function obtenerCalendarioIDVacuna($id){
 
 function obtenerCartilla($dni){
     $bd = conectarBD();
-
-    //obtenemos el id del usuario
-    $consulta = "SELECT id FROM usuarios WHERE dni='$dni';";
-    $consulta_res = mysqli_query($bd, $consulta);
-    $id = mysqli_fetch_array($consulta_res, MYSQLI_ASSOC);
-    $id = $id['id'];
-
-    //obtenemos su cartilla de vacunacion
-
     $cartilla = 0;
-    $consulta = "SELECT * FROM vacunacion WHERE idusuario='$id';";
-    $consulta_res = mysqli_query($bd, $consulta);
+    
+    if($bd){
+        //obtenemos el id del usuario
+        $consulta = "SELECT id FROM usuarios WHERE dni='$dni';";
+        $consulta_res = mysqli_query($bd, $consulta);
+        
+        //si existe el usuario
+        if($consulta_res){
 
-    if($consulta_res){
-        if(mysqli_num_rows($consulta_res) > 0){
-            $cartilla = mysqli_fetch_all($consulta_res, MYSQLI_ASSOC);
+            //obtenemos el dni
+            $id = mysqli_fetch_array($consulta_res, MYSQLI_ASSOC);
+            $id = $id['id'];
+
+            //obtenemos su cartilla de vacunacion
+            $consulta = "SELECT * FROM vacunacion WHERE idusuario='$id';";
+            $consulta_res = mysqli_query($bd, $consulta);
+
+            if($consulta_res){
+                if(mysqli_num_rows($consulta_res) > 0){
+                    $cartilla = mysqli_fetch_all($consulta_res, MYSQLI_ASSOC);
+                }
+                else{
+                    $cartilla = 1;
+                }
+            }
         }
+        //si no existe el usuario
         else{
-            $cartilla = 1;
+            $cartilla = 2;
         }
-    }
-    //mysqli_free_results($consulta_res);
-    desconectarBD($bd);
 
-    //0: error bd   1: no hay filas
+        //mysqli_free_results($consulta_res);
+        desconectarBD($bd);
+    }
+
+    //0: error bd   1: no hay filas 2: no hay id usuario
     return $cartilla;
 }
 ?>

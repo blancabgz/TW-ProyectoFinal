@@ -14,16 +14,16 @@ if($rol == 'A' || $rol == 'S'){
     //obtenemos el listado
     $lista = obtenerListado();
     if($lista == 0){
-        echo "<p> Error al conectarse a la base de datos</p>";
+        mensaje($titulo, "Error al conectarse a la base de datos.");
     }
     else if($lista == 1){
-        echo "<p> No hay nada para mostrar, la bd está vacía. </p>";
+        mensaje($titulo, "No hay nada para mostrar, la base de datos está vacía.";
     }
     else{
         //mostramos el listado
         mostrarLista($lista);
     }
-
+    
     HTMLformulario($rol);
     HTMLfooter();
 }

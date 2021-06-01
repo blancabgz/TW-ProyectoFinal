@@ -9,7 +9,6 @@ require_once '../model/basedatos.php';
 HTMLinicio("Login");
 HTMLheader("Login");
 HTMLnav('V');
-HTMLcontenido("Login");
 
 //se comprueba si los datos introducidos son correctos
 if(isset($_POST['login']) && isset($_POST['usuario']) && isset($_POST['clave'])){
@@ -19,15 +18,22 @@ if(isset($_POST['login']) && isset($_POST['usuario']) && isset($_POST['clave']))
     $usuario = addslashes($usuario);
     $clave = $_POST['clave'];
     
-    if(comprobarDatos($usuario, $clave)){
+    $id = comprobarDatos($usuario, $clave);
+    //si se ha identificado, se loggea
+    if($id == 1){
         $_SESSION['usuario'] = $usuario;
         $accion = "loggeado";
         
         if(isset($_SESSION['deaquivengo']))
             $accion = "redireccion";
     }
-    else{
+    //si ha habido error de identificación
+    else if($id == 0){
         $accion = "error_login";
+    }
+    //si ha habido error de bd
+    else{
+        $accion = "error_bd";
     }
 }
 else{
@@ -42,7 +48,14 @@ elseif($accion == "redireccion"){
     header("Location: {$_SESSION['deaquivengo']}");
 }
 elseif($accion == "error_login"){
+    HTMLcontenido("Login");
     HTMLformulario('E');
+    HTMLfooter();
+}
+else if($accion == "error_bd"){
+
+    mensaje("Login", "Error al conectar con la base de datos.");
+    HTMLformulario('V');
     HTMLfooter();
 }
 else{

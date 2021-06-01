@@ -25,9 +25,16 @@ else{
         //si el dni está, obtenemos los datos y se muestran en el formulario
         if(isset($_POST['dni'])){
             $datos = obtenerDatosUsuario($_POST['dni']);
-            formularioUSU03($datos, $accion, $form, $titulo, $rol);
+
+            //si es un array, es la consulta, se muestra por el formulario
+            if(is_array($datos)){
+                formularioUSU03($datos, $accion, $form, $titulo, $rol);
+            }
+            //si no, ha habido error
+            else{
+                mensaje($titulo, $datos);
+            }
         }
-        
         //si el dni no está, se muestra un mensaje de error.
         else{
             mensaje($titulo, "El DNI no es correcto.");

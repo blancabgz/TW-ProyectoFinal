@@ -26,8 +26,13 @@ else{
         if(isset($_POST['idVac'])){
             $_SESSION['idVac'] = $_POST['idVac'];
             $datos = obtenerDatosVacuna($_POST['idVac']);
-            formularioVAC03($datos, $titulo, $form, $accion);
-        }
+
+            if(is_array($datos)){
+                formularioVAC03($datos, $titulo, $form, $accion);
+            }
+            else{
+                mensaje($titulo, $datos);
+            }
         
         //si el dni no está, se muestra un mensaje de error.
         else{
