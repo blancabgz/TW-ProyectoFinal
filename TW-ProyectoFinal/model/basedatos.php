@@ -475,4 +475,34 @@ function obtenerCalendarioIDVacuna($id){
     //0: error bd   1: no hay filas
     return $calendario;
 }
+
+function obtenerCartilla($dni){
+    $bd = conectarBD();
+
+    //obtenemos el id del usuario
+    $consulta = "SELECT id FROM usuarios WHERE dni='$dni';";
+    $consulta_res = mysqli_query($bd, $consulta);
+    $id = mysqli_fetch_array($consulta_res, MYSQLI_ASSOC);
+    $id = $id['id'];
+
+    //obtenemos su cartilla de vacunacion
+
+    $cartilla = 0;
+    $consulta = "SELECT * FROM vacunacion WHERE idusuario='$id';";
+    $consulta_res = mysqli_query($bd, $consulta);
+
+    if($consulta_res){
+        if(mysqli_num_rows($consulta_res) > 0){
+            $cartilla = mysqli_fetch_all($consulta_res, MYSQLI_ASSOC);
+        }
+        else{
+            $cartilla = 1;
+        }
+    }
+    //mysqli_free_results($consulta_res);
+    desconectarBD($bd);
+
+    //0: error bd   1: no hay filas
+    return $cartilla;
+}
 ?>

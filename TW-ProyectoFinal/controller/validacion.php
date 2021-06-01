@@ -216,6 +216,8 @@ function validarDatos($datos, $user){
     return $validar;
 }
 
+
+
 /* PROCESAMIENTO Y VALIDACIÓN DE VACUNAS */
 function procesarDatosVacuna($datos){
     
