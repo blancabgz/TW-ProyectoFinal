@@ -17,7 +17,7 @@ if($rol == 'A'){
         mensaje($titulo, "Error al conectarse a la base de datos.");
     }
     else if($lista == 1){
-        mensaje($titulo, "No hay nada para mostrar, la base de datos está vacía.";
+        mensaje($titulo, "No hay nada para mostrar, la base de datos está vacía.");
     }
     else{
         //mostramos el listado

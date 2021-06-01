@@ -199,7 +199,8 @@ function actualizarUsuario($datos, $user, $dniOld){
             //si no hay ningún usuario con ese dni lo añadimos a la bd
             else{
                 $consulta = "UPDATE usuarios SET ";
-                $datos['clave'] = password_hash($datos['clave'], PASSWORD_DEFAULT);
+                if(strlen($datos['clave']) < 60)
+                    $datos['clave'] = password_hash($datos['clave'], PASSWORD_DEFAULT);
 
                 //construimos la consulta con los datos del argumento
                 foreach($indice as $k){
@@ -207,7 +208,7 @@ function actualizarUsuario($datos, $user, $dniOld){
                     if($datos[$k] != ""){
                         //si es clave es el final, con lo que no se pone la coma (,)
                         if($k == 'clave'){
-                            $consulta .= " ".$k." = '".mysqli_real_escape_string($bd,$datos[$k])."' ";
+                            $consulta .= " ".$k." = '".$datos[$k]."' ";
                         }
                         else{
                             $consulta .= " ".$k." = '".mysqli_real_escape_string($bd,$datos[$k])."',";

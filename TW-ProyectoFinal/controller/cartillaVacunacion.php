@@ -3,13 +3,10 @@ require_once "../controller/check_login.php";
 require_once "../view/vistasHTML.php";
 $titulo="Cartilla de Vacunación";
 
-if($rol == 'P'){
+if($rol == 'P' || $rol == 'S'){
     HTMLinicio($titulo);
     HTMLheader($titulo);
     HTMLnav($rol);
-
-    //se muestra la cabecera del calendario
-    cabeceraCalendario($titulo);
 
     //se obtienen las vacunas y el calendario
     $totalVacunas = obtenerListadoVacunas();
@@ -21,12 +18,15 @@ if($rol == 'P'){
         mensaje($titulo, "Error al conectarse a la base de datos.");
     }
     else if($totalVacunas == 1 || $calendario == 1 || $cartilla == 1){
-        mensaje($titulo, "No hay nada para mostrar, la base de datos está vacía.";
+        mensaje($titulo, "No hay nada para mostrar, la base de datos está vacía.");
     }
     else if($cartilla == 2){
         mensaje($titulo, "No se ha encontrado el usuario con el identificador establecido.");
     }
     else{
+        //se muestra la cabecera del calendario
+        cabeceraCalendario($titulo);
+        
         //se muestra el cuerpo del calendario
         cuerpoCartilla($calendario, $totalVacunas, $cartilla);
     }

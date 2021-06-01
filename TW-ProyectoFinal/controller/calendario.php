@@ -19,7 +19,7 @@ if($vacunas == 0 || $calendario == 0){
     mensaje($titulo, "Error al conectarse a la base de datos.");
 }
 else if($vacunas == 1 || $calendario == 1){
-    mensaje($titulo, "No hay nada para mostrar, la base de datos está vacía.";
+    mensaje($titulo, "No hay nada para mostrar, la base de datos está vacía.");
 }
 else{
     //se muestra el cuerpo del calendario
