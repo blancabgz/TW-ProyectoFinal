@@ -7,9 +7,6 @@ HTMLinicio($titulo);
 HTMLheader($titulo);
 HTMLnav($rol);
 
-//se muestra la cabecera del calendario
-cabeceraCalendario($titulo);
-
 //se obtienen las vacunas y el calendario
 $vacunas = obtenerListadoVacunas();
 $calendario = obtenerCalendarioVacunas();
@@ -22,6 +19,9 @@ else if($vacunas == 1 || $calendario == 1){
     mensaje($titulo, "No hay nada para mostrar, la base de datos está vacía.");
 }
 else{
+    //se muestra la cabecera del calendario
+    cabeceraCalendario($titulo);
+    
     //se muestra el cuerpo del calendario
     cuerpoCalendario($calendario, $vacunas);
 }

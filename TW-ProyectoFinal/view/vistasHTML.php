@@ -219,7 +219,7 @@ function HTMLformulario($user){
                 <li>Número total de usuarios del sistema: XX </li>
             </ul>
         </div>
-    </div>
+    </div> </div>
     HTML;
 }
 
@@ -407,7 +407,16 @@ function cuerpoCalendario($calendario, $vacunas){
 					//si ini <= i <= fin
 					if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
 						$acronimo = obtenerAcronimo($vacunas, $c['idvacuna']);
-						echo "<th scope='col'>".$acronimo." </th>";
+						echo "<th scope='col'>
+                        <form action='../controller/datosVacuna.php' method='post'>
+                            <input type='submit' name='datosVacuna' value='".$acronimo."'>
+                            <input type='hidden' name='id' value='".$c['id']."'>
+                            <input type='hidden' name='idVac' value='".$c['idvacuna']."'>
+                            <input type='hidden' name='sexo' value='".$c['sexo']."'>
+                            <input type='hidden' name='tipo' value='".$c['tipo']."'>
+                            <input type='hidden' name='comment' value='".$c['comentarios']."'>
+                        </form>
+                    </th>";
 					}
 					//si i < ini
 					else if($i < $c['meses_ini']){
@@ -427,7 +436,16 @@ function cuerpoCalendario($calendario, $vacunas){
 				//si ini <= i <= fin
 				else if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
 					$acronimo = obtenerAcronimo($vacunas, $c['idvacuna']);
-					echo "<th scope='col'>".$acronimo." </th>";
+					echo "<th scope='col'>
+                    <form action='../controller/datosVacuna.php' method='post'>
+                            <input type='submit' name='datosVacuna' value='".$acronimo."'>
+                            <input type='hidden' name='id' value='".$c['id']."'>
+                            <input type='hidden' name='idVac' value='".$c['idvacuna']."'>
+                            <input type='hidden' name='sexo' value='".$c['sexo']."'>
+                            <input type='hidden' name='tipo' value='".$c['tipo']."'>
+                            <input type='hidden' name='comment' value='".$c['comentarios']."'>
+                    </form>
+                    </th>";
 				}
 				//si i < ini
 				else if($i < $c['meses_ini']){
@@ -489,10 +507,25 @@ function cuerpoCartilla($calendario, $vacunas, $cartilla){
                         if(estaCartilla($c['id'], $cartilla)){
 
                             //se pone de un color (marroncito, por ejemplo)
-                            echo "<th scope='col' style='background-color: #BDB76B'>".$acronimo." </th>";    
+                            echo "<th scope='col' style='background-color: #BDB76B'>
+                                <form action='../controller/datosVacunacion.php' method='post'>
+                                        <input type='submit' name='datosCartilla' value='".$acronimo."'>
+                                        <input type='hidden' name='id' value='".$c['id']."'>
+                                        <input type='hidden' name='idVac' value='".$c['idvacuna']."'>
+                                </form>
+                            </th>";    
                         }
                         //si no está, se pone de otro color
-                        else echo "<th scope='col' style='background-color: #FFA07A'>".$acronimo." </th>";
+                        else echo "<th scope='col' style='background-color: #FFA07A'>
+                        <form action='../controller/datosVacuna.php' method='post'>
+                            <input type='submit' name='datosVacuna' value='".$acronimo."'>
+                            <input type='hidden' name='id' value='".$c['id']."'>
+                            <input type='hidden' name='idVac' value='".$c['idvacuna']."'>
+                            <input type='hidden' name='sexo' value='".$c['sexo']."'>
+                            <input type='hidden' name='tipo' value='".$c['tipo']."'>
+                            <input type='hidden' name='comment' value='".$c['comentarios']."'>
+                        </form>
+                        </th>";
 					}
 					//si i < ini
 					else if($i < $c['meses_ini']){
@@ -517,10 +550,25 @@ function cuerpoCartilla($calendario, $vacunas, $cartilla){
                     if(estaCartilla($c['id'], $cartilla)){
 
                         //se pone de un color (marroncito, por ejemplo)
-                        echo "<th scope='col' style='background-color: #BDB76B'>".$acronimo." </th>";    
+                        echo "<th scope='col' style='background-color: #BDB76B'>
+                            <form action='../controller/datosVacunacion.php' method='post'>
+                                        <input type='submit' name='datosCartilla' value='".$acronimo."'>
+                                        <input type='hidden' name='id' value='".$c['id']."'>
+                                        <input type='hidden' name='idVac' value='".$c['idvacuna']."'>
+                            </form>
+                        </th>";    
                     }
                     //si no está, se pone de otro color
-                    else echo "<th scope='col' style='background-color: #FFA07A'>".$acronimo." </th>";
+                    else echo "<th scope='col' style='background-color: #FFA07A'>
+                    <form action='../controller/datosVacuna.php' method='post'>
+                            <input type='submit' name='datosVacuna' value='".$acronimo."'>
+                            <input type='hidden' name='id' value='".$c['id']."'>
+                            <input type='hidden' name='idVac' value='".$c['idvacuna']."'>
+                            <input type='hidden' name='sexo' value='".$c['sexo']."'>
+                            <input type='hidden' name='tipo' value='".$c['tipo']."'>
+                            <input type='hidden' name='comment' value='".$c['comentarios']."'>
+                    </form>
+                     </th>";
 				}
 				//si i < ini
 				else if($i < $c['meses_ini']){
