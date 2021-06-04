@@ -654,4 +654,92 @@ function obtenerDatosVacunacion($dni, $idcalendario){
     }
     return $cartilla;
 }
+
+
+function borrarVacunaCalendario($idvacuna){
+    $bd = conectarBD();
+
+    if($bd){
+        $consulta = "DELETE FROM calendario WHERE idvacuna='$id';";
+        $consulta_res = mysqli_query($bd, $consulta);
+
+        if(!$consulta_res){
+            $mensaje = 'No se ha podido eliminar la vacuna del calendario.';
+        }
+        else{
+            $mensaje = "Vacuna eliminada con éxito.";
+        }
+    }else{
+        $mensaje = 'Error al conectarse a la base de datos.';
+    }
+
+    return $mensaje;
+}
+
+function insertarVacunaCalendario($datos){
+    $bd = conectarBD();
+
+    if($bd){
+        $id = $datos['idvacuna'];
+        $mensaje = 'Se desconoce el error. Vuelva a intentarlo.';
+        $indice = ['idvacuna', 'sexo', 'meses_ini', 'meses_fin', 'tipo', 'comentarios'];
+        
+        $consulta_select = "SELECT nombre FROM vacunas WHERE id='$id';";
+        $consulta_res = mysqli_query($bd, $consulta_select);
+
+        //comprobamos si existe la vacuna
+        if(mysqli_num_rows($consulta_res) < 0){
+            $mensaje = "No se ha realizado la inserción de la vacuna, puesto que no existe dicha vacuna.";
+        }
+        //si existe la vacuna
+        else{
+            $consulta = "INSERT INTO calendario (";
+
+            //construimos las columnas a insertar
+            foreach($indice as $k){
+                if($k == 'comentarios'){
+                    if(isset($datos[$k]) && !empty($datos[$k])){
+                        $consulta .= $k.") VALUES (";
+                    }
+                }
+                else if($k == 'tipo'){
+                    $consulta .= $k.") VALUES (";
+                }
+                else{
+                    $consulta .= $k.",";
+                }
+            }
+            //construimos la consulta con los datos del argumento
+            foreach($indice as $k){
+                if($k == 'comentarios'){
+                    if(isset($datos[$k]) && !empty($datos[$k])){
+                        $consulta .="'".mysqli_real_escape_string($bd,$datos[$k])."');";
+                    }
+                }
+                else if($k != 'tipo'){
+                    $consulta .="'".mysqli_real_escape_string($bd,$datos[$k])."', ";
+                }
+                else{
+                    
+                    $consulta .="'".mysqli_real_escape_string($bd,$datos[$k])."');";
+                }
+            }
+
+            $consulta_res = mysqli_query($bd, $consulta);
+            echo " CONSULTA:".$consulta;
+            //si ha habido error
+            if(!$consulta_res){
+                $mensaje = "Error de inserción, vuelva a intentarlo.";
+            }
+            else{
+                $mensaje = "Vacuna añadida al calendario con éxito";
+            }
+        }
+        mysqli_close($bd);
+    }
+    else{
+        $mensaje = "Error al conectarse a la base de datos.";
+    }
+    return $mensaje;   
+}
 ?>

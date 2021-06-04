@@ -3,7 +3,7 @@ require_once "../controller/check_login.php";
 require_once "../view/vistasHTML.php";
 $titulo="Datos de la vacunación";
 
-if($rol == 'P' || $rol == 'S'){
+if($rol == 'P' || $rol == 'S' || $rol == 'A'){
 	HTMLinicio($titulo);
 	HTMLheader($titulo);
 	HTMLnav($rol);

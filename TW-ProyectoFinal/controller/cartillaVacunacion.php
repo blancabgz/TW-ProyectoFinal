@@ -3,7 +3,7 @@ require_once "../controller/check_login.php";
 require_once "../view/vistasHTML.php";
 $titulo="Cartilla de Vacunación";
 
-if($rol == 'P' || $rol == 'S'){
+if($rol == 'P' || $rol == 'S' || $rol == 'A'){
     HTMLinicio($titulo);
     HTMLheader($titulo);
     HTMLnav($rol);
@@ -25,7 +25,7 @@ if($rol == 'P' || $rol == 'S'){
     //si no ha habido error, mostramos la cartilla de vacunación
     else{
         //se muestra la cabecera del calendario
-        cabeceraCalendario($titulo);
+        cabeceraCalendario($titulo, $rol);
         
         //se muestra el cuerpo del calendario
         cuerpoCartilla($calendario, $cartilla);

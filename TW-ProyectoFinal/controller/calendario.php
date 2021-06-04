@@ -18,8 +18,13 @@ else if($calendario == 1){
     mensaje($titulo, "No hay nada para mostrar, la base de datos está vacía.");
 }
 else{
+	//si el usuario es el administrador, puede añadir una vacuna al calendario
+	if($rol == 'A'){
+		botonAddVacunaCalendario($titulo);
+	}
+
     //se muestra la cabecera del calendario
-    cabeceraCalendario($titulo);
+    cabeceraCalendario($titulo, $rol);
     
     //se muestra el cuerpo del calendario
     cuerpoCalendario($calendario);

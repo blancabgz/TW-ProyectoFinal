@@ -71,6 +71,9 @@ function HTMLnav($user){
             <li class="nav-item">
               <a class ='nav-link' href='../controller/calendario.php'> Calendario de vacunación </a>
             </li>
+            <li class="nav-item">
+              <a class ='nav-link' href='../controller/cartillaVacunacion.php'> Cartilla de vacunación </a>
+            </li>
             <li class="nav-item dropdown">
                 <button type="button" class="btn nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton" >
                 Gestión de usuarios </button>
@@ -340,19 +343,28 @@ function mostrarListaVacunas($lista, $titulo){
 
 /* Calendario */
 //cabecera del calendario
-function cabeceraCalendario($titulo){
+function cabeceraCalendario($titulo, $user){
 	$cabecera = ['Vacuna', 'Pre natal', '0 meses', '2 meses', '4 meses',
 		'11 meses', '12 meses', '15 meses', '3 años', '6 años', '12 años',
 		'14 años', '18 años', '50 años', '65 años', '> 65 años'];
 
-	echo <<< HTML
-	<main class='row'>
-	  <section id='contenido' class='borde_verde col-md-9'>
-		  <h1> $titulo </h1>
-		  <div class='container table-responsive py-5'>
-				<table class='table table-bordered table-hover'>
-					<tr>
-	HTML;
+    if($user == 'A'){
+        echo <<< HTML
+            <div class='container table-responsive py-5'>
+                <table class='table table-bordered table-hover'>
+                    <tr>
+        HTML;
+    }
+    else{
+echo <<< HTML
+	        <main class='row'>
+	            <section id='contenido' class='borde_verde col-md-9'>
+	    	        <h1> $titulo </h1>
+	    	        <div class='container table-responsive py-5'>
+	    			    <table class='table table-bordered table-hover'>
+	    				    <tr>
+HTML;
+    }
 	 
 	foreach($cabecera as $cab){
 		echo "<th scope='col'>".$cab."</th>";
@@ -361,6 +373,16 @@ function cabeceraCalendario($titulo){
 }
 
 /*  -------------------------------------------------- */
+function botonAddVacunaCalendario($titulo){
+    echo <<< HTML
+        <main class='row'>
+        <section id='contenido' class='borde_verde col-md-9'>
+            <h1> $titulo </h1>
+            <form action="../controller/addVacunaCalendario.php" method='post'>
+                <input type='submit' name='vacunaCalendario' value='Añadir vacuna al calendario'>
+            </form>
+    HTML;
+}
 
 function celdaNombre($nombre){
     echo "<th scope='col'>".$nombre."</th>";
@@ -383,6 +405,10 @@ function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $com
     if($c == 'y'){
         $color = "style='background-color: #FFA07A'";
     }
+	else{
+		$borrar = "<input type='submit' name='borrarVacuna' value='Borrar Vacuna'>
+				   <input type='hidden' name='idVac' value='$idVacuna'>";
+	}
     echo "
     <th scope='col' ".$color.">
         <form action='../controller/datosVacuna.php' method='post'>
@@ -393,8 +419,14 @@ function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $com
             <input type='hidden' name='tipo' value='$tipo'>
             <input type='hidden' name='comment' value='$comentarios'>
             <input type='hidden' name='cartilla' value='$c'>
-        </form>
-    </th>";
+		</form>";
+		if($c =='n'){
+			echo "<form action='../controller/borrarVacCalendario.php' method='post'>
+					<input type='submit' name='borrarVacuna' value='Borrar'>
+            		<input type='hidden' name='idVac' value='$idVacuna'>
+				  </form>";
+		}
+    echo "</th>";
 }
 
 function celdaCartilla($acronimo, $idCalendario, $idVacuna){

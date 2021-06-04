@@ -272,4 +272,81 @@ function validarDatosVacuna($datos){
 
     return $validar;
 }
+
+
+/* PROCESAMIENTO Y VALIDACIÓN DE VACUNAS PARA EL CALENDARIO */
+function procesarDatosVacunaCalendario($datos, $vacunas){
+    $campos = [];
+    $indice = ['idvacuna', 'sexo', 'meses_ini', 'meses_fin', 'tipo', 'comentarios'];
+
+    //almacenamos lo que se ha recogido del formulario
+    foreach($indice as $i){
+
+        //si se ha rellenado el campo, se almacena en campos
+        if(isset($datos[$i])){
+            $campos[$i] = $datos[$i];
+        }
+        else{
+            $campos[$i] = '';
+        }
+    }
+
+    return $campos;
+}
+
+function validarNombreVacunaCalendario($idvacuna, $vacunas, $validar){
+    $esta = false;
+    $vacunas = obtenerListadoVacunas();
+
+    //recorremos la lista de vacunas
+    foreach($vacunas as $v){
+        if($v['id'] == $idvacuna){
+            $esta = true;
+        }
+    }
+
+    if(!$esta){
+        $validar[] = "El nombre de la vacuna no es válido, seleccione uno de la lista.";
+    }
+
+    return $validar;
+}
+
+function validarSexoVacunaCalendario($sexo, $validar){
+
+    if($sexo != 'M' && $sexo != 'H' && $sexo != 'T'){
+        $validar[] = "El sexo debe ser Mujer, Hombre o Para todos.";
+    }
+
+    return $validar;
+}
+
+function validarTipoVacunaCalendario($tipo, $validar){
+
+    if($tipo != 'S' && $tipo != 'N' && $tipo != 'R'){
+        $validar[] = "El tipo debe ser uno de la lista.";
+    }
+
+    return $validar;
+}
+
+function validarDatosVacunaCalendario($datos, $vacunas){
+    $validar = [];
+    $indice = ['idvacuna', 'sexo', 'meses_ini', 'meses_fin', 'tipo', 'comentarios'];
+
+    foreach($indice as $i){
+        if($i != 'comentarios' && $datos[$i] == ''){
+            if($i == 'meses_ini') $validar[] = "El campo de mes inicial no puede ser nulo.";
+            else if($i == 'meses_fin') $validar[] = "El campo de mes final no puede ser nulo.";
+            else $validar[] = "El campo ".$i." no puede ser nulo.";
+        }
+    }
+
+    $validar = validarNombreVacunaCalendario($datos['idvacuna'], $vacunas, $validar);
+    $validar = validarSexoVacunaCalendario($datos['sexo'], $validar);
+    $validar = validarTipoVacunaCalendario($datos['tipo'], $validar);
+
+    return $validar;
+}
+
 ?>

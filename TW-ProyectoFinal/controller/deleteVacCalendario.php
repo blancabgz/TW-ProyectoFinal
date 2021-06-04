@@ -5,8 +5,8 @@ require_once '../model/basedatos.php';
 require_once '../view/vistasHTML.php';
 require_once '../view/formularios.php';
 
-$titulo = "Borrar vacuna";
-$form = "../controller/deleteVac.php";
+$titulo = "Borrar usuario";
+$form = "../controller/deleteVacCalendario.php";
 $accion = 'bV';
 
 //si no es la persona administradora, redirige al inicio
@@ -28,7 +28,7 @@ else{
             $datos = obtenerDatosVacuna($_POST['idVac']);
 
             if(is_array($datos)){
-                formularioVAC03($datos, $titulo, $form, $accion);
+                formularioVAC_CAL03($datos, $titulo, $form, $accion);
             }
             else{
                 mensaje($titulo, $datos);
@@ -42,7 +42,7 @@ else{
     
     //si ha confirmado borrar usuario, se borra el usuario y se muestra el mensaje por pantalla
     else if(isset($_POST['borrarVac'])){
-        $mensaje = borrarVacuna($_SESSION['idVac']);
+        $mensaje = borrarVacunaCalendario($_SESSION['idVac']);
         mensaje($titulo, $mensaje);
     }
     
