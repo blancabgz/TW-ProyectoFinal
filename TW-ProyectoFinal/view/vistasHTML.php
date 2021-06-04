@@ -339,27 +339,7 @@ function mostrarListaVacunas($lista, $titulo){
 }
 
 /* Calendario */
-
-//función auxiliar de calendario
-function obtenerNombreVacuna($lista, $id){
-	foreach($lista as $v){
-		if($v['id'] == $id){
-			$nombre = $v['nombre'];
-		}
-	}
-	return $nombre;
-}
-
-//función auxiliar de calendario
-function obtenerAcronimo($lista, $id){
-	foreach($lista as $v){
-		if($v['id'] == $id){
-			$acronimo = $v['acronimo'];
-		}
-	}
-	return $acronimo;
-}
-
+//cabecera del calendario
 function cabeceraCalendario($titulo){
 	$cabecera = ['Vacuna', 'Pre natal', '0 meses', '2 meses', '4 meses',
 		'11 meses', '12 meses', '15 meses', '3 años', '6 años', '12 años',
@@ -380,208 +360,87 @@ function cabeceraCalendario($titulo){
 	echo "</tr>";
 }
 
-function cuerpoCalendario($calendario, $vacunas){
-	$indice =  ['nombre', '-1', '0', '2', '4', '11', '12', '15', '36', '72',
-	'144', '168', '216', '600', '780', '781'];
+/*  -------------------------------------------------- */
 
-	$vacOld = 0;
-	$fech = 0;
-	
-	/* VERSIÓN 2 */
-	//para cada fila del calendario obtenido
-	foreach($calendario as $c){
-	
-		$vacActual = $c['idvacuna'];
-		if($vacActual != $vacOld){
-			echo "</tr>";
-		}
-	
-		//recorremos el índice
-		foreach($indice as $i){
-	
-			//si la vacuna es la misma, rellenamos en la misma línea
-			if($vacActual == $vacOld){
-				//si el mes que estamos mirando es posterior al que ya se ha puesto
-				if($i > $fech && $i != 'nombre'){
-	
-					//si ini <= i <= fin
-					if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
-						$acronimo = obtenerAcronimo($vacunas, $c['idvacuna']);
-						echo "<th scope='col'>
-                        <form action='../controller/datosVacuna.php' method='post'>
-                            <input type='submit' name='datosVacuna' value='".$acronimo."'>
-                            <input type='hidden' name='id' value='".$c['id']."'>
-                            <input type='hidden' name='idVac' value='".$c['idvacuna']."'>
-                            <input type='hidden' name='sexo' value='".$c['sexo']."'>
-                            <input type='hidden' name='tipo' value='".$c['tipo']."'>
-                            <input type='hidden' name='comment' value='".$c['comentarios']."'>
-                        </form>
-                    </th>";
-					}
-					//si i < ini
-					else if($i < $c['meses_ini']){
-						echo "<th scope='col'> </th>";
-					}
-					else if($i > $c['meses_fin']){
-						$fech = $c['meses_fin'];
-						break;
-					}
-				}
-			}else{
-				//si estamos rellenando el nombre, obtenemos el nombre de la vacuna
-				if($i == 'nombre'){
-					$nombre = obtenerNombreVacuna($vacunas, $c['idvacuna']);
-					echo "<th scope='col'>".$nombre."</th>";
-				}
-				//si ini <= i <= fin
-				else if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
-					$acronimo = obtenerAcronimo($vacunas, $c['idvacuna']);
-					echo "<th scope='col'>
-                    <form action='../controller/datosVacuna.php' method='post'>
-                            <input type='submit' name='datosVacuna' value='".$acronimo."'>
-                            <input type='hidden' name='id' value='".$c['id']."'>
-                            <input type='hidden' name='idVac' value='".$c['idvacuna']."'>
-                            <input type='hidden' name='sexo' value='".$c['sexo']."'>
-                            <input type='hidden' name='tipo' value='".$c['tipo']."'>
-                            <input type='hidden' name='comment' value='".$c['comentarios']."'>
-                    </form>
-                    </th>";
-				}
-				//si i < ini
-				else if($i < $c['meses_ini']){
-					echo "<th scope='col'> </th>";
-				}
-				else if($i > $c['meses_fin']){
-					$fech = $c['meses_fin'];
-					break;
-				}
-			}
-		}	
-		$vacOld = $vacActual;
-	}
+function celdaNombre($nombre){
+    echo "<th scope='col'>".$nombre."</th>";
+}
+
+function celdaVacia(){
+    echo "<th scope='col'> </th>";
+}
+
+function finFila(){
+    echo "</tr>";
+}
+
+function finTabla(){
 	echo "</table> </div> </section>";
 }
 
-//función auxiliar de cartilla para ver si una vacuna está en la cartilla de un paciente
-function estaCartilla($id, $lista){
-
-    $esta = false;
-
-    foreach($lista as $l){
-        if($l['calendario_id'] == $id){
-            $esta = true;
-        }
+function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $comentarios, $c){
+    $color = '';
+    if($c == 'y'){
+        $color = "style='background-color: #FFA07A'";
     }
-    return $esta;
+    echo "
+    <th scope='col' ".$color.">
+        <form action='../controller/datosVacuna.php' method='post'>
+            <input type='submit' name='datosVacuna' value='$acronimo'>
+            <input type='hidden' name='id' value='$idCalendario'>
+            <input type='hidden' name='idVac' value='$idVacuna'>
+            <input type='hidden' name='sexo' value='$sexo'>
+            <input type='hidden' name='tipo' value='$tipo'>
+            <input type='hidden' name='comment' value='$comentarios'>
+            <input type='hidden' name='cartilla' value='$c'>
+        </form>
+    </th>";
 }
 
-function cuerpoCartilla($calendario, $vacunas, $cartilla){
-	$indice =  ['nombre', '-1', '0', '2', '4', '11', '12', '15', '36', '72',
-	'144', '168', '216', '600', '780', '781'];
+function celdaCartilla($acronimo, $idCalendario, $idVacuna){
+    echo "
+    <th scope='col' style='background-color: #BDB76B'>
+        <form action='../controller/datosVacunacion.php' method='post'>
+            <input type='submit' name='datosCartilla' value='$acronimo'>
+            <input type='hidden' name='id' value='$idCalendario'>
+            <input type='hidden' name='idVac' value='$idVacuna'>
+        </form>
+    </th>";
+}
 
-	$vacOld = 0;
-	$fech = 0;
+function datosVacunas($datos, $titulo){
+    echo "
+    <main>
+        <section id='contenido' class='borde_verde'>
+            <h1> $titulo </h1>
+            <p> Nombre: ".$datos['nombre']." </p>
+            <p> Acronimo: ".$datos['acronimo']." </p>
+            <p> Sexo: ".$datos['sexo']." </p>
+            <p> Tipo: ".$datos['tipo']." </p>
+            <p> Comentarios: ".$datos['comentarios']." </p>
+    
+        <form action='".$datos['form']."' method='post'>
+        <input type='submit' name='calendario' value=' Volver al ".$datos['vienede']."'>
+        </form>
+    </section>
+    ";
+}
 
-	//para cada fila del calendario obtenido
-	foreach($calendario as $c){
-	
-        //si estamos añadiendo una vacuna diferente, cambiamos de fila
-		$vacActual = $c['idvacuna'];
-		if($vacActual != $vacOld){
-			echo "</tr>";
-		}
-	
-		//recorremos el índice
-		foreach($indice as $i){
-	
-			//si la vacuna es la misma, rellenamos en la misma línea
-			if($vacActual == $vacOld){
-				//si el mes que estamos mirando es posterior al que ya se ha puesto
-				if($i > $fech && $i != 'nombre'){
-	
-					//si ini <= i <= fin
-					if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
-						$acronimo = obtenerAcronimo($vacunas, $c['idvacuna']);
-
-                        //si la vacuna está en la cartilla
-                        if(estaCartilla($c['id'], $cartilla)){
-
-                            //se pone de un color (marroncito, por ejemplo)
-                            echo "<th scope='col' style='background-color: #BDB76B'>
-                                <form action='../controller/datosVacunacion.php' method='post'>
-                                        <input type='submit' name='datosCartilla' value='".$acronimo."'>
-                                        <input type='hidden' name='id' value='".$c['id']."'>
-                                        <input type='hidden' name='idVac' value='".$c['idvacuna']."'>
-                                </form>
-                            </th>";    
-                        }
-                        //si no está, se pone de otro color
-                        else echo "<th scope='col' style='background-color: #FFA07A'>
-                        <form action='../controller/datosVacuna.php' method='post'>
-                            <input type='submit' name='datosVacuna' value='".$acronimo."'>
-                            <input type='hidden' name='id' value='".$c['id']."'>
-                            <input type='hidden' name='idVac' value='".$c['idvacuna']."'>
-                            <input type='hidden' name='sexo' value='".$c['sexo']."'>
-                            <input type='hidden' name='tipo' value='".$c['tipo']."'>
-                            <input type='hidden' name='comment' value='".$c['comentarios']."'>
-                        </form>
-                        </th>";
-					}
-					//si i < ini
-					else if($i < $c['meses_ini']){
-						echo "<th scope='col'> </th>";
-					}
-					else if($i > $c['meses_fin']){
-						$fech = $c['meses_fin'];
-						break;
-					}
-				}
-			}else{
-				//si estamos rellenando el nombre, obtenemos el nombre de la vacuna
-				if($i == 'nombre'){
-					$nombre = obtenerNombreVacuna($vacunas, $c['idvacuna']);
-					echo "<th scope='col'>".$nombre."</th>";
-				}
-				//si ini <= i <= fin
-				else if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
-					$acronimo = obtenerAcronimo($vacunas, $c['idvacuna']);
-
-                    //si la vacuna está en la cartilla
-                    if(estaCartilla($c['id'], $cartilla)){
-
-                        //se pone de un color (marroncito, por ejemplo)
-                        echo "<th scope='col' style='background-color: #BDB76B'>
-                            <form action='../controller/datosVacunacion.php' method='post'>
-                                        <input type='submit' name='datosCartilla' value='".$acronimo."'>
-                                        <input type='hidden' name='id' value='".$c['id']."'>
-                                        <input type='hidden' name='idVac' value='".$c['idvacuna']."'>
-                            </form>
-                        </th>";    
-                    }
-                    //si no está, se pone de otro color
-                    else echo "<th scope='col' style='background-color: #FFA07A'>
-                    <form action='../controller/datosVacuna.php' method='post'>
-                            <input type='submit' name='datosVacuna' value='".$acronimo."'>
-                            <input type='hidden' name='id' value='".$c['id']."'>
-                            <input type='hidden' name='idVac' value='".$c['idvacuna']."'>
-                            <input type='hidden' name='sexo' value='".$c['sexo']."'>
-                            <input type='hidden' name='tipo' value='".$c['tipo']."'>
-                            <input type='hidden' name='comment' value='".$c['comentarios']."'>
-                    </form>
-                     </th>";
-				}
-				//si i < ini
-				else if($i < $c['meses_ini']){
-					echo "<th scope='col'> </th>";
-				}
-				else if($i > $c['meses_fin']){
-					$fech = $c['meses_fin'];
-					break;
-				}
-			}
-		}	
-		$vacOld = $vacActual;
-	}
-	echo "</table> </div> </section>";
+function datosCartilla($datos, $titulo){
+    echo "
+    <main>
+        <section id='contenido' class='borde_verde'>
+            <h1> $titulo </h1>
+            <p> Nombre: ".$datos['nombre']." </p>
+            <p> Acronimo: ".$datos['acronimo']." </p>
+            <p> Fecha: ".$datos['fecha']." </p>
+            <p> Fabricante: ".$datos['fabricante']." </p>
+            <p> Comentarios: ".$datos['comentarios']." </p>
+    
+        <form action='".$datos['form']."' method='post'>
+        <input type='submit' name='calendario' value=' Volver al ".$datos['vienede']."'>
+        </form>
+    </section>
+    ";
 }
 ?>

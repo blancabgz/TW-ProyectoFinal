@@ -3,62 +3,54 @@ require_once "../controller/check_login.php";
 require_once "../view/vistasHTML.php";
 $titulo="Datos de la vacunación";
 
-HTMLinicio($titulo);
-HTMLheader($titulo);
-HTMLnav($rol);
+if($rol == 'P' || $rol == 'S'){
+	HTMLinicio($titulo);
+	HTMLheader($titulo);
+	HTMLnav($rol);
 
-//si se llega de datosVacuna
-if(isset($_POST['datosCartilla'])){
+	//si se llega de datosVacuna
+	if(isset($_POST['datosCartilla'])){
 
-    $vacunas = obtenerListadoVacunas();
-    $cartilla = obtenerCartilla($_SESSION['usuario']);
+	    //obtenemos los datos necesarios
+	    $nombre = obtenerNombreVacuna($_POST['idVac']);
+	    $acronimo = obtenerAcronimoVacuna($_POST['idVac']);
+	    $datosVac = obtenerDatosVacunacion($_SESSION['usuario'], $_POST['id']);
 
-    //se muestra los datos de la vacuna en el calendario
-    $nombre = obtenerNombreVacuna($vacunas, $_POST['idVac']);
-    $acronimo = obtenerAcronimo($vacunas, $_POST['idVac']);
-    $fecha = obtenerFecha($cartilla, $_POST['id']);
-    $fabricante = obtenerFabricante($cartilla, $_POST['id']);
-    $comentarios = obtenerComentarios($cartilla, $_POST['id']);
+		//comprobamos si ha habido error
+		if($nombre == 3 || $acronimo == 3 || $datosVac == 3){
+			mensaje($titulo, "Error al conectarse a la base de datos.");
+		}
+		else if($nombre == 1 || $acronimo == 1){
+			mensaje($titulo, "No hay datos de vacunación de la vacuna.");
+		}
+		else if(!is_array($datosVac)){
+			if($datosVac == 1){
+				mensaje($titulo, "No existe el usuario.");
+			}
+			else if($datosVac == 2){
+				mensaje($titulo, "No está registrada la vacuna para el usuario.");
+			}
+		}
+		else{
 
-    $mensaje = "
-    <br>Nombre: ".$nombre."
-    <br>Acrónimo: ".$acronimo."
-    <br>Fecha: ".$fecha."
-    <br>Fabricante: ".$fabricante."
-    <br>Comentarios: ".$comentarios."
-    ";
+	    	$datos = array(
+	    	    'nombre' => $nombre,
+	    	    'acronimo' => $acronimo,
+	    	    'fecha' => $datosVac['fecha'],
+	    	    'fabricante' => $datosVac['fabricante'],
+	    	    'comentarios' => $datosVac['comentarios'],
+	    	    'form' => '../controller/cartillaVacunacion.php',
+	    	    'vienede' => 'Cartilla',
+	    	);
 
-    mensaje($titulo, $mensaje);
-}
-
-function obtenerFecha($cartilla, $id){
-	foreach($cartilla as $c){
-        if($c['calendario_id'] == $id){
-			$fecha = $c['fecha'];
+	    	datosCartilla($datos, $titulo);
 		}
 	}
 
-	return $fecha;
+	HTMLformulario($rol);
+	HTMLfooter();
 }
-
-function obtenerFabricante($cartilla, $id){
-	foreach($cartilla as $c){
-		if($c['calendario_id'] == $id){
-			$fabricante = $c['fabricante'];
-		}
-	}
-	return $fabricante;
+else{
+	header('Location: ../view/inicio.php');
 }
-
-function obtenerComentarios($cartilla, $id){
-	foreach($cartilla as $c){
-		if($c['calendario_id'] == $id){
-			$comentarios = $c['comentarios'];
-		}
-	}
-	return $comentarios;
-}
-
-HTMLformulario($rol);
-HTMLfooter();
 ?>

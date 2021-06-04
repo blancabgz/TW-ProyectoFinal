@@ -558,6 +558,7 @@ function obtenerCartilla($dni){
             $consulta = "SELECT * FROM vacunacion WHERE idusuario='$id';";
             $consulta_res = mysqli_query($bd, $consulta);
 
+            //obtenemos el array
             if($consulta_res){
                 if(mysqli_num_rows($consulta_res) > 0){
                     $cartilla = mysqli_fetch_all($consulta_res, MYSQLI_ASSOC);
@@ -575,11 +576,82 @@ function obtenerCartilla($dni){
         //mysqli_free_results($consulta_res);
         desconectarBD($bd);
     }
-    else{
-        $cartilla;
-    }
 
     //0: error bd   1: no hay filas 2: no hay id usuario
+    return $cartilla;
+}
+
+//recibe el id de la vacuna
+function obtenerNombreVacuna($id){
+    $bd = conectarBD();
+    $nombre = 3;
+
+    if($bd){
+        //construimos la consulta
+        $consulta = "SELECT nombre FROM vacunas WHERE id=$id;";
+        $consulta_res = mysqli_query($bd, $consulta);
+        
+        if(mysqli_num_rows($consulta_res) > 0){
+            $nombre = mysqli_fetch_array($consulta_res);
+            $nombre = $nombre['nombre'];
+        }
+        else{
+            $nombre = 1;
+        }
+    }
+    
+    return $nombre;
+}
+
+//recibe el id de la vacuna
+function obtenerAcronimoVacuna($id){
+    $bd = conectarBD();
+    $acronimo = 3;
+
+    if($bd){
+        //construimos la consulta
+        $consulta = "SELECT acronimo FROM vacunas WHERE id='$id';";
+        $consulta_res = mysqli_query($bd, $consulta);
+
+        if(mysqli_num_rows($consulta_res) > 0){
+            $acronimo = mysqli_fetch_array($consulta_res);
+            $acronimo = $acronimo['acronimo'];
+        }else{
+            $acronimo = 1;
+        }
+    }
+    return $acronimo;
+}
+
+function obtenerDatosVacunacion($dni, $idcalendario){
+    $bd = conectarBD();
+    $cartilla = 3;
+
+    if($bd){
+        //obtenemos el id del usuario con $dni
+        $consulta = "SELECT id FROM usuarios WHERE dni='$dni';";
+        $consulta_res = mysqli_query($bd, $consulta);
+
+        //si existe
+        if(mysqli_num_rows($consulta_res) > 0){
+            $id = mysqli_fetch_array($consulta_res);
+            $id = $id['id'];
+
+            //obtenemos la cartilla de dicho usuario
+            $consulta = "SELECT fecha, fabricante, comentarios FROM vacunacion WHERE calendario_id='$idcalendario' and idusuario='$id';";
+            $consulta_res = mysqli_query($bd, $consulta);
+            
+            if(mysqli_num_rows($consulta_res) > 0){
+                $cartilla = mysqli_fetch_array($consulta_res, MYSQLI_ASSOC);
+            }
+            else{
+                $cartilla = 2;
+            }
+        }
+        else{
+            $cartilla = 1;
+        }
+    }
     return $cartilla;
 }
 ?>
