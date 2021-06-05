@@ -55,8 +55,7 @@ if($rol == 'A'){
         }
 	}
 	else{
-        echo "<br> hi";
-		//header("Location: ../view/inicio.php");
+		header("Location: ../view/inicio.php");
 	}
 }
 

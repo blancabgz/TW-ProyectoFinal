@@ -656,11 +656,11 @@ function obtenerDatosVacunacion($dni, $idcalendario){
 }
 
 
-function borrarVacunaCalendario($idvacuna){
+function borrarVacunaCalendario($id){
     $bd = conectarBD();
 
     if($bd){
-        $consulta = "DELETE FROM calendario WHERE idvacuna='$id';";
+        $consulta = "DELETE FROM calendario WHERE id='$id';";
         $consulta_res = mysqli_query($bd, $consulta);
 
         if(!$consulta_res){
@@ -741,5 +741,103 @@ function insertarVacunaCalendario($datos){
         $mensaje = "Error al conectarse a la base de datos.";
     }
     return $mensaje;   
+}
+
+function obtenerCalendarioID($id){
+    $bd = conectarBD();
+    $calendario = 2;
+
+    if($bd){
+        //construimos la consulta
+        $consulta = "SELECT * FROM calendario WHERE id='$id';";
+        $consulta_res = mysqli_query($bd, $consulta);
+
+        if(mysqli_num_rows($consulta_res) > 0){
+            $calendario = mysqli_fetch_array($consulta_res);
+        }else{
+            $calendario = 1;
+        }
+    }
+    return $calendario;
+}
+
+function buscarPacientes($post){
+    $bd = conectarBD();
+    $pacientes = 2;
+    $indice = ['nombre', 'apellidos', 'fecha_ini', 'fecha_fin', 'estado', 'ordenar'];
+
+
+    if($bd){
+        //construimos la consulta
+        $consulta = "SELECT * FROM usuarios WHERE rol='P' and";
+        $esta = 0;
+
+        for($i = 0; $i < 6 ; $i = $i+1){
+
+            //si está 
+            if(isset($post[$indice[$i]]) && $post[$indice[$i]] != ''){
+                $hay = ' ';
+                $esta = $esta + 1;
+                //comprobamos si los campos siguientes tienen valor
+                for($j = $i+1; $j < 6; $j= $j+1){
+                    if($indice[$j] != 'ordenar' && isset($post[$indice[$j]]) && $post[$indice[$j]] != ''){
+                        $hay = 'and';
+                    }
+                }
+                //si es el nombre
+                if($indice[$i] == 'nombre'){
+                    $consulta .= " ".$indice[$i]." LIKE '%".$post[$indice[$i]]."%' ".$hay." ";
+                }
+
+                //si es el apellido
+                else if($indice[$i] == 'apellidos'){
+                    $consulta .= " ".$indice[$i]." LIKE '%".$post[$indice[$i]]."%' ".$hay." ";
+                }
+                //si es el intervalo de la fecha
+                else if($indice[$i] == 'fecha_ini'){
+
+                    //comprobamos si está definido los meses finales
+                    if(isset($post['fecha_fin']) && $post['fecha_fin'] != ''){
+                        $consulta .= " fecha BETWEEN ".$post['fecha_ini']." AND ".$post['fecha_fin']." ".$hay." ";
+                    }
+                    else{
+                        $consulta .= " fecha > ".$post['fecha_ini']." ".$hay." ";
+                    }
+                }
+                else if($indice[$i] == 'fecha_fin'){
+                    if(!isset($post['fecha_ini'])){
+                        $consulta .= " fecha < ".$post['fecha_fin']." ".$hay." ";
+                    }
+                }
+                //si es el estado
+                else if($indice[$i] == 'estado'){
+                    $consulta .= " ".$indice[$i]." = '".$post[$indice[$i]]."' ".$hay." ";
+                }
+                else if($indice[$i] == 'ordenar'){
+                    $consulta .= "ORDER BY ";
+                    if($post[$indice[$i]] == 'NA') $consulta .= " nombre, apellidos;";
+                    else if($post[$indice[$i]] == 'YN') $consulta .= " fecha;";
+                    else if($post[$indice[$i]] == 'NY') $consulta .= " fecha DESC;";
+                }
+            }
+            else if($indice[$i] == 'ordenar'){
+                $consulta .= " ORDER BY nombre, apellidos;";
+            }
+        }
+        if($esta == 0){
+            $consulta = "SELECT * FROM usuarios WHERE rol='P';";
+        }
+        
+        $pacientes = $consulta;
+        /*$consulta_res = mysqli_query($bd, $consulta);
+
+        if(mysqli_num_rows($consulta_res) > 0){
+            $calendario = mysqli_fetch_array($consulta_res);
+        }else{
+            $calendario = 1;
+        }*/
+    }
+    return $pacientes;
+
 }
 ?>

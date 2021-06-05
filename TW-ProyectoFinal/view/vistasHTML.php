@@ -54,7 +54,7 @@ function HTMLnav($user){
         }
         elseif($user == 'S'){
             $nav = ["Inicio", "Calendario de vacunación", "Datos personales", "Cartilla de vacunación", "Búsqueda de pacientes"];
-            $links = ["../view/inicio.php", "../controller/calendario.php", "../controller/editUser.php", "../controller/cartillaVacunacion.php", "../view/busquedaPacientes.php"];
+            $links = ["../view/inicio.php", "../controller/calendario.php", "../controller/editUser.php", "../controller/cartillaVacunacion.php", "../controller/busquedaPacientes.php"];
         }
         echo "<div class='collapse navbar-collapse' id='navbarSupportedContent'>
         <ul class='navbar-nav mr-auto navbarident'>";
@@ -68,9 +68,9 @@ function HTMLnav($user){
             <li class="nav-item">
               <a class ='nav-link' href='../view/inicio.php'> Inicio </a>
             </li>
-            <li class="nav-item">
+            <!--<li class="nav-item">
               <a class ='nav-link' href='../controller/calendario.php'> Calendario de vacunación </a>
-            </li>
+            </li>-->
             <li class="nav-item">
               <a class ='nav-link' href='../controller/cartillaVacunacion.php'> Cartilla de vacunación </a>
             </li>
@@ -400,15 +400,12 @@ function finTabla(){
 	echo "</table> </div> </section>";
 }
 
-function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $comentarios, $c){
+function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $comentarios, $c, $user){
     $color = '';
     if($c == 'y'){
         $color = "style='background-color: #FFA07A'";
     }
-	else{
-		$borrar = "<input type='submit' name='borrarVacuna' value='Borrar Vacuna'>
-				   <input type='hidden' name='idVac' value='$idVacuna'>";
-	}
+	
     echo "
     <th scope='col' ".$color.">
         <form action='../controller/datosVacuna.php' method='post'>
@@ -420,10 +417,12 @@ function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $com
             <input type='hidden' name='comment' value='$comentarios'>
             <input type='hidden' name='cartilla' value='$c'>
 		</form>";
-		if($c =='n'){
-			echo "<form action='../controller/borrarVacCalendario.php' method='post'>
-					<input type='submit' name='borrarVacuna' value='Borrar'>
-            		<input type='hidden' name='idVac' value='$idVacuna'>
+		if($user =='A'){
+			echo "<form action='../controller/deleteVacCalendario.php' method='post'>
+					<input type='submit' name='deleteVac' value='Borrar'>
+            		<input type='hidden' name='id' value='$idCalendario'>
+                    <input type='hidden' name='idvacuna' value='$idVacuna'>
+                    <input type='hidden' name='acronimo' value='$acronimo'>
 				  </form>";
 		}
     echo "</th>";

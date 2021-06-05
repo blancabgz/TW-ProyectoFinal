@@ -28,7 +28,7 @@ if($rol == 'P' || $rol == 'S' || $rol == 'A'){
         cabeceraCalendario($titulo, $rol);
         
         //se muestra el cuerpo del calendario
-        cuerpoCartilla($calendario, $cartilla);
+        cuerpoCartilla($calendario, $cartilla, $rol);
     }
     
     HTMLformulario($rol);
@@ -51,7 +51,7 @@ function estaCartilla($id, $lista){
     return $esta;
 }
 
-function cuerpoCartilla($calendario, $cartilla){
+function cuerpoCartilla($calendario, $cartilla, $rol){
     
     $indice =  ['nombre', '-1', '0', '2', '4', '11', '12', '15', '36', '72',
     '144', '168', '216', '600', '780', '781'];
@@ -88,7 +88,7 @@ function cuerpoCartilla($calendario, $cartilla){
                         else{
                             //obtenemos el acronimo
                             $acronimo = obtenerAcronimoVacuna($c['idvacuna']);
-                            celdaCalendario($acronimo, $c['id'], $c['idvacuna'], $c['sexo'], $c['tipo'], $c['comentarios'], 'y');
+                            celdaCalendario($acronimo, $c['id'], $c['idvacuna'], $c['sexo'], $c['tipo'], $c['comentarios'], 'y', $rol);
                         }
                     }
                     //si i < ini
@@ -116,7 +116,7 @@ function cuerpoCartilla($calendario, $cartilla){
                     }
                     //si no está, se pone de otro color
                     else{
-                        celdaCalendario($acronimo, $c['id'], $c['idvacuna'], $c['sexo'], $c['tipo'], $c['comentarios'], 'y');
+                        celdaCalendario($acronimo, $c['id'], $c['idvacuna'], $c['sexo'], $c['tipo'], $c['comentarios'], 'y', $rol);
                     }
                 }
                 //si i < ini

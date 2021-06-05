@@ -757,10 +757,17 @@ function formularioVAC_CAL02($datos, $titulo, $form, $validar, $vacunas){
         echo "</section>";
 }
 
-function formularioVAC_CAL03($post, $titulo, $form, $vacunas){
+function formularioVAC_CAL03($post, $titulo, $form, $vacunas, $submit){
     $datos = procesarDatosVacunaCalendario($post, $vacunas);
     $sexo = formularioSexoCalendario($datos, 1);
     $tipo = formularioTipoCalendario($datos, 1);
+
+    if($submit == 'b'){
+        $submit = "<input class='btn' type='submit' name='borrarVac' value='Borrar del Calendario'>";
+    }
+    else{
+        $submit = "<input class='btn' type='submit' name='validarDatos' value='Validar datos'>";
+    }
 
     echo "
         <main>
@@ -791,9 +798,7 @@ function formularioVAC_CAL03($post, $titulo, $form, $vacunas){
                 <div class='form-group'>
                     <label> Comentarios: <input readonly type='text' class='form-control' name='comentarios' value='".$datos['comentarios']."'></label>
                 </div>
-                <div class='form-group form boton'>
-                    <input class='btn' type='submit' name='validarDatos' value='Validar datos'>
-                </div>
+                <div class='form-group form boton'>".$submit." </div>
             </form>
         </section>";
 }
@@ -874,5 +879,42 @@ function formularioTipoCalendario($datos, $deshabilitado){
     }
 
     return $tipo;
+}
+
+function formularioBUSQP($titulo, $form){
+    echo <<< HTML
+    <main>
+        <section id="contenido" class="borde_verde formulario">
+            <h1> $titulo </h1>
+            <form action="$form"  method="post" enctype="multipart/form-data" id="add">
+                <div class="form-group">
+                    <label> Nombre: <input class="form-control" type="text" name="nombre"></label>
+                </div>
+                <div class="form-group">
+                    <label> Apellidos: <input type="text" class="form-control" name="apellidos"></label>
+                </div>
+                <div class="form-group">
+                    <label> Intervalo de fecha: 
+                        <label> Fecha inicial: <input type="date" class="form-control" name="fecha_ini"></label>
+                        <label> Fecha fin: <input type="date" class="form-control" name="fecha_fin"></label>
+                </div>
+                <div class="form-group">
+                    <label> Estado:
+                        <label> <input type="radio" name="estado" value="A"> Activo </label>
+                        <label> <input type="radio" name="estado" value="I"> Inactivo </label>
+                    </label>
+                </div>
+                <label> Ordenar por:
+                        <label> <input type="radio" name="ordenar" value="NA"> alfabéticamente por apellidos y nombre </label>
+                        <label> <input type="radio" name="ordenar" value="YN"> edad de mayor a menor </label>
+                        <label> <input type="radio" name="ordenar" value="NY"> edad de menor a mayor </label>
+                    </label>
+
+                <div class='form-group form boton'>
+                    <input class='btn' type='submit' name='buscarPacientes' value='Buscar Pacientes'>
+                </div>
+            </form>
+        </section>
+    HTML;
 }
 ?>

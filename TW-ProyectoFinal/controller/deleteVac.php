@@ -35,6 +35,7 @@ else{
             }
         
         //si el dni no está, se muestra un mensaje de error.
+        }
         else{
             mensaje($titulo, "La vacuna no es correcta.");
         }

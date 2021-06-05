@@ -27,7 +27,7 @@ else{
     cabeceraCalendario($titulo, $rol);
     
     //se muestra el cuerpo del calendario
-    cuerpoCalendario($calendario);
+    cuerpoCalendario($calendario, $rol);
 }
 
 HTMLformulario($rol);
@@ -36,7 +36,7 @@ HTMLfooter();
 
 
 //cuerpo del calendario
-function cuerpoCalendario($calendario){
+function cuerpoCalendario($calendario, $rol){
 	$indice =  ['nombre', '-1', '0', '2', '4', '11', '12', '15',
 	'36', '72', '144', '168', '216', '600', '780', '781'];
 
@@ -65,7 +65,7 @@ function cuerpoCalendario($calendario){
 
                         //obtenemos el acronimo
 						$acronimo = obtenerAcronimoVacuna($c['idvacuna']);
-                        celdaCalendario($acronimo, $c['id'], $c['idvacuna'], $c['sexo'], $c['tipo'], $c['comentarios'], 'n');
+                        celdaCalendario($acronimo, $c['id'], $c['idvacuna'], $c['sexo'], $c['tipo'], $c['comentarios'], 'n', $rol);
 					}
 					//si i < ini, se deja la celda vacía
 					else if($i < $c['meses_ini']){
@@ -87,7 +87,7 @@ function cuerpoCalendario($calendario){
 				else if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
                     //obtenemos el acronimo
                     $acronimo = obtenerAcronimoVacuna($c['idvacuna']);
-                    celdaCalendario($acronimo, $c['id'], $c['idvacuna'], $c['sexo'], $c['tipo'], $c['comentarios'], 'n');           
+                    celdaCalendario($acronimo, $c['id'], $c['idvacuna'], $c['sexo'], $c['tipo'], $c['comentarios'], 'n', $rol);           
 				}
 				//si i < ini
 				else if($i < $c['meses_ini']){

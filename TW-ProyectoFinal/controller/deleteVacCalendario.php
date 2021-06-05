@@ -19,30 +19,32 @@ else{
     HTMLheader($titulo);
     HTMLnav($rol);
 
-    //si viene de listado
+    //si viene del calendario
     if(isset($_POST['deleteVac'])){
         
         //si el dni está, obtenemos los datos y se muestran en el formulario
-        if(isset($_POST['idVac'])){
-            $_SESSION['idVac'] = $_POST['idVac'];
-            $datos = obtenerDatosVacuna($_POST['idVac']);
+        if(isset($_POST['id'])){
+            $_SESSION['id'] = $_POST['id'];
+            $datos = obtenerCalendarioID($_POST['id']);
+            $datos['idvacuna'] = $_POST['idvacuna'];
+            $vacunas = obtenerListadoVacunas();
 
             if(is_array($datos)){
-                formularioVAC_CAL03($datos, $titulo, $form, $accion);
+                formularioVAC_CAL03($datos, $titulo, $form, $vacunas, 'b');
             }
             else{
                 mensaje($titulo, $datos);
             }
         
         //si el dni no está, se muestra un mensaje de error.
-        else{
+        }else{
             mensaje($titulo, "La vacuna no es correcta.");
         }
     }
     
     //si ha confirmado borrar usuario, se borra el usuario y se muestra el mensaje por pantalla
     else if(isset($_POST['borrarVac'])){
-        $mensaje = borrarVacunaCalendario($_SESSION['idVac']);
+        $mensaje = borrarVacunaCalendario($_SESSION['id']);
         mensaje($titulo, $mensaje);
     }
     
