@@ -10,7 +10,26 @@ if($rol == 'P' || $rol == 'S' || $rol == 'A'){
 
     //se obtienen las vacunas y el calendario
     $calendario = obtenerCalendarioVacunas();
-    $cartilla = obtenerCartilla($_SESSION['usuario']);
+
+    //si es el sanitario que ha pulsado para ver la cartilla de vacunación
+    if(isset($_POST['cartillaVacunacion']) && $rol == 'S'){
+        $_SESSION['dnipaciente'] = $_POST['dnipaciente'];
+        $cartilla = obtenerCartilla($_POST['dnipaciente']);
+        $boton = "
+            <form action='../controller/busquedaPacientes.php' method='post'>
+                <input type='submit' name='cartillaVac' value='Volver al listado de Pacientes'/>
+            </form>";
+    }
+    else if(isset($_POST['cartilla']) && $rol == 'S'){
+        $cartilla = obtenerCartilla($_SESSION['dnipaciente']);
+        $boton = "
+            <form action='../controller/busquedaPacientes.php' method='post'>
+                <input type='submit' name='cartillaVac' value='Volver al listado de Pacientes'/>
+            </form>";
+    }
+    else{
+        $cartilla = obtenerCartilla($_SESSION['usuario']);
+    }
 
     //comprobamos que no ha habido error
     if($calendario == 0 || $cartilla == 0){
@@ -24,6 +43,14 @@ if($rol == 'P' || $rol == 'S' || $rol == 'A'){
     }
     //si no ha habido error, mostramos la cartilla de vacunación
     else{
+        //si el usuario es el sanitario, puede volver al listado de pacientes
+	    if($rol == 'S'){
+            $form = '../controller/busquedaPacientes.php';
+            $name = 'cartillaVac';
+            $value = 'Volver al listado de pacientes';
+	    	botonAddVacunaCalendario($titulo, $form, $name, $value, '');
+	    }
+
         //se muestra la cabecera del calendario
         cabeceraCalendario($titulo, $rol);
         
@@ -82,7 +109,8 @@ function cuerpoCartilla($calendario, $cartilla, $rol){
 
                         //si la vacuna está en la cartilla
                         if(estaCartilla($c['id'], $cartilla)){
-                            celdaCartilla($acronimo, $c['id'], $c['idvacuna']);
+                            $dnipaciente = obtenerDNI_ID($cartilla[1]['idusuario']);
+                            celdaCartilla($acronimo, $c['id'], $c['idvacuna'], $dnipaciente['dni']);
                         }
                         //si no está, se pone de otro color
                         else{
@@ -112,7 +140,8 @@ function cuerpoCartilla($calendario, $cartilla, $rol){
 
                     //si la vacuna está en la cartilla
                     if(estaCartilla($c['id'], $cartilla)){
-                        celdaCartilla($acronimo, $c['id'], $c['idvacuna']);
+                        $dnipaciente = obtenerDNI_ID($cartilla[1]['idusuario']);
+                        celdaCartilla($acronimo, $c['id'], $c['idvacuna'], $dnipaciente['dni']);
                     }
                     //si no está, se pone de otro color
                     else{

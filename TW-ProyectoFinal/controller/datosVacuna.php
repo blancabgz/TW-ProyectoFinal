@@ -18,6 +18,7 @@ if(isset($_POST['datosVacuna'])){
     $comentarios = $_POST['comment'];
     $vienede = 'Calendario';
     $form = '../controller/calendario.php';
+    $name = 'calendario';
 
     //comprobamos si ha habido error
 	if($nombre == 3 || $acronimo == 3){
@@ -45,9 +46,10 @@ if(isset($_POST['datosVacuna'])){
             'comentarios' => $comentarios,
             'form' => $form,
             'vienede' => $vienede,
+            'name' => 'cartilla',
         );
 
-        datosVacunas($datos, $titulo);
+        datosVacunas($datos, $titulo, $rol);
     }
 }
 

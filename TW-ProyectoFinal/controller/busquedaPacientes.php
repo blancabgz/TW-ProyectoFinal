@@ -21,7 +21,18 @@ if($rol == 'S'){
         
         //buscamos los pacientes
         $pacientes = buscarPacientes($_POST);
-        echo " ".$pacientes;
+        $_SESSION['pacientes'] = $pacientes;
+
+        if(is_array($pacientes)){
+            mostrarListaPacientes($pacientes, $titulo);
+        }
+        else{
+            mensaje($titulo, $pacientes);
+        }
+    }
+    //si llega de la cartilla de vacunación
+    else if(isset($_POST['cartillaVac'])){
+        mostrarListaPacientes($_SESSION['pacientes'], $titulo);
     }
     else{
         formularioBUSQP($titulo, $form);

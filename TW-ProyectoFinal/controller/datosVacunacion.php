@@ -14,7 +14,8 @@ if($rol == 'P' || $rol == 'S' || $rol == 'A'){
 	    //obtenemos los datos necesarios
 	    $nombre = obtenerNombreVacuna($_POST['idVac']);
 	    $acronimo = obtenerAcronimoVacuna($_POST['idVac']);
-	    $datosVac = obtenerDatosVacunacion($_SESSION['usuario'], $_POST['id']);
+		$dnipaciente = $_POST['dnipaciente'];
+	    $datosVac = obtenerDatosVacunacion($dnipaciente, $_POST['id']);
 
 		//comprobamos si ha habido error
 		if($nombre == 3 || $acronimo == 3 || $datosVac == 3){
@@ -41,9 +42,11 @@ if($rol == 'P' || $rol == 'S' || $rol == 'A'){
 	    	    'comentarios' => $datosVac['comentarios'],
 	    	    'form' => '../controller/cartillaVacunacion.php',
 	    	    'vienede' => 'Cartilla',
+				'name' => 'cartillaVacunacion',
+				'dnipaciente' => $dnipaciente,
 	    	);
 
-	    	datosCartilla($datos, $titulo);
+	    	datosCartilla($datos, $titulo, $rol);
 		}
 	}
 

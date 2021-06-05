@@ -726,7 +726,7 @@ function insertarVacunaCalendario($datos){
             }
 
             $consulta_res = mysqli_query($bd, $consulta);
-            echo " CONSULTA:".$consulta;
+            
             //si ha habido error
             if(!$consulta_res){
                 $mensaje = "Error de inserción, vuelva a intentarlo.";
@@ -763,7 +763,7 @@ function obtenerCalendarioID($id){
 
 function buscarPacientes($post){
     $bd = conectarBD();
-    $pacientes = 2;
+    $pacientes = "Error en al conectarse a la base de datos.";
     $indice = ['nombre', 'apellidos', 'fecha_ini', 'fecha_fin', 'estado', 'ordenar'];
 
 
@@ -828,16 +828,57 @@ function buscarPacientes($post){
             $consulta = "SELECT * FROM usuarios WHERE rol='P';";
         }
         
-        $pacientes = $consulta;
-        /*$consulta_res = mysqli_query($bd, $consulta);
+        $consulta_res = mysqli_query($bd, $consulta);
 
-        if(mysqli_num_rows($consulta_res) > 0){
-            $calendario = mysqli_fetch_array($consulta_res);
+        if($consulta_res){
+            if(mysqli_num_rows($consulta_res) > 0){
+                $pacientes = mysqli_fetch_all($consulta_res, MYSQLI_ASSOC);
+            }
+            else{
+                $pacientes = "No se han encontrado pacientes con ese criterio de búsqueda.";
+            }
         }else{
-            $calendario = 1;
-        }*/
+            $pacientes = "Error al realizar la consulta.";
+        }
     }
+    
     return $pacientes;
+}
 
+function activarPaciente($dni){
+    $bd = conectarBD();
+    $activado = "Error en la conexión a la base de datos.";
+
+    if($bd){
+        //construimos la consulta
+        $consulta = "UPDATE usuarios SET estado='A' WHERE dni='$dni';";
+        $consulta_res = mysqli_query($bd, $consulta);
+
+        if($consulta_res){
+            $activado = "Paciente activado con éxito.";
+        }else{
+            $activado = "No se ha encontrado el paciente en la base de datos.";
+        }
+    }
+    return $activado;
+}
+
+//obtener el dni a partir del id
+function obtenerDNI_ID($id){
+    $bd = conectarBD();
+    $dni = "Error en la conexión a la base de datos.";
+
+    if($bd){
+        //construimos la consulta
+        $consulta = "SELECT dni FROM usuarios WHERE id='$id';";
+        $consulta_res = mysqli_query($bd, $consulta);
+
+        if(mysqli_num_rows($consulta_res) < 0){
+            $dni = "No existe un usuario con ese identificador.";
+        }else{
+            $dni = mysqli_fetch_array($consulta_res);
+        }
+    }
+    return $dni;
 }
 ?>

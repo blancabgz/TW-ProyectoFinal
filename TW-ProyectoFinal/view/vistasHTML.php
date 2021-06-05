@@ -348,7 +348,7 @@ function cabeceraCalendario($titulo, $user){
 		'11 meses', '12 meses', '15 meses', '3 años', '6 años', '12 años',
 		'14 años', '18 años', '50 años', '65 años', '> 65 años'];
 
-    if($user == 'A'){
+    if($user == 'A' || $user == 'S'){
         echo <<< HTML
             <div class='container table-responsive py-5'>
                 <table class='table table-bordered table-hover'>
@@ -373,13 +373,14 @@ HTML;
 }
 
 /*  -------------------------------------------------- */
-function botonAddVacunaCalendario($titulo){
+function botonAddVacunaCalendario($titulo, $form, $name, $value, $dni){
     echo <<< HTML
         <main class='row'>
         <section id='contenido' class='borde_verde col-md-9'>
             <h1> $titulo </h1>
-            <form action="../controller/addVacunaCalendario.php" method='post'>
-                <input type='submit' name='vacunaCalendario' value='Añadir vacuna al calendario'>
+            <form action='$form' method='post'>
+                <input type='submit' name='$name' value='$value'>
+                <input type='hidden' name='dnipaciente' value='$dni'>
             </form>
     HTML;
 }
@@ -428,18 +429,27 @@ function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $com
     echo "</th>";
 }
 
-function celdaCartilla($acronimo, $idCalendario, $idVacuna){
+function celdaCartilla($acronimo, $idCalendario, $idVacuna, $dnipaciente){
     echo "
     <th scope='col' style='background-color: #BDB76B'>
         <form action='../controller/datosVacunacion.php' method='post'>
             <input type='submit' name='datosCartilla' value='$acronimo'>
             <input type='hidden' name='id' value='$idCalendario'>
             <input type='hidden' name='idVac' value='$idVacuna'>
+            <input type='hidden' name='dnipaciente' value='$dnipaciente'>
         </form>
     </th>";
 }
 
-function datosVacunas($datos, $titulo){
+function datosVacunas($datos, $titulo, $rol){
+    $botonAdd = '';
+    if($rol == 'S'){
+        $botonAdd = "
+        <form action='../controller/addVacunaCartilla.php' method='post'>
+        <input type='submit' name='vacunaCartilla' value='Añadir vacuna a la cartilla'>
+        </form>";
+    }
+    
     echo "
     <main>
         <section id='contenido' class='borde_verde'>
@@ -451,13 +461,28 @@ function datosVacunas($datos, $titulo){
             <p> Comentarios: ".$datos['comentarios']." </p>
     
         <form action='".$datos['form']."' method='post'>
-        <input type='submit' name='calendario' value=' Volver al ".$datos['vienede']."'>
+        <input type='submit' name='".$datos['name']."' value=' Volver a ".$datos['vienede']."'>
         </form>
+        ".$botonAdd."
     </section>
     ";
 }
 
-function datosCartilla($datos, $titulo){
+//muestra los datos de una vacuna de la cartilla
+function datosCartilla($datos, $titulo, $rol){
+    
+    $botones = '';
+    if($rol == 'S'){
+        $botones = "
+            <form action='../controller/editVacCartilla' method='post'>
+            <input type='submit' name='editVac' value='Editar vacuna de la cartilla'>
+            </form>
+            <form action='../controller/deleteVacCartilla' method='post'>
+            <input type='submit' name='deleteVac' value='Eliminar vacuna de la cartilla'>
+            </form>
+        ";
+    }
+
     echo "
     <main>
         <section id='contenido' class='borde_verde'>
@@ -469,9 +494,37 @@ function datosCartilla($datos, $titulo){
             <p> Comentarios: ".$datos['comentarios']." </p>
     
         <form action='".$datos['form']."' method='post'>
-        <input type='submit' name='calendario' value=' Volver al ".$datos['vienede']."'>
+        <input type='submit' name='".$datos['name']."' value=' Volver a ".$datos['vienede']."'>
+        <input type='hidden' name='dnipaciente' value='".$datos['dnipaciente']."'>
         </form>
-    </section>
-    ";
+        ".$botones."
+    </section>";
+}
+
+function mostrarListaPacientes($pacientes, $titulo){
+    echo <<< HTML
+    <main class="row">
+        <section id='contenido' class='borde_verde'>
+        <h1> $titulo </h1>
+    HTML;
+
+    foreach($pacientes as $p){
+        echo "
+            ".$p['nombre']."
+            ".$p['estado']."
+            <form action='../controller/cartillaVacunacion.php' method='post'>
+                <input type='submit' name='cartillaVacunacion' value='Cartilla de Vacunación'/>
+                <input type='hidden' name='dnipaciente' value='".$p['dni']."'/>
+            </form>";
+
+            if($p['estado'] == 'I'){
+                echo "
+                <form action='../controller/activarPaciente.php' method='post'>
+                    <input type='submit' name='activarPaciente' value='Activar Paciente'/>
+                    <input type='hidden' name='dnipaciente' value='".$p['dni']."'/>
+                </form>";
+            }
+    }
+    echo "</section>";
 }
 ?>

@@ -20,7 +20,10 @@ else if($calendario == 1){
 else{
 	//si el usuario es el administrador, puede añadir una vacuna al calendario
 	if($rol == 'A'){
-		botonAddVacunaCalendario($titulo);
+		$form = '../controller/addVacunaCalendario.php';
+		$name = 'vacunaCalendario';
+		$value = 'Añadir vacuna al calendario';
+		botonAddVacunaCalendario($titulo, $form, $name, $value, '');
 	}
 
     //se muestra la cabecera del calendario

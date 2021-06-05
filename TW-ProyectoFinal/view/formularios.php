@@ -132,7 +132,7 @@ function formularioUSU02($datos, $validar, $form, $titulo, $user, $accion){
     echo "</section>";
 }
 
-//añadir, ver, editar, borrar, solicitar
+//añadir, ver, editar, borrar, solicitar, activar
 function formularioUSU03($datos, $accion, $form, $titulo, $user){
     $campos = procesarDatos($datos);
 
@@ -143,7 +143,7 @@ function formularioUSU03($datos, $accion, $form, $titulo, $user){
     $submit = formularioSubmit($accion);
     //$dni = formularioDNI($campos, $accion);
 
-    if($accion == 'v' || $accion == 'b' || $accion == 'e') $campos['clave2'] = $campos['clave'];
+    if($accion == 'v' || $accion == 'b' || $accion == 'e' || $accion == 'ac') $campos['clave2'] = $campos['clave'];
 
     echo "
     <main>
@@ -530,13 +530,16 @@ function formularioEstado($datos, $desactivado){
     return $estado;
 }
 
-//$accion: a(añadir), v(ver), e(editar), b(borrar)
+//$accion: a(añadir), v(ver), e(editar), b(borrar), c(activar)
 function formularioSubmit($accion){
     $input = '';
     if($accion == 'a' || $accion == 'e' || $accion == 's'){
         $input = "<input class='btn' type='submit' name='validarDatos' value='Validar datos si son correctos'>";
     }else if($accion == 'b'){
         $input = "<input class='btn' type='submit' name='borrarUsuario' value='Borrar usuario definitivamente'>";
+    }
+    else if($accion == 'c'){
+        $input = "<input class='btn' type='submit' name='activado' value='Activar Paciente'>";
     }
     
     return $input;
