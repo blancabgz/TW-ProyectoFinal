@@ -3,7 +3,7 @@
 if(session_status()==PHP_SESSION_NONE)
     session_start();
 
-require_once '../view/vistasHTML.php';
+require_once '../view/vistasComunes.php';
 require_once '../model/basedatos.php';
 
 HTMLinicio("Login");

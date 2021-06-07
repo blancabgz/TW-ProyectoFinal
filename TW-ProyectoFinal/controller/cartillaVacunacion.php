@@ -1,6 +1,8 @@
 <?php
 require_once "../controller/check_login.php";
-require_once "../view/vistasHTML.php";
+require_once "../view/vistasComunes.php";
+require_once "../view/vistasCal-Cart.php";
+
 $titulo="Cartilla de Vacunación";
 
 if($rol == 'P' || $rol == 'S' || $rol == 'A'){

@@ -2,8 +2,9 @@
 require_once "../controller/check_login.php";
 require_once "../controller/validacion.php";
 require_once "../model/basedatos.php";
-require_once "../view/vistasHTML.php";
-require_once "../view/formularios.php";
+require_once "../view/vistasComunes.php";
+require_once "../view/vistasUsuarios.php";
+require_once "../view/formulariosUSU.php";
 
 $titulo="Buscar pacientes";
 $form = '../controller/busquedaPacientes.php';

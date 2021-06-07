@@ -1,7 +1,8 @@
 <?php
 require_once '../controller/check_login.php';
 require_once '../model/basedatos.php';
-require_once '../view/vistasHTML.php';
+require_once '../view/vistasComunes.php';
+require_once '../view/vistasVacunas.php';
 
 $titulo="Listado de vacunas";
 

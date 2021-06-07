@@ -1,6 +1,7 @@
 <?php
 require_once "../controller/check_login.php";
-require_once "../view/vistasHTML.php";
+require_once "../view/vistasComunes.php";
+require_once "../view/vistasCal-Cart.php";
 $titulo="Calendario de vacunación Andalucia 2020";
 
 HTMLinicio($titulo);

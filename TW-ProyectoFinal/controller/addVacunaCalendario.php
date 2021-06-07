@@ -2,8 +2,8 @@
 require_once "../controller/check_login.php";
 require_once "../controller/validacion.php";
 require_once "../model/basedatos.php";
-require_once "../view/vistasHTML.php";
-require_once "../view/formularios.php";
+require_once "../view/vistasComunes.php";
+require_once "../view/formulariosVAC_CAL.php";
 
 $titulo="Añadir vacuna al calendario";
 $titulo_form="Nueva vacuna";
