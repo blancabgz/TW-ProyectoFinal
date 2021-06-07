@@ -4,8 +4,8 @@
 function formularioVAC01($titulo, $form){
 
     echo <<< HTML
-         <main>
-        <section id="contenido" class="borde_verde formulario">
+        <main class="row">
+        <section id="contenido" class="borde_verde formulario col-md-9">
             <h1> $titulo </h1>
             <form action="$form"  method="post" enctype="multipart/form-data" id="add">
                 <div class="form-group">
@@ -31,8 +31,8 @@ function formularioVAC02($datos, $titulo, $form, $validar){
     $campos = procesarDatosVacuna($datos);
 
     echo "
-         <main>
-        <section id='contenido' class='borde_verde formulario'>
+        <main class='row'>
+        <section id='contenido' class='borde_verde formulario col-md-9'>
             <h1> $titulo </h1>
             <form action='$form'  method='post' enctype='multipart/form-data' id='add'>
                 <div class='form-group'>
@@ -63,14 +63,14 @@ function formularioVAC03($datos, $titulo, $form, $accion){
     $campos = procesarDatosVacuna($datos);
 
     $submit = "<input class='btn' type='submit' name='validarDatos' value='Validar datos'>";
-    
+
     if($accion == 'bV'){
         $submit = "<input class='btn' type='submit' name='borrarVac' value='Borrar vacuna definitivamente'>";
     }
 
     echo "
-         <main>
-        <section id='contenido' class='borde_verde formulario'>
+        <main class='row'>
+        <section id='contenido' class='borde_verde formulario col-md-9'>
             <h1> $titulo </h1>
             <form action='$form'  method='post' enctype='multipart/form-data' id='add'>
                 <div class='form-group'>

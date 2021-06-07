@@ -1,5 +1,5 @@
 <?php
-require_once "../view/vistasComunes.php";
+require_once "../view/vistasHTML.php";
 require_once "../model/basedatos.php";
 $titulo="Presentación";
 $rol = 'V';

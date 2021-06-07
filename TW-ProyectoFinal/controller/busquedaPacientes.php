@@ -41,8 +41,7 @@ if($rol == 'S'){
 //si no es sanitario, se le redirige al inicio
 }
 else{
-    header("Location: ../view/inicio.php");
-	
+    header("Location: ../view/inicio.php");	
 }
 HTMLformulario($rol);
 HTMLfooter();

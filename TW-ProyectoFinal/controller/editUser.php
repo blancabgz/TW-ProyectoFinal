@@ -83,11 +83,11 @@ else if($rol == 'P' || $rol == 'S'){
             mensaje($titulo_form, $mensaje);
         }
 	}
-    
+
     //si ha pulsado en Datos Personales
 	else{
         $datos = obtenerDatosUsuario($_SESSION['usuario']);
-        
+
         //si es un array, es la consulta, se muestra por el formulario
         if(is_array($datos)){
             formularioUSU05($datos, $accion, $form, $titulo_form);
@@ -95,7 +95,7 @@ else if($rol == 'P' || $rol == 'S'){
         //si no, ha habido error
         else{
             mensaje($titulo, $datos);
-        }        
+        }
 	}
 }
 

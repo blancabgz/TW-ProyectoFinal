@@ -4,7 +4,7 @@
 function mostrarListaVacunas($lista, $titulo){
     echo <<< HTML
     <main class="row">
-        <section id='contenido' class='borde_verde'>
+        <section id='contenido' class='borde_verde col-md-9'>
         <h1> $titulo </h1>
     HTML;
 

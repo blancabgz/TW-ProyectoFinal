@@ -55,11 +55,11 @@ if($rol == 'P' || $rol == 'S' || $rol == 'A'){
 
         //se muestra la cabecera del calendario
         cabeceraCalendario($titulo, $rol);
-        
+
         //se muestra el cuerpo del calendario
         cuerpoCartilla($calendario, $cartilla, $rol);
     }
-    
+
     HTMLformulario($rol);
     HTMLfooter();
 }
@@ -81,7 +81,7 @@ function estaCartilla($id, $lista){
 }
 
 function cuerpoCartilla($calendario, $cartilla, $rol){
-    
+
     $indice =  ['nombre', '-1', '0', '2', '4', '11', '12', '15', '36', '72',
     '144', '168', '216', '600', '780', '781'];
 
@@ -90,21 +90,21 @@ function cuerpoCartilla($calendario, $cartilla, $rol){
 
     //para cada fila del calendario obtenido
     foreach($calendario as $c){
-    
+
         //si estamos añadiendo una vacuna diferente, cambiamos de fila
         $vacActual = $c['idvacuna'];
         if($vacActual != $vacOld){
             finFila();
         }
-    
+
         //recorremos el índice
         foreach($indice as $i){
-    
+
             //si la vacuna es la misma, rellenamos en la misma línea
             if($vacActual == $vacOld){
                 //si el mes que estamos mirando es posterior al que ya se ha puesto
                 if($i > $fech && $i != 'nombre'){
-    
+
                     //si ini <= i <= fin
                     if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
                         $acronimo = obtenerAcronimoVacuna($c['idvacuna']);
@@ -159,10 +159,10 @@ function cuerpoCartilla($calendario, $cartilla, $rol){
                     break;
                 }
             }
-        }	
+        }
         $vacOld = $vacActual;
     }
-    
+
     finFila();
 }
 

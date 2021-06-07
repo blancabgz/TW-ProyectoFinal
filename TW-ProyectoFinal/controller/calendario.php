@@ -8,6 +8,10 @@ HTMLinicio($titulo);
 HTMLheader($titulo);
 HTMLnav($rol);
 
+echo <<< HTML
+<main class='row'>
+  <section id='contenido' class='borde_verde col-md-9'>
+HTML;
 //se obtienen las vacunas y el calendario
 $calendario = obtenerCalendarioVacunas();
 
@@ -29,12 +33,17 @@ else{
 
     //se muestra la cabecera del calendario
     cabeceraCalendario($titulo, $rol);
-    
+
     //se muestra el cuerpo del calendario
     cuerpoCalendario($calendario, $rol);
 }
 
+
 HTMLformulario($rol);
+echo <<< HTML
+  </section>
+</main>
+HTML;
 HTMLfooter();
 
 
@@ -46,24 +55,24 @@ function cuerpoCalendario($calendario, $rol){
 
 	$vacOld = 0;
 	$fech = 0;
-	
+
 	//para cada fila del calendario obtenido
 	foreach($calendario as $c){
-	
+
 		$vacActual = $c['idvacuna'];
 		if($vacActual != $vacOld){
 			finFila();
 		}
-	
+
 		//recorremos el índice
 		foreach($indice as $i){
-	
+
 			//si la vacuna es la misma, rellenamos en la misma línea
 			if($vacActual == $vacOld){
 
 				//si el mes que estamos mirando es posterior al que ya se ha puesto
 				if($i > $fech && $i != 'nombre'){
-	
+
 					//si ini <= i <= fin, se muesta la celda con el acrónimo
 					if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
 
@@ -91,7 +100,7 @@ function cuerpoCalendario($calendario, $rol){
 				else if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
                     //obtenemos el acronimo
                     $acronimo = obtenerAcronimoVacuna($c['idvacuna']);
-                    celdaCalendario($acronimo, $c['id'], $c['idvacuna'], $c['sexo'], $c['tipo'], $c['comentarios'], 'n', $rol);           
+                    celdaCalendario($acronimo, $c['id'], $c['idvacuna'], $c['sexo'], $c['tipo'], $c['comentarios'], 'n', $rol);
 				}
 				//si i < ini
 				else if($i < $c['meses_ini']){
@@ -102,7 +111,7 @@ function cuerpoCalendario($calendario, $rol){
 					break;
 				}
 			}
-		}	
+		}
 		$vacOld = $vacActual;
 	}
     finTabla();

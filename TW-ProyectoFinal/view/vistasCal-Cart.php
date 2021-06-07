@@ -24,7 +24,7 @@ echo <<< HTML
 	    				    <tr>
 HTML;
     }
-	 
+
 	foreach($cabecera as $cab){
 		echo "<th scope='col'>".$cab."</th>";
 	}
@@ -65,7 +65,7 @@ function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $com
     if($c == 'y'){
         $color = "style='background-color: #FFA07A'";
     }
-	
+
     echo "
     <th scope='col' ".$color.">
         <form action='../controller/datosVacuna.php' method='post'>
@@ -102,26 +102,44 @@ function celdaCartilla($acronimo, $idCalendario, $idVacuna, $dnipaciente){
 
 function datosVacunas($datos, $titulo, $rol){
     $botonAdd = '';
-    if($rol == 'S'){
+    if($datos['vienede'] == 'Cartilla' && $rol == 'S'){
         $botonAdd = "
         <form action='../controller/addVacunaCartilla.php' method='post'>
         <input type='submit' name='vacunaCartilla' value='Añadir vacuna a la cartilla'>
         </form>";
     }
-    
+
     echo "
-    <main>
-        <section id='contenido' class='borde_verde'>
+    <main class='row'>
+        <section id='contenido' class='borde_verde vacuna col-md-9'>
             <h1> $titulo </h1>
-            <p> Nombre: ".$datos['nombre']." </p>
-            <p> Acronimo: ".$datos['acronimo']." </p>
-            <p> Sexo: ".$datos['sexo']." </p>
-            <p> Tipo: ".$datos['tipo']." </p>
-            <p> Comentarios: ".$datos['comentarios']." </p>
-    
-        <form action='".$datos['form']."' method='post'>
-        <input type='submit' name='".$datos['name']."' value=' Volver a ".$datos['vienede']."'>
-        </form>
+						<table class='table table-bordered table-striped table-responsive-stack' id='tableOne'>
+							<thead class='thead-dark'>
+								<tr>
+									<th>Nombre</th>
+									<th>Acronimo</th>
+									<th>Sexo</th>
+									<th>Tipo</th>
+									<th>Comentarios</th>
+							 	</tr>
+							</thread>
+							<tbody>
+								<tr>
+									<td>".$datos['nombre']."</td>
+									<td>".$datos['acronimo']."</td>
+									<td>".$datos['sexo']."</td>
+									<td>".$datos['tipo']."</td>
+									<td>".$datos['comentarios']."</td>
+							 	</tr>
+							</tbody>
+
+						</table>
+
+                <form class='row form-group form boton' action='".$datos['form']."' method='post'>
+					<div class='col-12 boton'>
+	        	<input class='btn' type='submit' name='".$datos['name']."' value=' Volver a ".$datos['vienede']."'>
+					</div>
+				</form>
         ".$botonAdd."
     </section>
     ";
@@ -129,7 +147,7 @@ function datosVacunas($datos, $titulo, $rol){
 
 //muestra los datos de una vacuna de la cartilla
 function datosCartilla($datos, $titulo, $rol){
-    
+
     $botones = '';
     if($rol == 'S'){
         $botones = "
@@ -143,15 +161,15 @@ function datosCartilla($datos, $titulo, $rol){
     }
 
     echo "
-    <main>
-        <section id='contenido' class='borde_verde'>
+    <main class='row'>
+        <section id='contenido' class='borde_verde col-md-9'>
             <h1> $titulo </h1>
             <p> Nombre: ".$datos['nombre']." </p>
             <p> Acronimo: ".$datos['acronimo']." </p>
             <p> Fecha: ".$datos['fecha']." </p>
             <p> Fabricante: ".$datos['fabricante']." </p>
             <p> Comentarios: ".$datos['comentarios']." </p>
-    
+
         <form action='".$datos['form']."' method='post'>
         <input type='submit' name='".$datos['name']."' value=' Volver a ".$datos['vienede']."'>
         <input type='hidden' name='dnipaciente' value='".$datos['dnipaciente']."'>

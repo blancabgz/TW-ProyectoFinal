@@ -245,8 +245,8 @@ function HTMLfooter(){
 
 function mensaje($h1, $mensaje){
     echo <<< HTML
-    <main>
-        <section id='contenido' class="borde_verde">
+    <main class='row'>
+        <section id='contenido' class="borde_verde col-md-9">
             <h1> $h1 </h1>
             <p> $mensaje </p>
         </section>

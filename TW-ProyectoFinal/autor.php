@@ -1,6 +1,6 @@
 <?php
 require_once "../controller/check_login.php";
-require_once "../view/vistasComunes.php";
+require_once "../view/vistasHTML.php";
 $titulo="Autor";
 HTMLinicio($titulo);
 HTMLheader($titulo);

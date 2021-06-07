@@ -2,12 +2,12 @@
 require_once "../controller/check_login.php";
 require_once "../controller/validacion.php";
 require_once "../model/basedatos.php";
-require_once "../view/vistasComunes.php";
-require_once "../view/formulariosVAC.php";
+require_once "../view/vistasHTML.php";
+require_once "../view/formularios.php";
 
-$titulo="Añadir vacuna";
-$titulo_form="Nueva vacuna";
-$form = '../controller/addVac.php';
+$titulo="Añadir usuario";
+$titulo_form="Nuevo usuario";
+$form = '../controller/add.php';
 $accion = 'a';
 
 HTMLinicio($titulo);
@@ -20,31 +20,32 @@ if($rol != 'A'){
 }
 //si es la persona administradora
 else{
-
+	
 	//si se ha enviado los datos, se procesa la imagen y se muestra el formulario
 	if(isset($_POST['enviarDatos'])){
-        formularioVAC03($_POST, $titulo_form, $form, $accion);
+        procesarFotografia();
+        formularioUSU03($_POST, $accion, $form, $titulo_form, $rol);
 	}
-
+    
     //si va a validar los datos, se procesan y validan los datos
 	else if(isset($_POST['validarDatos'])){
-        $datos = procesarDatosVacuna($_POST);
-	    $validar = validarDatosVacuna($datos);
-
+        $datos = procesarDatos($_POST);
+	    $validar = validarDatos($datos, $accion);
+        
         //si hay errores se muestra el formulario
         if(!empty($validar)){
-            formularioVAC02($datos, $titulo_form, $form, $validar);
+            formularioUSU02($datos, $validar, $form, $titulo_form, $rol, $accion);
         }
         //si está todo OK, se inserta el usuario
         else{
-            $mensaje = insertarVacuna($datos, $rol);
+            $mensaje = insertarUsuario($datos, $rol);
             mensaje($titulo, $mensaje);
         }
 	}
 
     //si viene de nuevas, se le muestra el formulario
 	else{
-		formularioVAC01($titulo_form, $form);
+		formularioUSU01($titulo_form, $form);
 	}
 }
 HTMLformulario($rol);

@@ -4,8 +4,8 @@
 //añadir
 function formularioUSU01($titulo, $form){
 echo <<< HTML
-    <main class="row">
-        <section id="contenido" class="borde_verde formulario col-md-9">
+    <main>
+        <section id="contenido" class="borde_verde formulario">
             <h1> $titulo </h1>
             <form action="$form"  method="post" enctype="multipart/form-data" id="add">
                 <div class="form-group">
@@ -73,14 +73,14 @@ function formularioUSU02($datos, $validar, $form, $titulo, $user, $accion){
     $rol = formularioRol($campos['rol'], '0');
     $estado = formularioEstado($campos['estado'], '0');
     //$dni = formularioDNI($campos, $accion);
-
+    
     if($accion == 'e'){
         $campos['clave2'] = $campos['clave'];
     }
 
     echo "
-    <main class='row'>
-    <section id='contenido' class='borde_verde formulario col-md-9'>
+    <main>
+    <section id='contenido' class='borde_verde formulario'>
         <h1>".$titulo."</h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
         <div class='form-group'>
@@ -93,7 +93,7 @@ function formularioUSU02($datos, $validar, $form, $titulo, $user, $accion){
             <label> Apellidos: <input type='text' class='form-control' name='apellidos' value='".$campos['apellidos']."'></label>
             </div>
             <div class='form-group'>
-                <label> DNI: <input type='text' class='form-control' name='dni' value='".$campos['dni']."' ></label>
+                <label> DNI: <input type='text' class='form-control' name='dni' value='".$campos['dni']."' ></label>            
             </div>
             <div class='form-group'>
             <label> Email: <input type='text' class='form-control' name='email' value='".$campos['email']."'></label>
@@ -146,8 +146,8 @@ function formularioUSU03($datos, $accion, $form, $titulo, $user){
     if($accion == 'v' || $accion == 'b' || $accion == 'e' || $accion == 'ac') $campos['clave2'] = $campos['clave'];
 
     echo "
-    <main class='row'>
-    <section id='contenido' class='borde_verde formulario col-md-9'>
+    <main>
+    <section id='contenido' class='borde_verde formulario'>
         <h1> ".$titulo." </h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
             <div class='form-group'>
@@ -194,8 +194,8 @@ function formularioUSU03($datos, $accion, $form, $titulo, $user){
 //solicitar
 function formularioUSU04($titulo, $form){
 echo <<< HTML
-    <main class="row">
-        <section id="contenido" class="borde_verde formulario col-md-9">
+    <main>
+        <section id="contenido" class="borde_verde formulario">
             <h1> $titulo </h1>
             <form action="$form"  method="post" enctype="multipart/form-data" id="add">
                 <div class="form-group">
@@ -236,7 +236,7 @@ echo <<< HTML
                 </div>
             </form>
         </section>
-HTML;
+HTML;        
 }
 
 //editar
@@ -248,8 +248,8 @@ function formularioUSU05($datos, $validar, $form, $titulo){
     $campos['clave2'] = $campos['clave'];
 
     echo "
-    <main class='row'>
-    <section id='contenido' class='borde_verde formulario col-md-9'>
+    <main>
+    <section id='contenido' class='borde_verde formulario'>
         <h1>".$titulo."</h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
         <div class='form-group'>
@@ -307,8 +307,8 @@ function formularioUSU06($datos, $accion, $form, $titulo){
     $submit = formularioSubmit($accion);
 
     echo "
-    <main class='row'>
-    <section id='contenido' class='borde_verde formulario col-md-9'>
+    <main>
+    <section id='contenido' class='borde_verde formulario'>
         <h1> ".$titulo." </h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
         <div class='form-group'>
@@ -356,12 +356,12 @@ function formularioUSU07($datos, $validar, $form, $titulo){
     $sexo = formularioSexo($campos['sexo'], '0');
     $rol = formularioRol($campos['rol'], '0');
     $estado = formularioEstado($campos['estado'], '0');
-
+    
     $campos['clave2'] = $campos['clave'];
-
+    
     echo "
-    <main class='row'>
-    <section id='contenido' class='borde_verde formulario col-md-9'>
+    <main>
+    <section id='contenido' class='borde_verde formulario'>
         <h1>".$titulo."</h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
         <div class='form-group'>
@@ -374,7 +374,7 @@ function formularioUSU07($datos, $validar, $form, $titulo){
             <label> Apellidos: <input type='text' name='apellidos' value='".$campos['apellidos']."'></label>
         </div>
         <div class='form-group'>
-            <label> DNI: <input type='text' name='dni' value='".$datos['dni']."' ></label>
+            <label> DNI: <input type='text' name='dni' value='".$datos['dni']."' ></label>            
         </div>
         <div class='form-group'>
             <label> Email: <input type='text' name='email' value='".$campos['email']."'></label>
@@ -406,7 +406,6 @@ function formularioUSU07($datos, $validar, $form, $titulo){
     }
     echo "</section>";
 }
-
 
 /* Funciones auxiliares para los formularios de usuarios */
 function formularioSexo($datos, $desactivado){
@@ -542,7 +541,7 @@ function formularioSubmit($accion){
     else if($accion == 'c'){
         $input = "<input class='btn' type='submit' name='activado' value='Activar Paciente'>";
     }
-
+    
     return $input;
 }
 
@@ -574,10 +573,321 @@ function formularioFoto($foto, $n){
     return $fotografia;
 }
 
+
+/* FORMULARIOS DE VACUNAS */
+//formulario vacío para vacunas
+function formularioVAC01($titulo, $form){
+
+    echo <<< HTML
+         <main>
+        <section id="contenido" class="borde_verde formulario">
+            <h1> $titulo </h1>
+            <form action="$form"  method="post" enctype="multipart/form-data" id="add">
+                <div class="form-group">
+                    <label> Nombre: <input class="form-control" type="text" name="nombre"></label>
+                </div>
+                <div class="form-group">
+                    <label> Acrónimo: <input type="text" class="form-control" name="acronimo"></label>
+                </div>
+                <div class="form-group">
+                    <label> Descripción: <input type="text" class="form-control" name="descripcion"></label>
+                </div>
+                <div class='form-group form boton'>
+                    <input class='btn' type='submit' name='enviarDatos' value='Enviar datos'>
+                </div>
+            </form>
+        </section>
+    HTML;
+}
+
+
+//formulario para vacunas relleno para modificar
+function formularioVAC02($datos, $titulo, $form, $validar){
+    $campos = procesarDatosVacuna($datos);
+
+    echo "
+         <main>
+        <section id='contenido' class='borde_verde formulario'>
+            <h1> $titulo </h1>
+            <form action='$form'  method='post' enctype='multipart/form-data' id='add'>
+                <div class='form-group'>
+                    <label> Nombre: <input class='form-control' type='text' name='nombre' value='".$campos['nombre']."'></label>
+                </div>
+                <div class='form-group'>
+                    <label> Acrónimo: <input type='text' class='form-control' name='acronimo' value='".$campos['acronimo']."'></label>
+                </div>
+                <div class='form-group'>
+                    <label> Descripción: <input type='text' class='form-control' name='descripcion' value='".$campos['descripcion']."'></label>
+                </div>
+                <div class='form-group form boton'>
+                    <input class='btn' type='submit' name='enviarDatos' value='Enviar datos'>
+                </div>
+            </form>";
+
+    if($validar != ''){
+        foreach($validar as $k){
+            echo "<p> ".$k."</p>";
+        }
+    }
+
+    echo "</section>";
+}
+
+//formulario para vacunas relleno para no modificar
+function formularioVAC03($datos, $titulo, $form, $accion){
+    $campos = procesarDatosVacuna($datos);
+
+    $submit = "<input class='btn' type='submit' name='validarDatos' value='Validar datos'>";
+    
+    if($accion == 'bV'){
+        $submit = "<input class='btn' type='submit' name='borrarVac' value='Borrar vacuna definitivamente'>";
+    }
+
+    echo "
+         <main>
+        <section id='contenido' class='borde_verde formulario'>
+            <h1> $titulo </h1>
+            <form action='$form'  method='post' enctype='multipart/form-data' id='add'>
+                <div class='form-group'>
+                    <label> Nombre: <input readonly class='form-control' type='text' name='nombre' value='".$campos['nombre']."'></label>
+                </div>
+                <div class='form-group'>
+                    <label> Acrónimo: <input readonly type='text' class='form-control' name='acronimo' value='".$campos['acronimo']."'></label>
+                </div>
+                <div class='form-group'>
+                    <label> Descripción: <input readonly type='text' class='form-control' name='descripcion' value='".$campos['descripcion']."'></label>
+                </div>
+                <div class='form-group form boton'>".$submit." </div>
+            </form>
+        </section>";
+}
+
+
+/* FORMULARIOS DE VACUNAS PARA CALENDARIO */
+function formularioVAC_CAL01($titulo, $form, $vacunas){
+    //$campos = procesarDatosVacuna($datos);
+
+    echo "
+        <main>
+        <section id='contenido' class='borde_verde formulario'>
+            <h1> $titulo </h1>
+            <form action='$form'  method='post' enctype='multipart/form-data' id='add'>
+                <div class='form-group'>
+                    <label> Nombre de la vacuna: <select name='idvacuna'>";
+                    foreach($vacunas as $v){
+                        echo "<option value='".$v['id']."'>".$v['nombre']."</option>";
+                    }
+                echo "   </select> </label>
+                </div>
+                <div class='form-group'>
+                    <label> Sexo:
+                        <label> <input type='radio' name='sexo' value='M'> Mujeres </label>
+                        <label> <input type='radio' name='sexo' value='H'> Hombres </label>
+                        <label> <input type='radio' name='sexo' value='T' default> Para todas las personas </label>
+                    </label>
+                </div>
+                <div class='form-group'>
+                    <label> Intervalo de tiempo de administración:
+                        <label> Mes de inicio: <input type='text' class='form-control' name='meses_ini'> </label>
+                        <label> Mes de fin: <input type='text' class='form-control' name='meses_fin'> </label>
+                        <p> Para expresar los meses en años, multiplíquelos por 12. </p> 
+                    </label>
+                </div>
+                <div class='form-group'>
+                    <label> Tipo: <select name='tipo'>
+                        <option value='S'> Administración Sistemática </option>
+                        <option value='N'> Administración en personas susceptibles o no vacunadas con anterioridad </option>
+                        <option value='R'> Administración en recién nacidos </option>
+                        </select>
+                    </label>
+                </div>
+                <div class='form-group'>
+                    <label> Comentarios: <input type='text' class='form-control' name='comentarios' value=''></label>
+                </div>
+                <div class='form-group form boton'>
+                    <input class='btn' type='submit' name='enviarDatos' value='Enviar datos'>
+                </div>
+            </form>
+        </section>";
+}
+
+function formularioVAC_CAL02($datos, $titulo, $form, $validar, $vacunas){
+
+    $sexo = formularioSexoCalendario($datos, 0);
+    $tipo = formularioTipoCalendario($datos, 0);
+    
+    echo "
+        <main>
+        <section id='contenido' class='borde_verde formulario'>
+            <h1> $titulo </h1>
+            <form action='$form'  method='post' enctype='multipart/form-data' id='add'>
+                <div class='form-group'>
+                    <label> Nombre de la vacuna: <select name='idvacuna'>";
+                    foreach($vacunas as $v){
+                        if($v['id'] == $datos['idvacuna']){
+                            echo "<option value='".$v['id']."' selected>".$v['nombre']."</option>";    
+                        }
+                        else{
+                            echo "<option value='".$v['id']."'>".$v['nombre']."</option>";
+                        }
+                    }
+                echo "   </select> </label>
+                </div>
+                <div class='form-group'>
+                    <label> Sexo: ".$sexo."</label>
+                </div>
+                <div class='form-group'>
+                    <label> Intervalo de tiempo de administración:
+                        <label> Mes de inicio: <input type='text' class='form-control' name='meses_ini' value='".$datos['meses_ini']."'> </label>
+                        <label> Mes de fin: <input type='text' class='form-control' name='meses_fin' value='".$datos['meses_fin']."'> </label>
+                    </label>
+                </div>
+                <div class='form-group'> <label> <select name='tipo'>".$tipo." </select> </label>
+                </div>
+                <div class='form-group'>
+                    <label> Comentarios: <input type='text' class='form-control' name='comentarios' value='".$datos['comentarios']."'></label>
+                </div>
+                <div class='form-group form boton'>
+                    <input class='btn' type='submit' name='enviarDatos' value='Enviar datos'>
+                </div>
+            </form>";
+
+        if($validar != ''){
+            foreach($validar as $k){
+                echo "<p> ".$k."</p>";
+            }
+        }
+        echo "</section>";
+}
+
+function formularioVAC_CAL03($post, $titulo, $form, $vacunas, $submit){
+    $datos = procesarDatosVacunaCalendario($post, $vacunas);
+    $sexo = formularioSexoCalendario($datos, 1);
+    $tipo = formularioTipoCalendario($datos, 1);
+
+    if($submit == 'b'){
+        $submit = "<input class='btn' type='submit' name='borrarVac' value='Borrar del Calendario'>";
+    }
+    else{
+        $submit = "<input class='btn' type='submit' name='validarDatos' value='Validar datos'>";
+    }
+
+    echo "
+        <main>
+        <section id='contenido' class='borde_verde formulario'>
+            <h1> $titulo </h1>
+            <form action='$form'  method='post' enctype='multipart/form-data' id='add'>
+                <div class='form-group'>
+                    <label> Nombre de la vacuna: <select name='idvacuna'>";
+                    foreach($vacunas as $v){
+                        if($v['id'] == $datos['idvacuna']){
+                            echo "<option value='".$v['id']."' selected>".$v['nombre']."</option>";    
+                        }
+                        else{
+                            echo "<option value='".$v['id']."' disabled>".$v['nombre']."</option>";
+                        }
+                    }
+                echo "   </select> </label>
+                </div>
+                <div class='form-group'><label> Sexo: ".$sexo."</label></div>
+                <div class='form-group'>
+                    <label> Intervalo de tiempo de administración:
+                        <label> Mes de inicio: <input readonly type='text' class='form-control' name='meses_ini' value='".$datos['meses_ini']."'> </label>
+                        <label> Mes de fin: <input readonly type='text' class='form-control' name='meses_fin' value='".$datos['meses_fin']."'> </label>
+                    </label>
+                </div>
+                <div class='form-group'> <label> <select name='tipo'>".$tipo." </select> </label>
+                </div>
+                <div class='form-group'>
+                    <label> Comentarios: <input readonly type='text' class='form-control' name='comentarios' value='".$datos['comentarios']."'></label>
+                </div>
+                <div class='form-group form boton'>".$submit." </div>
+            </form>
+        </section>";
+}
+
+function formularioSexoCalendario($datos, $deshabilitado){
+
+    $campos = array(
+        'M' => 'Mujeres',
+        'H' => 'Hombres',
+        'T' => 'Para todas las personas',
+    );
+    $indice = ['M', 'H', 'T'];
+    $sexo = '';
+
+    foreach($indice as $i){
+        if(isset($datos['sexo'])){
+            //si no está en disabled
+            if($deshabilitado == 0){
+                if($datos['sexo'] == $i){
+                    $sexo .= "<label> <input type='radio' name='sexo' value='".$i."' checked> ".$campos[$i]." </label>";
+                }
+                else{
+                    $sexo .= "<label> <input type='radio' name='sexo' value='".$i."'> ".$campos[$i]." </label>";
+                }
+            }
+            //si está en disabled
+            else{
+                if($datos['sexo'] == $i){
+                    $sexo .= "<label> <input type='radio' name='sexo' value='".$i."' checked> ".$campos[$i]." </label>";
+                }
+                else{
+                    $sexo .= "<label> <input type='radio' name='sexo' value='".$i."' disabled> ".$campos[$i]." </label>";
+                }
+            }
+        }
+        else{
+            $sexo .= "<label> <input type='radio' name='sexo' value='".$i."'> ".$campos[$i]." </label>";
+        }
+    }
+
+    return $sexo;
+}
+
+function formularioTipoCalendario($datos, $deshabilitado){
+
+    $campos = array(
+        'S' => 'Administración Sistemática',
+        'N' => 'Administración en personas susceptibles o no vacunadas con anterioridad',
+        'R' => 'Administración en recién nacidos',
+    );
+    $indice = ['S', 'N', 'R'];
+    $tipo = '';
+
+    foreach($indice as $i){
+        if(isset($datos['tipo'])){
+            //si no está en disabled
+            if($deshabilitado == 0){
+                if($datos['tipo'] == $i){
+                    $tipo .= "<option value='".$i."' selected> ".$campos[$i]." </option>";
+                }
+                else{
+                    $tipo .= "<option value='".$i."'> ".$campos[$i]." </option>";
+                }
+            }
+            //si está en disabled
+            else{
+                if($datos['tipo'] == $i){
+                    $tipo .= "<option value='".$i."' selected> ".$campos[$i]." </option>";
+                }
+                else{
+                    $tipo .= "<option value='".$i."' disabled> ".$campos[$i]." </option>";
+                }
+            }
+        }
+        else{
+            $tipo .= "<option value='".$i."'> ".$campos[$i]." </option>";
+        }
+    }
+
+    return $tipo;
+}
+
 function formularioBUSQP($titulo, $form){
     echo <<< HTML
-    <main class="row">
-        <section id="contenido" class="borde_verde formulario col-md-9">
+    <main>
+        <section id="contenido" class="borde_verde formulario">
             <h1> $titulo </h1>
             <form action="$form"  method="post" enctype="multipart/form-data" id="add">
                 <div class="form-group">
@@ -587,7 +897,7 @@ function formularioBUSQP($titulo, $form){
                     <label> Apellidos: <input type="text" class="form-control" name="apellidos"></label>
                 </div>
                 <div class="form-group">
-                    <label> Intervalo de fecha:
+                    <label> Intervalo de fecha: 
                         <label> Fecha inicial: <input type="date" class="form-control" name="fecha_ini"></label>
                         <label> Fecha fin: <input type="date" class="form-control" name="fecha_fin"></label>
                 </div>
@@ -610,5 +920,4 @@ function formularioBUSQP($titulo, $form){
         </section>
     HTML;
 }
-
 ?>
