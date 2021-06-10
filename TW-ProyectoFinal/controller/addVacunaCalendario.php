@@ -25,7 +25,7 @@ else{
 	
 	//si se ha enviado los datos, se procesa la imagen y se muestra el formulario
 	if(isset($_POST['enviarDatos'])){
-        formularioVAC_CAL03($_POST, $titulo_form, $form, $vacunas);
+        formularioVAC_CAL03($_POST, $titulo_form, $form, $vacunas, '');
 	}
     
     //si va a validar los datos, se procesan y validan los datos
@@ -41,6 +41,9 @@ else{
         else{
             $mensaje = insertarVacunaCalendario($datos);
             mensaje($titulo, $mensaje);
+
+            $mens = "Añadir vacuna al calendario: ".$_SESSION['usuario'].". Mensaje: ".$mensaje.".";
+            log_sistema($mens);
         }
 	}
 

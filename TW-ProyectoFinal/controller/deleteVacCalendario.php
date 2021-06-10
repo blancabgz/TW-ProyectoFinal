@@ -5,7 +5,7 @@ require_once '../model/basedatos.php';
 require_once '../view/vistasComunes.php';
 require_once '../view/formulariosVAC_CAL.php';
 
-$titulo = "Borrar usuario";
+$titulo = "Borrar vacuna del calendario";
 $form = "../controller/deleteVacCalendario.php";
 $accion = 'bV';
 
@@ -46,6 +46,9 @@ else{
     else if(isset($_POST['borrarVac'])){
         $mensaje = borrarVacunaCalendario($_SESSION['id']);
         mensaje($titulo, $mensaje);
+
+        $mens = "Borrar vacuna del calendario: ".$_SESSION['usuario'].". Mensaje: ".$mensaje.".";
+        log_sistema($mens);
     }
     
     //para cualquier otra, se muestra el mensaje

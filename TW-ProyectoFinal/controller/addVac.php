@@ -39,6 +39,9 @@ else{
         else{
             $mensaje = insertarVacuna($datos, $rol);
             mensaje($titulo, $mensaje);
+
+            $mens = "Añadir vacuna: ".$_SESSION['usuario'].". Mensaje: ".$mensaje.".";
+            log_sistema($mens);
         }
 	}
 

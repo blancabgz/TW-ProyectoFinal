@@ -48,6 +48,9 @@ if($rol == 'A'){
         else{
             $mensaje = actualizarVacuna($datos, $_SESSION['idVac']);
             mensaje($titulo, $mensaje);
+
+            $mens = "Borrar vacuna: ".$_SESSION['usuario'].". Mensaje: ".$mensaje.".";
+            log_sistema($mens);
         }
 	}
 	else{

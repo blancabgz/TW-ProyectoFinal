@@ -52,6 +52,9 @@ if($rol == 'A'){
         else{
             $mensaje = actualizarUsuario($datos, $rol, $_SESSION['dniOld']);
             mensaje($titulo_form, $mensaje);
+
+            $mens = "Modificar usuario: ".$_SESSION['usuario'].". Mensaje: ".$mensaje.".";
+            log_sistema($mens);
         }
 	}
 	else{
@@ -65,6 +68,7 @@ else if($rol == 'P' || $rol == 'S'){
 
 	//si se ha enviado los datos, se procesa la imagen y los datos y se muestra el formulario
 	if(isset($_POST['enviarDatos'])){
+        procesarFotografia();
         formularioUSU06($_POST, $accion, $form, $titulo_form);
 	}
 
@@ -81,6 +85,9 @@ else if($rol == 'P' || $rol == 'S'){
         else{
             $mensaje = actualizarUsuario($datos, $rol, $_SESSION['usuario']);
             mensaje($titulo_form, $mensaje);
+
+            $mens = "Modificar usuario: ".$_SESSION['usuario'].". Mensaje: ".$mensaje.".";
+            log_sistema($mens);
         }
 	}
 
@@ -101,8 +108,7 @@ else if($rol == 'P' || $rol == 'S'){
 
 //si no es administrador, ni paciente ni sanitario, se le redirige al inicio
 else{
-    echo "<br>".$rol;
-	//header("Location: ../view/inicio.php");
+    header("Location: ../view/inicio.php");
 }
 
 HTMLformulario($rol);

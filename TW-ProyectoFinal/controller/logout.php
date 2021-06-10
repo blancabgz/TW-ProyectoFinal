@@ -1,8 +1,13 @@
 <?php
+require_once '../model/basedatos.php';
+
 if (session_status()==PHP_SESSION_NONE) 
     session_start();
 
+
 if (isset($_SESSION['usuario']))
+    $mensaje = "Logout: ".$_SESSION['usuario'].".";
+    log_sistema($mensaje);
     acabarSesion();
 
 header("Location: ../view/inicio.php");

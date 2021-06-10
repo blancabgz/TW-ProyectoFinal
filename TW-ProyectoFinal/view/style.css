@@ -177,6 +177,9 @@ main{
   background-color: rgb(229, 246, 253);
 }
 
+form .btnvacuna{
+  margin-left: 3em;
+}
 form .boton{
   display: flex;
   align-items: center;
@@ -188,6 +191,11 @@ form .boton{
     text-decoration: none;
     color:gray;
 }
+
+form .imagen img {
+  width: 8em;
+}
+
 .form > p{
     margin: 2px auto 2px auto;
     padding: 10px;

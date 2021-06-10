@@ -73,7 +73,7 @@ function formularioUSU02($datos, $validar, $form, $titulo, $user, $accion){
     $rol = formularioRol($campos['rol'], '0');
     $estado = formularioEstado($campos['estado'], '0');
     //$dni = formularioDNI($campos, $accion);
-    
+
     if($accion == 'e'){
         $campos['clave2'] = $campos['clave'];
     }
@@ -93,7 +93,7 @@ function formularioUSU02($datos, $validar, $form, $titulo, $user, $accion){
             <label> Apellidos: <input type='text' class='form-control' name='apellidos' value='".$campos['apellidos']."'></label>
             </div>
             <div class='form-group'>
-                <label> DNI: <input type='text' class='form-control' name='dni' value='".$campos['dni']."' ></label>            
+                <label> DNI: <input type='text' class='form-control' name='dni' value='".$campos['dni']."' ></label>
             </div>
             <div class='form-group'>
             <label> Email: <input type='text' class='form-control' name='email' value='".$campos['email']."'></label>
@@ -236,7 +236,7 @@ echo <<< HTML
                 </div>
             </form>
         </section>
-HTML;        
+HTML;
 }
 
 //editar
@@ -356,9 +356,9 @@ function formularioUSU07($datos, $validar, $form, $titulo){
     $sexo = formularioSexo($campos['sexo'], '0');
     $rol = formularioRol($campos['rol'], '0');
     $estado = formularioEstado($campos['estado'], '0');
-    
+
     $campos['clave2'] = $campos['clave'];
-    
+
     echo "
     <main>
     <section id='contenido' class='borde_verde formulario'>
@@ -374,7 +374,7 @@ function formularioUSU07($datos, $validar, $form, $titulo){
             <label> Apellidos: <input type='text' name='apellidos' value='".$campos['apellidos']."'></label>
         </div>
         <div class='form-group'>
-            <label> DNI: <input type='text' name='dni' value='".$datos['dni']."' ></label>            
+            <label> DNI: <input type='text' name='dni' value='".$datos['dni']."' ></label>
         </div>
         <div class='form-group'>
             <label> Email: <input type='text' name='email' value='".$campos['email']."'></label>
@@ -541,7 +541,7 @@ function formularioSubmit($accion){
     else if($accion == 'c'){
         $input = "<input class='btn' type='submit' name='activado' value='Activar Paciente'>";
     }
-    
+
     return $input;
 }
 
@@ -638,7 +638,7 @@ function formularioVAC03($datos, $titulo, $form, $accion){
     $campos = procesarDatosVacuna($datos);
 
     $submit = "<input class='btn' type='submit' name='validarDatos' value='Validar datos'>";
-    
+
     if($accion == 'bV'){
         $submit = "<input class='btn' type='submit' name='borrarVac' value='Borrar vacuna definitivamente'>";
     }
@@ -690,7 +690,7 @@ function formularioVAC_CAL01($titulo, $form, $vacunas){
                     <label> Intervalo de tiempo de administración:
                         <label> Mes de inicio: <input type='text' class='form-control' name='meses_ini'> </label>
                         <label> Mes de fin: <input type='text' class='form-control' name='meses_fin'> </label>
-                        <p> Para expresar los meses en años, multiplíquelos por 12. </p> 
+                        <p> Para expresar los meses en años, multiplíquelos por 12. </p>
                     </label>
                 </div>
                 <div class='form-group'>
@@ -715,7 +715,7 @@ function formularioVAC_CAL02($datos, $titulo, $form, $validar, $vacunas){
 
     $sexo = formularioSexoCalendario($datos, 0);
     $tipo = formularioTipoCalendario($datos, 0);
-    
+
     echo "
         <main>
         <section id='contenido' class='borde_verde formulario'>
@@ -725,7 +725,7 @@ function formularioVAC_CAL02($datos, $titulo, $form, $validar, $vacunas){
                     <label> Nombre de la vacuna: <select name='idvacuna'>";
                     foreach($vacunas as $v){
                         if($v['id'] == $datos['idvacuna']){
-                            echo "<option value='".$v['id']."' selected>".$v['nombre']."</option>";    
+                            echo "<option value='".$v['id']."' selected>".$v['nombre']."</option>";
                         }
                         else{
                             echo "<option value='".$v['id']."'>".$v['nombre']."</option>";
@@ -781,7 +781,7 @@ function formularioVAC_CAL03($post, $titulo, $form, $vacunas, $submit){
                     <label> Nombre de la vacuna: <select name='idvacuna'>";
                     foreach($vacunas as $v){
                         if($v['id'] == $datos['idvacuna']){
-                            echo "<option value='".$v['id']."' selected>".$v['nombre']."</option>";    
+                            echo "<option value='".$v['id']."' selected>".$v['nombre']."</option>";
                         }
                         else{
                             echo "<option value='".$v['id']."' disabled>".$v['nombre']."</option>";
@@ -897,7 +897,7 @@ function formularioBUSQP($titulo, $form){
                     <label> Apellidos: <input type="text" class="form-control" name="apellidos"></label>
                 </div>
                 <div class="form-group">
-                    <label> Intervalo de fecha: 
+                    <label> Intervalo de fecha:
                         <label> Fecha inicial: <input type="date" class="form-control" name="fecha_ini"></label>
                         <label> Fecha fin: <input type="date" class="form-control" name="fecha_fin"></label>
                 </div>

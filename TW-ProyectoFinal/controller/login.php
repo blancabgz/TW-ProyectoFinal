@@ -23,6 +23,7 @@ if(isset($_POST['login']) && isset($_POST['usuario']) && isset($_POST['clave']))
     if($id == 1){
         $_SESSION['usuario'] = $usuario;
         $accion = "loggeado";
+        $mens = "usuario loggeado en el sistema";
         
         if(isset($_SESSION['deaquivengo']))
             $accion = "redireccion";
@@ -30,11 +31,16 @@ if(isset($_POST['login']) && isset($_POST['usuario']) && isset($_POST['clave']))
     //si ha habido error de identificación
     else if($id == 0){
         $accion = "error_login";
+        $mens = "error en identificación";
     }
     //si ha habido error de bd
     else{
         $accion = "error_bd";
+        $mensaje = "error al conectar con la base de datos";
     }
+    
+    $mensaje = "Login: ".$_POST['usuario']." ".$mens.".";
+    log_sistema($mensaje);
 }
 else{
     $accion = "formulario";

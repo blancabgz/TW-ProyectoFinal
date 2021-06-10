@@ -8,10 +8,6 @@ HTMLinicio($titulo);
 HTMLheader($titulo);
 HTMLnav($rol);
 
-echo <<< HTML
-<main class='row'>
-  <section id='contenido' class='borde_verde col-md-9'>
-HTML;
 //se obtienen las vacunas y el calendario
 $calendario = obtenerCalendarioVacunas();
 
@@ -32,7 +28,7 @@ else{
 	}
 
     //se muestra la cabecera del calendario
-    cabeceraCalendario($titulo, $rol);
+    cabeceraCalendario($titulo, $rol, 'calendario');
 
     //se muestra el cuerpo del calendario
     cuerpoCalendario($calendario, $rol);
@@ -40,10 +36,6 @@ else{
 
 
 HTMLformulario($rol);
-echo <<< HTML
-  </section>
-</main>
-HTML;
 HTMLfooter();
 
 

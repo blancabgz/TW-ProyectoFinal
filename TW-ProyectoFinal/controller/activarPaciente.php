@@ -29,6 +29,17 @@ else{
         $activado = activarPaciente($_POST['dni']);
         mensaje($titulo, $mensaje);
     }
+    else if(isset($_POST['informar'])){
+        $mensaje = 'El usuario ha sido informado de un error.';
+        mensaje($titulo, $mensaje);
+    }
+    else if(isset($_POST['borrar'])){
+        $mensaje = borrarUsuario($_POST['dni']);
+        mensaje($titulo, $mensaje);
+        
+        $mensaje = "Activar paciente: ".$_SESSION['usuario'].".";
+        log_sistema($mensaje);
+    }
 }
 HTMLformulario($rol);
 HTMLfooter();

@@ -11,17 +11,23 @@ HTMLnav($rol);
 
 //si se llega de datosVacuna
 if(isset($_POST['datosVacuna'])){
-
+    
     //obtenemos los datos de la vacuna
     $nombre = obtenerNombreVacuna($_POST['idVac']);
     $acronimo = obtenerAcronimoVacuna($_POST['idVac']);
     $sexo = $_POST['sexo'];
     $tipo = $_POST['tipo'];
     $comentarios = $_POST['comment'];
+    $calendario_id = $_POST['id'];
     $vienede = 'Calendario';
     $form = '../controller/calendario.php';
-    $name = 'calendario';
+    $name = 'cartilla';
+    $dnipaciente = '';
 
+    /*if(isset($_SESSION['dnipaciente'])){
+        $dnipaciente = $_SESSION['dnipaciente'];
+    }*/
+    
     //comprobamos si ha habido error
 	if($nombre == 3 || $acronimo == 3){
 		mensaje($titulo, "Error al conectarse a la base de datos.");
@@ -35,26 +41,32 @@ if(isset($_POST['datosVacuna'])){
             $vienede = 'Cartilla';
             $form = '../controller/cartillaVacunacion.php';
         }
-
+        if(isset($_POST['cartillaVacunacionPaciente']) && $rol == 'S'){
+            $form = '../controller/cartillaVacunacion.php';
+            $name = 'cartillaVacunacionPaciente2';
+        }
+        else if(isset($_POST['cartillaVacunacionPaciente2']) && $rol == 'SP'){
+            $form = '../controller/cartillaVacunacion.php';
+            $name = 'cartillaVacunacionPaciente2';
+        }
         //procesamos los datos
         $sexo = procesarSexo($sexo);
         $tipo = procesarTipo($tipo);
-
         $datos = array(
             'nombre' => $nombre,
             'acronimo' => $acronimo,
+            'calendario_id' => $calendario_id,
             'sexo' => $sexo,
             'tipo' => $tipo,
             'comentarios' => $comentarios,
             'form' => $form,
             'vienede' => $vienede,
-            'name' => 'cartilla',
+            'name' => $name,
+            'dnipaciente' => $dnipaciente,
         );
-
         datosVacunas($datos, $titulo, $rol);
     }
 }
-
 HTMLformulario($rol);
 HTMLfooter();
 

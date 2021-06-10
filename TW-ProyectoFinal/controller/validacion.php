@@ -349,4 +349,60 @@ function validarDatosVacunaCalendario($datos, $vacunas){
     return $validar;
 }
 
+
+/* PROCESAMIENTO Y VALIDACIÓN DE VACUNAS PARA LA CARTILLA */
+function procesarDatosVacunaCartilla($datos, $vacunas){
+    $campos = [];
+    $indice = ['nombre', 'fecha', 'fabricante','comentarios', 'calendario_id', 'id'];
+
+    //almacenamos lo que se ha recogido del formulario
+    foreach($indice as $i){
+
+        //si se ha rellenado el campo, se almacena en campos
+        if(isset($datos[$i])){
+            $campos[$i] = $datos[$i];
+        }
+        else{
+            $campos[$i] = '';
+        }
+    }
+
+    return $campos;
+}
+
+function validarDatosVacunaCartilla($datos, $vacunas){
+    $validar = [];
+    $indice = ['nombre', 'fecha', 'fabricante', 'comentarios'];
+
+    //almacenamos lo que se ha recogido del formulario
+    foreach($indice as $i){
+
+        if($i != 'comentarios' && $datos[$i] == ''){
+            $validar[] = "El campo ".$i." no puede ser nulo.";
+        }
+    }
+
+    $validar = validarNombreVacunaCartilla($datos['nombre'], $vacunas, $validar);
+    $validar = validarFecha($datos['fecha'], $validar);
+
+    return $validar;
+}
+
+function validarNombreVacunaCartilla($nombre, $vacunas, $validar){
+    $esta = false;
+
+    //recorremos la lista de vacunas
+    foreach($vacunas as $v){
+        if($v['nombre'] == $nombre){
+            $esta = true;
+        }
+    }
+
+    if(!$esta){
+        $validar[] = "La vacuna no es válida.";
+    }
+
+    return $validar;
+}
+
 ?>

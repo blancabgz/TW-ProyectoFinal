@@ -9,27 +9,31 @@ if($rol == 'P' || $rol == 'S' || $rol == 'A'){
     HTMLinicio($titulo);
     HTMLheader($titulo);
     HTMLnav($rol);
+    
 
     //se obtienen las vacunas y el calendario
     $calendario = obtenerCalendarioVacunas();
+    //$botonVolver = false;
 
     //si es el sanitario que ha pulsado para ver la cartilla de vacunación
-    if(isset($_POST['cartillaVacunacion']) && $rol == 'S'){
+    if(isset($_POST['cartillaVacunacion']) && $_POST['cartillaVacunacion'] != '' && $rol == 'S'){
         $_SESSION['dnipaciente'] = $_POST['dnipaciente'];
         $cartilla = obtenerCartilla($_POST['dnipaciente']);
-        $boton = "
-            <form action='../controller/busquedaPacientes.php' method='post'>
-                <input type='submit' name='cartillaVac' value='Volver al listado de Pacientes'/>
-            </form>";
     }
     else if(isset($_POST['cartilla']) && $rol == 'S'){
         $cartilla = obtenerCartilla($_SESSION['dnipaciente']);
-        $boton = "
-            <form action='../controller/busquedaPacientes.php' method='post'>
-                <input type='submit' name='cartillaVac' value='Volver al listado de Pacientes'/>
-            </form>";
+    }
+    else if(isset($_POST['cartillaVacunacionPaciente']) && $rol == 'S'){
+        $rol = 'SP';
+        $_SESSION['dnipaciente'] = $_POST['dnipaciente'];
+        $cartilla = obtenerCartilla($_SESSION['dnipaciente']);
+    }
+    else if(isset($_POST['cartillaVacunacionPaciente2']) && $rol == 'S'){
+        $rol = 'SP';
+        $cartilla = obtenerCartilla($_SESSION['dnipaciente']);
     }
     else{
+        $_SESSION['dnipaciente'] = $_SESSION['usuario'];
         $cartilla = obtenerCartilla($_SESSION['usuario']);
     }
 
@@ -37,24 +41,29 @@ if($rol == 'P' || $rol == 'S' || $rol == 'A'){
     if($calendario == 0 || $cartilla == 0){
         mensaje($titulo, "Error al conectarse a la base de datos.");
     }
-    else if($calendario == 1 || $cartilla == 1){
-        mensaje($titulo, "No hay nada para mostrar, la base de datos está vacía.");
+    //si el calendario está vacío
+    else if($calendario == 1){
+        mensaje($titulo, "No hay vacunas para mostrar, la base de datos está vacía.");
     }
-    else if($cartilla == 2){
+    //si no hay cartilla, es porque el usuario no tiene cartilla de vacunación
+    else if($cartilla == 1){
+        $c = 'cartilla2';
+
+        //se muestra la cabecera del calendario
+        cabeceraCalendario($titulo, $rol, $c);
+
+        //se muestra el cuerpo del calendario
+        cuerpoCartilla($calendario, '', $rol);
+
+    }else if($cartilla == 2){
         mensaje($titulo, "No se ha encontrado el usuario con el identificador establecido.");
     }
     //si no ha habido error, mostramos la cartilla de vacunación
     else{
-        //si el usuario es el sanitario, puede volver al listado de pacientes
-	    if($rol == 'S'){
-            $form = '../controller/busquedaPacientes.php';
-            $name = 'cartillaVac';
-            $value = 'Volver al listado de pacientes';
-	    	botonAddVacunaCalendario($titulo, $form, $name, $value, '');
-	    }
+        $c = 'cartilla';
 
         //se muestra la cabecera del calendario
-        cabeceraCalendario($titulo, $rol);
+        cabeceraCalendario($titulo, $rol, $c);
 
         //se muestra el cuerpo del calendario
         cuerpoCartilla($calendario, $cartilla, $rol);
@@ -70,14 +79,15 @@ else{
 
 function estaCartilla($id, $lista){
 
-    $esta = false;
+    $idvacunacion = -1;
 
     foreach($lista as $l){
         if($l['calendario_id'] == $id){
             $esta = true;
+            $idvacunacion = $l['id'];
         }
     }
-    return $esta;
+    return $idvacunacion;
 }
 
 function cuerpoCartilla($calendario, $cartilla, $rol){
@@ -88,36 +98,69 @@ function cuerpoCartilla($calendario, $cartilla, $rol){
     $vacOld = 0;
     $fech = 0;
 
-    //para cada fila del calendario obtenido
-    foreach($calendario as $c){
+    if($cartilla != ''){
+        //para cada fila del calendario obtenido
+        foreach($calendario as $c){
 
-        //si estamos añadiendo una vacuna diferente, cambiamos de fila
-        $vacActual = $c['idvacuna'];
-        if($vacActual != $vacOld){
-            finFila();
-        }
+            //si estamos añadiendo una vacuna diferente, cambiamos de fila
+            $vacActual = $c['idvacuna'];
+            if($vacActual != $vacOld){
+                finFila();
+            }
 
-        //recorremos el índice
-        foreach($indice as $i){
+            //recorremos el índice
+            foreach($indice as $i){
 
-            //si la vacuna es la misma, rellenamos en la misma línea
-            if($vacActual == $vacOld){
-                //si el mes que estamos mirando es posterior al que ya se ha puesto
-                if($i > $fech && $i != 'nombre'){
+                //si la vacuna es la misma, rellenamos en la misma línea
+                if($vacActual == $vacOld){
+                    //si el mes que estamos mirando es posterior al que ya se ha puesto
+                    if($i > $fech && $i != 'nombre'){
 
+                        //si ini <= i <= fin
+                        if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
+                            $acronimo = obtenerAcronimoVacuna($c['idvacuna']);
+
+                            //si la vacuna está en la cartilla
+                            $idvacunacion = estaCartilla($c['id'], $cartilla);
+
+                            if($idvacunacion != -1){
+                                $dnipaciente = obtenerDNI_ID($cartilla[1]['idusuario']);
+                                celdaCartilla($acronimo, $c['id'], $c['idvacuna'], $dnipaciente['dni'], $rol, $idvacunacion);
+                            }
+                            //si no está, se pone de otro color
+                            else{
+                                //obtenemos el acronimo
+                                $acronimo = obtenerAcronimoVacuna($c['idvacuna']);
+                                celdaCalendario($acronimo, $c['id'], $c['idvacuna'], $c['sexo'], $c['tipo'], $c['comentarios'], 'y', $rol);
+                            }
+                        }
+                        //si i < ini
+                        else if($i < $c['meses_ini']){
+                            celdaVacia();
+                        }
+                        else if($i > $c['meses_fin']){
+                            $fech = $c['meses_fin'];
+                            break;
+                        }
+                    }
+                }else{
+                    //si estamos rellenando el nombre, obtenemos el nombre de la vacuna
+                    if($i == 'nombre'){
+                        $nombre = obtenerNombreVacuna($c['idvacuna']);
+                        celdaNombre($nombre);
+                    }
                     //si ini <= i <= fin
-                    if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
+                    else if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
                         $acronimo = obtenerAcronimoVacuna($c['idvacuna']);
 
                         //si la vacuna está en la cartilla
-                        if(estaCartilla($c['id'], $cartilla)){
-                            $dnipaciente = obtenerDNI_ID($cartilla[1]['idusuario']);
-                            celdaCartilla($acronimo, $c['id'], $c['idvacuna'], $dnipaciente['dni']);
+                        $idvacunacion = estaCartilla($c['id'], $cartilla);
+                        if($idvacunacion != -1){
+                            $dnipaciente = obtenerDNI_ID($cartilla[0]['idusuario']);
+                            celdaCartilla($acronimo, $c['id'], $c['idvacuna'], $dnipaciente['dni'], $rol, $idvacunacion);
                         }
                         //si no está, se pone de otro color
                         else{
-                            //obtenemos el acronimo
-                            $acronimo = obtenerAcronimoVacuna($c['idvacuna']);
                             celdaCalendario($acronimo, $c['id'], $c['idvacuna'], $c['sexo'], $c['tipo'], $c['comentarios'], 'y', $rol);
                         }
                     }
@@ -130,40 +173,71 @@ function cuerpoCartilla($calendario, $cartilla, $rol){
                         break;
                     }
                 }
-            }else{
-                //si estamos rellenando el nombre, obtenemos el nombre de la vacuna
-                if($i == 'nombre'){
-                    $nombre = obtenerNombreVacuna($c['idvacuna']);
-                    celdaNombre($nombre);
-                }
-                //si ini <= i <= fin
-                else if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
-                    $acronimo = obtenerAcronimoVacuna($c['idvacuna']);
+            }
+            $vacOld = $vacActual;
+        }
+    }
+    else{
+        //para cada fila del calendario obtenido
+        foreach($calendario as $c){
+        
+            //si estamos añadiendo una vacuna diferente, cambiamos de fila
+            $vacActual = $c['idvacuna'];
+            if($vacActual != $vacOld){
+                finFila();
+            }
+        
+            //recorremos el índice
+            foreach($indice as $i){
+            
+                //si la vacuna es la misma, rellenamos en la misma línea
+                if($vacActual == $vacOld){
+                    //si el mes que estamos mirando es posterior al que ya se ha puesto
+                    if($i > $fech && $i != 'nombre'){
+                    
+                        //si ini <= i <= fin
+                        if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
+                            
+                            //obtenemos el acronimo
+                            $acronimo = obtenerAcronimoVacuna($c['idvacuna']);
+                            celdaCalendario($acronimo, $c['id'], $c['idvacuna'], $c['sexo'], $c['tipo'], $c['comentarios'], 'y', $rol);
 
-                    //si la vacuna está en la cartilla
-                    if(estaCartilla($c['id'], $cartilla)){
-                        $dnipaciente = obtenerDNI_ID($cartilla[1]['idusuario']);
-                        celdaCartilla($acronimo, $c['id'], $c['idvacuna'], $dnipaciente['dni']);
+                        }
+                        //si i < ini
+                        else if($i < $c['meses_ini']){
+                            celdaVacia();
+                        }
+                        else if($i > $c['meses_fin']){
+                            $fech = $c['meses_fin'];
+                            break;
+                        }
                     }
-                    //si no está, se pone de otro color
-                    else{
+                }else{
+                    //si estamos rellenando el nombre, obtenemos el nombre de la vacuna
+                    if($i == 'nombre'){
+                        $nombre = obtenerNombreVacuna($c['idvacuna']);
+                        celdaNombre($nombre);
+                    }
+                    //si ini <= i <= fin
+                    else if($i >= $c['meses_ini'] && $i <= $c['meses_fin']){
+                        $acronimo = obtenerAcronimoVacuna($c['idvacuna']);
                         celdaCalendario($acronimo, $c['id'], $c['idvacuna'], $c['sexo'], $c['tipo'], $c['comentarios'], 'y', $rol);
                     }
-                }
-                //si i < ini
-                else if($i < $c['meses_ini']){
-                    celdaVacia();
-                }
-                else if($i > $c['meses_fin']){
-                    $fech = $c['meses_fin'];
-                    break;
+                    //si i < ini
+                    else if($i < $c['meses_ini']){
+                        celdaVacia();
+                    }
+                    else if($i > $c['meses_fin']){
+                        $fech = $c['meses_fin'];
+                        break;
+                    }
                 }
             }
+            $vacOld = $vacActual;
         }
-        $vacOld = $vacActual;
     }
 
-    finFila();
+    finTabla();
 }
 
 ?>

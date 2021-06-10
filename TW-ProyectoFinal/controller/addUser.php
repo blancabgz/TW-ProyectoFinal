@@ -40,6 +40,9 @@ else{
         else{
             $mensaje = insertarUsuario($datos, $rol);
             mensaje($titulo, $mensaje);
+
+            $mens = "Añadir usuario: ".$_SESSION['usuario'].". Mensaje: ".$mensaje.".";
+            log_sistema($mens);
         }
 	}
 

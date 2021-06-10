@@ -45,6 +45,9 @@ else{
     elseif(isset($_POST['borrarUsuario'])){
         $mensaje = borrarUsuario($_POST['dni']);
         mensaje($titulo, $mensaje);
+        
+        $mens = "Borrar usuario: ".$_SESSION['usuario'].". Mensaje: ".$mensaje.".";
+        log_sistema($mens);
     }
     
     //para cualquier otra, se muestra el mensaje

@@ -8,48 +8,48 @@ echo <<< HTML
         <section id="contenido" class="borde_verde formulario col-md-9">
             <h1> $titulo </h1>
             <form action="$form"  method="post" enctype="multipart/form-data" id="add">
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Fotografía: <input type="file"  name="fotografia" value="Seleccionar fotografía"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Nombre: <input class="form-control" type="text" name="nombre"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Apellidos: <input type="text" class="form-control" name="apellidos"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> DNI: <input type="text" class="form-control" name="dni"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Email: <input type="text" class="form-control" name="email"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Teléfono: <input type="text" class="form-control" name="telefono"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Fecha nac: <input type="date" class="form-control" name="fecha"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group radio row">
                     <label> Sexo:
                         <label> <input type="radio" name="sexo" value="M"> Mujer </label>
                         <label> <input type="radio" name="sexo" value="H"> Hombre </label>
                     </label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Clave:
                         <input class="form-control" type="password" name="clave">
                         <input class="form-control" type="password" name="clave2">
                     </label>
                 </div>
-                <div class="form-group">
-                    <label> Rol: <select name="rol">
+                <div class="form-group row">
+                    <label> Rol: <select name="rol" class="form-control">
                         <option value="P"> Paciente </option>
                         <option value="S"> Sanitario </option>
                         <option value="A"> Administrador</option>
                     </select> </label>
                 </div>
-                <div class="form-group">
-                    <label> Estado: <select name="estado">
+                <div class="form-group row">
+                    <label> Estado: <select name="estado" class="form-control">
                         <option value="A"> Activo</option>
                         <option value="I"> Inactivo</option>
                     </select> </label>
@@ -73,7 +73,7 @@ function formularioUSU02($datos, $validar, $form, $titulo, $user, $accion){
     $rol = formularioRol($campos['rol'], '0');
     $estado = formularioEstado($campos['estado'], '0');
     //$dni = formularioDNI($campos, $accion);
-
+    
     if($accion == 'e'){
         $campos['clave2'] = $campos['clave'];
     }
@@ -83,43 +83,43 @@ function formularioUSU02($datos, $validar, $form, $titulo, $user, $accion){
     <section id='contenido' class='borde_verde formulario col-md-9'>
         <h1>".$titulo."</h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
-        <div class='form-group'>
+        <div class='form-group imagen'>
             ".$foto."
             </div>
-            <div class='form-group'>
+            <div class='form-group row'>
             <label> Nombre: <input type='text' class='form-control' name='nombre' value='".$campos['nombre']."' ></label>
             </div>
-            <div class='form-group'>
+            <div class='form-group row'>
             <label> Apellidos: <input type='text' class='form-control' name='apellidos' value='".$campos['apellidos']."'></label>
             </div>
-            <div class='form-group'>
+            <div class='form-group row'>
                 <label> DNI: <input type='text' class='form-control' name='dni' value='".$campos['dni']."' ></label>
             </div>
-            <div class='form-group'>
+            <div class='form-group row'>
             <label> Email: <input type='text' class='form-control' name='email' value='".$campos['email']."'></label>
             </div>
-            <div class='form-group'>
+            <div class='form-group row'>
             <label> Teléfono: <input type='text' class='form-control' name='telefono' value='".$campos['telefono']."' ></label>
             </div>
             <div class='form-group'>
-            <label> Fecha nac: <input type='date'  name='fecha' value='".$campos['fecha']."' ></label>
+            <label> Fecha nac: <input type='date' class='form-control' name='fecha' value='".$campos['fecha']."' ></label>
             </div>
-            <div class='form-group'>
+            <div class='form-group radio row'>
             <label> Sexo: ".$sexo." </label>
             </div>
-            <div class='form-group'>
+            <div class='form-group row'>
             <label> Clave:
-                <input type='password' name='clave' value='".$campos['clave']."'>
-                <input type='password' name='clave2' value='".$campos['clave2']."'>
+                <input type='password' class='form-control' name='clave' value='".$campos['clave']."'>
+                <input type='password' class='form-control' name='clave2' value='".$campos['clave2']."'>
             </label>
             </div>
-            <div class='form-group'>
+            <div class='form-group row'>
                 <label> Rol: ".$rol." </label>
             </div>
-            <div class='form-group'>
-                <label> Estado: ".$estado." </label>
+            <div class='form-group row'>
+                <label > Estado: ".$estado." </label>
             </div>
-            <div class='form-group form boton'>
+            <div class='form-group form boton row'>
                 <input class='btn' type='submit' name='enviarDatos' value='Enviar datos'>
             </div>
         </form>";
@@ -150,40 +150,40 @@ function formularioUSU03($datos, $accion, $form, $titulo, $user){
     <section id='contenido' class='borde_verde formulario col-md-9'>
         <h1> ".$titulo." </h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
-            <div class='form-group'>
+            <div class='form-group imagen'>
             ".$foto."
             </div>
-            <div class='form-group'>
-            <label> Nombre: <input readonly type='text' name='nombre' value='".$campos['nombre']."' ></label>
+            <div class='form-group row'>
+            <label> Nombre: <input readonly class='form-control' type='text' name='nombre' value='".$campos['nombre']."' ></label>
             </div>
-            <div class='form-group'>
-            <label> Apellidos: <input readonly type='text' name='apellidos' value='".$campos['apellidos']."'></label>
+            <div class='form-group row'>
+            <label> Apellidos: <input readonly class='form-control' type='text' name='apellidos' value='".$campos['apellidos']."'></label>
             </div>
-            <div class='form-group'>
-                <label> DNI: <input readonly type='text' name='dni' value='".$datos['dni']."' ></label>
+            <div class='form-group row'>
+                <label> DNI: <input readonly class='form-control' type='text' name='dni' value='".$datos['dni']."' ></label>
             </div>
-            <div class='form-group'>
-            <label> Email: <input readonly type='text' name='email' value='".$campos['email']."'></label>
+            <div class='form-group row'>
+            <label> Email: <input readonly class='form-control' type='text' name='email' value='".$campos['email']."'></label>
             </div>
-            <div class='form-group'>
-            <label> Teléfono: <input readonly type='text' name='telefono' value='".$campos['telefono']."' ></label>
+            <div class='form-group row'>
+            <label> Teléfono: <input readonly class='form-control' type='text' name='telefono' value='".$campos['telefono']."' ></label>
             </div>
-            <div class='form-group'>
-            <label> Fecha nac: <input readonly type='date' name='fecha' value='".$campos['fecha']."' ></label>
+            <div class='form-group row'>
+            <label> Fecha nac: <input readonly class='form-control' type='date' name='fecha' value='".$campos['fecha']."' ></label>
             </div>
-            <div class='form-group'>
+            <div class='form-group row'>
             <label> Sexo: ".$sexo." </label>
             </div>
-            <div class='form-group'>
+            <div class='form-group row'>
             <label> Clave:
-                <input readonly type='password' name='clave' value='".$campos['clave']."'>
-                <input readonly type='password' name='clave2' value='".$campos['clave2']."'>
+                <input readonly class='form-control'  type='password' name='clave' value='".$campos['clave']."'>
+                <input readonly class='form-control' type='password' name='clave2' value='".$campos['clave2']."'>
             </label>
             </div>
-            <div class='form-group'>
+            <div class='form-group row'>
                 <label> Rol: ".$rol." </label>
             </div>
-            <div class='form-group'>
+            <div class='form-group row'>
                 <label> Estado: ".$estado." </label>
             </div>
             <div class='form-group form boton'> ".$submit." </div>
@@ -201,25 +201,25 @@ echo <<< HTML
                 <div class="form-group">
                     <label> Fotografía: <input type="file"  name="fotografia" value="Seleccionar fotografía"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Nombre: <input class="form-control" type="text" name="nombre"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Apellidos: <input type="text" class="form-control" name="apellidos"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> DNI: <input type="text" class="form-control" name="dni"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Email: <input type="text" class="form-control" name="email"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Teléfono: <input type="text" class="form-control" name="telefono"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Fecha nac: <input type="date" class="form-control" name="fecha"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group radio">
                     <label> Sexo:
                         <label> <input type="radio" name="sexo" value="M"> Mujer </label>
                         <label> <input type="radio" name="sexo" value="H"> Hombre </label>
@@ -246,40 +246,40 @@ function formularioUSU05($datos, $validar, $form, $titulo){
     $foto = formularioFoto($campos['fotografia'], '2');
     $sexo = formularioSexo($campos['sexo'], '1');
     $campos['clave2'] = $campos['clave'];
-
+    
     echo "
     <main class='row'>
     <section id='contenido' class='borde_verde formulario col-md-9'>
         <h1>".$titulo."</h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
-        <div class='form-group'>
+        <div class='form-group imagen'>
             ".$foto."
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Nombre: <input readonly type='text' class='form-control' name='nombre' value='".$campos['nombre']."' ></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Apellidos: <input readonly type='text' class='form-control' name='apellidos' value='".$campos['apellidos']."'></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> DNI: <input readonly type='text' class='form-control' name='dni' value='".$campos['dni']."' ></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Email: <input type='text' class='form-control' name='email' value='".$campos['email']."'></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Teléfono: <input type='text' class='form-control' name='telefono' value='".$campos['telefono']."' ></label>
         </div>
-        <div class='form-group'>
-            <label> Fecha nac: <input readonly type='date' name='fecha' value='".$campos['fecha']."' ></label>
+        <div class='form-group row'>
+            <label> Fecha nac: <input readonly class='form-control' type='date' name='fecha' value='".$campos['fecha']."' ></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group radio'>
             <label> Sexo: ".$sexo." </label>
         </div>
         <div class='form-group'>
             <label> Clave:
-                <input type='password' name='clave' value='".$campos['clave']."'/>
-                <input type='password' name='clave2' value='".$campos['clave2']."'/>
+                <input type='password' class='form-control' name='clave' value='".$campos['clave']."'/>
+                <input type='password' class='form-control' name='clave2' value='".$campos['clave2']."'/>
             </label>
         </div>
         <div class='form-group form boton'>
@@ -311,34 +311,34 @@ function formularioUSU06($datos, $accion, $form, $titulo){
     <section id='contenido' class='borde_verde formulario col-md-9'>
         <h1> ".$titulo." </h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
-        <div class='form-group'>
+        <div class='form-group imagen'>
             ".$foto."
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Nombre: <input readonly type='text' name='nombre' value='".$campos['nombre']."' ></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Apellidos: <input readonly type='text' name='apellidos' value='".$campos['apellidos']."'></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> DNI: <input readonly type='text' name='dni' value='".$campos['dni']."' ></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Email: <input readonly type='text' name='email' value='".$campos['email']."'></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Teléfono: <input readonly type='text' name='telefono' value='".$campos['telefono']."' ></label>
         </div>
-        <div class='form-group'>
-            <label> Fecha nac: <input readonly type='date' name='fecha' value='".$campos['fecha']."' ></label>
+        <div class='form-group row'>
+            <label> Fecha nac: <input readonly class='form-control' type='date' name='fecha' value='".$campos['fecha']."' ></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Sexo: ".$sexo." </label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Clave:
-                <input readonly type='password' name='clave' value='".$campos['clave']."'/>
-                <input readonly type='password' name='clave2' value='".$campos['clave2']."'/>
+                <input readonly type='password' class='form-control' name='clave' value='".$campos['clave']."'/>
+                <input readonly type='password' class='form-control' name='clave2' value='".$campos['clave2']."'/>
             </label>
         </div>
         <div class='form-group form boton'>
@@ -364,25 +364,25 @@ function formularioUSU07($datos, $validar, $form, $titulo){
     <section id='contenido' class='borde_verde formulario col-md-9'>
         <h1>".$titulo."</h1>
         <form action='".$form."' method='post' enctype='multipart/form-data' id='add'>
-        <div class='form-group'>
+        <div class='form-group imagen'>
             ".$foto."
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Nombre: <input type='text' name='nombre' value='".$campos['nombre']."' ></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Apellidos: <input type='text' name='apellidos' value='".$campos['apellidos']."'></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> DNI: <input type='text' name='dni' value='".$datos['dni']."' ></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Email: <input type='text' name='email' value='".$campos['email']."'></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Teléfono: <input type='text' name='telefono' value='".$campos['telefono']."' ></label>
         </div>
-        <div class='form-group'>
+        <div class='form-group row'>
             <label> Fecha nac: <input type='date' name='fecha' value='".$campos['fecha']."' ></label>
         </div>
         <div class='form-group'>
@@ -444,48 +444,48 @@ function formularioRol($datos, $desactivado){
 
     if($desactivado == '0'){
         if($datos == 'A'){
-            $rol = "<select name='rol'>
+            $rol = "<select name='rol' class='form-control'>
             <option value='P'> Paciente </option>
             <option value='S'> Sanitario </option>
             <option value='A' selected> Administrador</option></select>";
         }
         else if($datos == 'S'){
-            $rol = "<select name='rol'>
+            $rol = "<select name='rol' class='form-control'>
             <option value='P'> Paciente </option>
             <option value='S' selected> Sanitario </option>
             <option value='A'> Administrador</option></select>";
         }
         else if($datos == 'P'){
-            $rol = "<select name='rol'>
+            $rol = "<select name='rol' class='form-control'>
             <option value='P' selected> Paciente </option>
             <option value='S'> Sanitario </option>
             <option value='A'> Administrador</option></select>";
         }else{
-            $rol = "<select name='rol'>
+            $rol = "<select name='rol' class='form-control'>
             <option value='P'> Paciente </option>
             <option value='S'> Sanitario </option>
             <option value='A'> Administrador</option></select>";
         }
     }else{
         if($datos == 'A'){
-            $rol = "<select name='rol'>
+            $rol = "<select name='rol' class='form-control'>
             <option value='P' disabled> Paciente </option>
             <option value='S' disabled> Sanitario </option>
             <option value='A' selected> Administrador</option></select>";
         }
         else if($datos == 'S'){
-            $rol = "<select name='rol'>
+            $rol = "<select name='rol' class='form-control'>
             <option value='P' disabled> Paciente </option>
             <option value='S' selected> Sanitario </option>
             <option value='A' disabled> Administrador</option></select>";
         }
         else if($datos == 'P'){
-            $rol = "<select name='rol'>
+            $rol = "<select name='rol' class='form-control'>
             <option value='P' selected> Paciente </option>
             <option value='S' disabled> Sanitario </option>
             <option value='A' disabled> Administrador</option></select>";
         }else{
-            $rol = "<select name='rol'>
+            $rol = "<select name='rol' class='form-control'>
             <option value='P' disabled> Paciente </option>
             <option value='S' disabled> Sanitario </option>
             <option value='A' disabled> Administrador</option></select>";
@@ -498,31 +498,31 @@ function formularioEstado($datos, $desactivado){
 
     if( $desactivado == '0'){
         if($datos == 'I'){
-            $estado = "<select name='estado'>
+            $estado = "<select name='estado' class='form-control'>
             <option value='A'> Activo</option>
             <option value='I' selected> Inactivo</option> </select>";
         }
         else if($datos == 'A'){
-            $estado = "<select name='estado'>
+            $estado = "<select name='estado' class='form-control'>
             <option value='A' selected> Activo</option>
             <option value='I'> Inactivo</option> </select>";
         }else{
-            $estado = "<select name='estado'>
+            $estado = "<select name='estado' class='form-control'>
             <option value='A'> Activo</option>
             <option value='I'> Inactivo</option> </select>";
         }
     }else{
         if($datos == 'I'){
-            $estado = "<select name='estado'>
+            $estado = "<select name='estado' class='form-control'>
             <option value='A'disabled> Activo</option>
             <option value='I' selected> Inactivo</option> </select>";
         }
         else if($datos == 'A'){
-            $estado = "<select name='estado'>
+            $estado = "<select name='estado' class='form-control'>
             <option value='A' selected> Activo</option>
             <option value='I' disabled> Inactivo</option> </select>";
         }else{
-            $estado = "<select name='estado' disabled>
+            $estado = "<select name='estado' disabled class='form-control'>
             <option value='A'> Activo</option>
             <option value='I'> Inactivo</option> </select>";
         }
@@ -540,7 +540,10 @@ function formularioSubmit($accion){
         $input = "<input class='btn' type='submit' name='borrarUsuario' value='Borrar usuario definitivamente'>";
     }
     else if($accion == 'c'){
-        $input = "<input class='btn' type='submit' name='activado' value='Activar Paciente'>";
+        $input = "
+        <input class='btn' type='submit' name='activado' value='Activar e informar'>
+        <input class='btn' type='submit' name='informar' value='Informar de error'>
+        <input class='btn' type='submit' name='borrar' value='Borrar usuario'>";
     }
 
     return $input;
@@ -564,9 +567,9 @@ function formularioFoto($foto, $n){
         if($n == '3'){
             $fotografia = "<img src='data:img/png; base64, ".$foto." alt='imagen'/>
             <input type='hidden' name='foto' value='".$foto."'/>";
-        }elseif($n == '2'){
+        }else if($n == '2'){
             $fotografia = "<img src='data:img/png; base64, ".$foto." alt='imagen'/>
-            <label> Fotografía: <input type='file' name='fotografia' value='Seleccionar fotografía'></label>
+            <label> Fotografía: <input class='btn' type='file' name='fotografia' value='Seleccionar fotografía'></label>
             <input type='hidden' name='foto' value='".$foto."'/>";
         }
     }
@@ -580,13 +583,13 @@ function formularioBUSQP($titulo, $form){
         <section id="contenido" class="borde_verde formulario col-md-9">
             <h1> $titulo </h1>
             <form action="$form"  method="post" enctype="multipart/form-data" id="add">
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Nombre: <input class="form-control" type="text" name="nombre"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Apellidos: <input type="text" class="form-control" name="apellidos"></label>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label> Intervalo de fecha:
                         <label> Fecha inicial: <input type="date" class="form-control" name="fecha_ini"></label>
                         <label> Fecha fin: <input type="date" class="form-control" name="fecha_fin"></label>
@@ -610,5 +613,4 @@ function formularioBUSQP($titulo, $form){
         </section>
     HTML;
 }
-
 ?>

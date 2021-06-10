@@ -1,47 +1,45 @@
 <?php
 
-
-
-
 /* FORMULARIOS DE VACUNAS PARA CALENDARIO */
 function formularioVAC_CAL01($titulo, $form, $vacunas){
+    
     //$campos = procesarDatosVacuna($datos);
 
     echo "
-        <main>
-        <section id='contenido' class='borde_verde formulario'>
+        <main class='row'>
+        <section id='contenido' class='borde_verde formulario col-md-9'>
             <h1> $titulo </h1>
             <form action='$form'  method='post' enctype='multipart/form-data' id='add'>
-                <div class='form-group'>
-                    <label> Nombre de la vacuna: <select name='idvacuna'>";
+                <div class='form-group row'>
+                    <label> Nombre de la vacuna: <select class='form-control' name='idvacuna'>";
                     foreach($vacunas as $v){
                         echo "<option value='".$v['id']."'>".$v['nombre']."</option>";
                     }
                 echo "   </select> </label>
                 </div>
-                <div class='form-group'>
+                <div class='form-group row'>
                     <label> Sexo:
                         <label> <input type='radio' name='sexo' value='M'> Mujeres </label>
                         <label> <input type='radio' name='sexo' value='H'> Hombres </label>
                         <label> <input type='radio' name='sexo' value='T' default> Para todas las personas </label>
                     </label>
                 </div>
-                <div class='form-group'>
+                <div class='form-group row'>
                     <label> Intervalo de tiempo de administración:
                         <label> Mes de inicio: <input type='text' class='form-control' name='meses_ini'> </label>
                         <label> Mes de fin: <input type='text' class='form-control' name='meses_fin'> </label>
-                        <p> Para expresar los meses en años, multiplíquelos por 12. </p> 
+                        <p> Para expresar los meses en años, multiplíquelos por 12. </p>
                     </label>
                 </div>
-                <div class='form-group'>
-                    <label> Tipo: <select name='tipo'>
+                <div class='form-group row'>
+                    <label> Tipo: <select name='tipo' class='form-control'>
                         <option value='S'> Administración Sistemática </option>
                         <option value='N'> Administración en personas susceptibles o no vacunadas con anterioridad </option>
                         <option value='R'> Administración en recién nacidos </option>
                         </select>
                     </label>
                 </div>
-                <div class='form-group'>
+                <div class='form-group row'>
                     <label> Comentarios: <input type='text' class='form-control' name='comentarios' value=''></label>
                 </div>
                 <div class='form-group form boton'>
@@ -55,17 +53,17 @@ function formularioVAC_CAL02($datos, $titulo, $form, $validar, $vacunas){
 
     $sexo = formularioSexoCalendario($datos, 0);
     $tipo = formularioTipoCalendario($datos, 0);
-    
+
     echo "
-        <main>
-        <section id='contenido' class='borde_verde formulario'>
+        <main class='row'>
+        <section id='contenido' class='borde_verde formulario col-md-9'>
             <h1> $titulo </h1>
             <form action='$form'  method='post' enctype='multipart/form-data' id='add'>
-                <div class='form-group'>
-                    <label> Nombre de la vacuna: <select name='idvacuna'>";
+                <div class='form-group row'>
+                    <label> Nombre de la vacuna: <select class='form-control' name='idvacuna'>";
                     foreach($vacunas as $v){
                         if($v['id'] == $datos['idvacuna']){
-                            echo "<option value='".$v['id']."' selected>".$v['nombre']."</option>";    
+                            echo "<option value='".$v['id']."' selected>".$v['nombre']."</option>";
                         }
                         else{
                             echo "<option value='".$v['id']."'>".$v['nombre']."</option>";
@@ -73,18 +71,18 @@ function formularioVAC_CAL02($datos, $titulo, $form, $validar, $vacunas){
                     }
                 echo "   </select> </label>
                 </div>
-                <div class='form-group'>
+                <div class='form-group row'>
                     <label> Sexo: ".$sexo."</label>
                 </div>
-                <div class='form-group'>
+                <div class='form-group row'>
                     <label> Intervalo de tiempo de administración:
                         <label> Mes de inicio: <input type='text' class='form-control' name='meses_ini' value='".$datos['meses_ini']."'> </label>
                         <label> Mes de fin: <input type='text' class='form-control' name='meses_fin' value='".$datos['meses_fin']."'> </label>
                     </label>
                 </div>
-                <div class='form-group'> <label> <select name='tipo'>".$tipo." </select> </label>
+                <div class='form-group row'> <label> <select name='tipo'>".$tipo." </select> </label>
                 </div>
-                <div class='form-group'>
+                <div class='form-group row'>
                     <label> Comentarios: <input type='text' class='form-control' name='comentarios' value='".$datos['comentarios']."'></label>
                 </div>
                 <div class='form-group form boton'>
@@ -113,15 +111,15 @@ function formularioVAC_CAL03($post, $titulo, $form, $vacunas, $submit){
     }
 
     echo "
-        <main>
-        <section id='contenido' class='borde_verde formulario'>
+        <main class='row'>
+        <section id='contenido' class='borde_verde formulario col-md-9'>
             <h1> $titulo </h1>
             <form action='$form'  method='post' enctype='multipart/form-data' id='add'>
-                <div class='form-group'>
-                    <label> Nombre de la vacuna: <select name='idvacuna'>";
+                <div class='form-group row'>
+                    <label> Nombre de la vacuna: <select name='idvacuna' class='form-control'>";
                     foreach($vacunas as $v){
                         if($v['id'] == $datos['idvacuna']){
-                            echo "<option value='".$v['id']."' selected>".$v['nombre']."</option>";    
+                            echo "<option value='".$v['id']."' selected>".$v['nombre']."</option>";
                         }
                         else{
                             echo "<option value='".$v['id']."' disabled>".$v['nombre']."</option>";
@@ -129,16 +127,16 @@ function formularioVAC_CAL03($post, $titulo, $form, $vacunas, $submit){
                     }
                 echo "   </select> </label>
                 </div>
-                <div class='form-group'><label> Sexo: ".$sexo."</label></div>
-                <div class='form-group'>
+                <div class='form-group row'><label> Sexo: ".$sexo."</label></div>
+                <div class='form-group row'>
                     <label> Intervalo de tiempo de administración:
                         <label> Mes de inicio: <input readonly type='text' class='form-control' name='meses_ini' value='".$datos['meses_ini']."'> </label>
                         <label> Mes de fin: <input readonly type='text' class='form-control' name='meses_fin' value='".$datos['meses_fin']."'> </label>
                     </label>
                 </div>
-                <div class='form-group'> <label> <select name='tipo'>".$tipo." </select> </label>
+                <div class='form-group row'> <label> <select class='form-control' name='tipo'>".$tipo." </select> </label>
                 </div>
-                <div class='form-group'>
+                <div class='form-group row'>
                     <label> Comentarios: <input readonly type='text' class='form-control' name='comentarios' value='".$datos['comentarios']."'></label>
                 </div>
                 <div class='form-group form boton'>".$submit." </div>

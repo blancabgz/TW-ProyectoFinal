@@ -45,6 +45,9 @@ else{
     else if(isset($_POST['borrarVac'])){
         $mensaje = borrarVacuna($_SESSION['idVac']);
         mensaje($titulo, $mensaje);
+
+        $mens = "Borrar vacuna: ".$_SESSION['usuario'].". Mensaje: ".$mensaje.".";
+        log_sistema($mens);
     }
     
     //para cualquier otra, se muestra el mensaje

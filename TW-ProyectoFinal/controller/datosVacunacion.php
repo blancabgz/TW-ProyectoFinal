@@ -17,6 +17,8 @@ if($rol == 'P' || $rol == 'S' || $rol == 'A'){
 	    $nombre = obtenerNombreVacuna($_POST['idVac']);
 	    $acronimo = obtenerAcronimoVacuna($_POST['idVac']);
 		$dnipaciente = $_POST['dnipaciente'];
+		$idcalendario = $_POST['id'];
+		$idvacunacion = $_POST['idvacunacion'];
 	    $datosVac = obtenerDatosVacunacion($dnipaciente, $_POST['id']);
 
 		//comprobamos si ha habido error
@@ -35,16 +37,26 @@ if($rol == 'P' || $rol == 'S' || $rol == 'A'){
 			}
 		}
 		else{
+			$form = '../controller/cartillaVacunacion.php';
+			$name = 'cartillaVacunacion';
+
+			if(isset($_POST['cartillaVacunacionPaciente']) && $rol == 'S'){
+				
+				$form = '../controller/cartillaVacunacion.php';
+				$name = 'cartillaVacunacionPaciente2';
+			}
 
 	    	$datos = array(
 	    	    'nombre' => $nombre,
 	    	    'acronimo' => $acronimo,
+				'idcalendario' => $idcalendario,
+				'idvacunacion' => $idvacunacion,
 	    	    'fecha' => $datosVac['fecha'],
 	    	    'fabricante' => $datosVac['fabricante'],
 	    	    'comentarios' => $datosVac['comentarios'],
-	    	    'form' => '../controller/cartillaVacunacion.php',
+	    	    'form' => $form,
 	    	    'vienede' => 'Cartilla',
-				'name' => 'cartillaVacunacion',
+				'name' => $name,
 				'dnipaciente' => $dnipaciente,
 	    	);
 
