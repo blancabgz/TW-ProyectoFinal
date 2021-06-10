@@ -10,13 +10,12 @@ function cabeceraCalendario($titulo, $user, $c){
     $aviso = '';
     $boton = '';
 
-    if($c == 'cartilla' || $c == 'cartilla2'){
+    if($c == 'cartilla'){
         $aviso = '<p> Vacunas puestas: color tal. Vacunas no puestas: color otro tal.
         Si no hay ninguna vacuna puesta aparecen todas del color otro tal.</p>';
     }
-    
-    if($c == 'cartilla2' && ($user == 'S' || $user == 'SP' || $user == 'A')){
-        $aviso = '<p> Si la cartilla está vacía, puedes añadir una vacuna a la cartilla
+    else if($c == 'cartilla2' && ($user == 'S' || $user == 'SP')){
+        $aviso .= '<p> Si la cartilla está vacía, puedes añadir una vacuna a la cartilla
             clicando en la vacuna.</p>';
     }
 
@@ -94,7 +93,7 @@ function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $com
     <th scope='col' ".$color.">
         <form action='../controller/datosVacuna.php' method='post'>
             <input class='btn col-md-12 btn btn btn-outline-success btn-xs glyphicon glyphicon-trash' type='submit' name='datosVacuna' value='$acronimo'>
-			<input type='hidden' name='id' value='$idCalendario'>
+					  <input type='hidden' name='id' value='$idCalendario'>
             <input type='hidden' name='idVac' value='$idVacuna'>
             <input type='hidden' name='sexo' value='$sexo'>
             <input type='hidden' name='tipo' value='$tipo'>
@@ -110,9 +109,7 @@ function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $com
 		</form>";
 		if($user =='A'){
 			echo "<form action='../controller/deleteVacCalendario.php' method='post'>
-				<div class=''>
 					<input class='btn btn btn-outline-danger col-md-12 btn-xs glyphicon glyphicon-trash' type='submit' name='deleteVac' value='Borrar'>
-					</div>
 							<input type='hidden' name='id' value='$idCalendario'>
                     <input type='hidden' name='idvacuna' value='$idVacuna'>
                     <input type='hidden' name='acronimo' value='$acronimo'>
@@ -123,9 +120,9 @@ function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $com
 
 function celdaCartilla($acronimo, $idCalendario, $idVacuna, $dnipaciente, $user, $idvacunacion){
     echo "
-    <th scope='col' style='background-color: #BDB76B'>
+    <th scope='col' style='background-color: rgb(209, 255, 185)'>
         <form action='../controller/datosVacunacion.php' method='post'>
-            <input type='submit' name='datosCartilla' value='$acronimo'>
+            <input class='btn col-md-12 btn btn btn-outline-success btn-xs glyphicon glyphicon-trash' type='submit' name='datosCartilla' value='$acronimo'>
             <input type='hidden' name='id' value='$idCalendario'>
             <input type='hidden' name='idVac' value='$idVacuna'>
             <input type='hidden' name='dnipaciente' value='$dnipaciente'>
