@@ -2,6 +2,8 @@
 require_once "../controller/check_login.php";
 require_once "../controller/validacion.php";
 require_once "../model/basedatos.php";
+require_once '../model/bdVacunas.php';
+require_once "../model/log.php";
 require_once "../view/vistasComunes.php";
 require_once "../view/formulariosVAC.php";
 

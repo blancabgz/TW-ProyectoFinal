@@ -1,4 +1,5 @@
 <?php
+require_once "../model/bdVacunas.php";
 
 /* PROCESAMIENTO Y VALIDACIÓN DE USUARIOS */
 function procesarDatos($datos){

@@ -10,19 +10,23 @@ function cabeceraCalendario($titulo, $user, $c){
     $aviso = '';
     $boton = '';
 
-    if($c == 'cartilla'){
-        $aviso = '<p> Vacunas puestas: color tal. Vacunas no puestas: color otro tal.
-        Si no hay ninguna vacuna puesta aparecen todas del color otro tal.</p>';
+    if($c == 'cartilla' || $c == 'cartilla2'){
+        $aviso = '<p> Las vacunas puestas se muestran sobre fondo verde, 
+        las vacunas no puestas están sobre fondo rojo.</p>';
     }
-    else if($c == 'cartilla2' && ($user == 'S' || $user == 'SP')){
-        $aviso .= '<p> Si la cartilla está vacía, puedes añadir una vacuna a la cartilla
-            clicando en la vacuna.</p>';
+    
+    if($c == 'cartilla2' && ($user == 'S' || $user == 'SP' || $user == 'A')){
+        $aviso .= '<p> Si la cartilla está vacía, es decir, si todas las vacunas tienen
+        fondo rojo puedes añadir una vacuna a la cartilla clicando en la vacuna.</p>';
     }
 
     if($user == 'SP'){
         $boton = "
-        <form action='../controller/busquedaPacientes.php' method='post'>
-            <input type='submit' name='cartillaVac' value='Volver al listado de Pacientes'/>
+        
+        <form class='row form-group form boton' action='../controller/busquedaPacientes.php' method='post'>
+            <div class='col-12 boton'>
+            <input class='btn' type='submit' name='cartillaVac' value='Volver al listado de Pacientes'/>
+            </div>
         </form>";
     }
 

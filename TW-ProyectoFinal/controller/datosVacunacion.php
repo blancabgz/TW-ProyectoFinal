@@ -1,5 +1,6 @@
 <?php
 require_once "../controller/check_login.php";
+require_once '../model/bdCalCart.php';
 require_once "../view/vistasComunes.php";
 require_once "../view/vistasCal-Cart.php";
 

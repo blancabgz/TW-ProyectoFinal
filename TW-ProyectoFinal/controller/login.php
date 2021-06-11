@@ -5,6 +5,8 @@ if(session_status()==PHP_SESSION_NONE)
 
 require_once '../view/vistasComunes.php';
 require_once '../model/basedatos.php';
+require_once '../model/bdUsuarios.php';
+require_once "../model/log.php";
 
 HTMLinicio("Login");
 HTMLheader("Login");

@@ -1,5 +1,6 @@
 <?php
 require_once "../controller/check_login.php";
+require_once '../model/bdCalCart.php';
 require_once "../view/vistasComunes.php";
 require_once "../view/vistasCal-Cart.php";
 
@@ -9,11 +10,9 @@ if($rol == 'P' || $rol == 'S' || $rol == 'A'){
     HTMLinicio($titulo);
     HTMLheader($titulo);
     HTMLnav($rol);
-    
 
     //se obtienen las vacunas y el calendario
     $calendario = obtenerCalendarioVacunas();
-    //$botonVolver = false;
 
     //si es el sanitario que ha pulsado para ver la cartilla de vacunación
     if(isset($_POST['cartillaVacunacion']) && $_POST['cartillaVacunacion'] != '' && $rol == 'S'){
@@ -36,7 +35,7 @@ if($rol == 'P' || $rol == 'S' || $rol == 'A'){
         $_SESSION['dnipaciente'] = $_SESSION['usuario'];
         $cartilla = obtenerCartilla($_SESSION['usuario']);
     }
-
+    
     //comprobamos que no ha habido error
     if($calendario == 0 || $cartilla == 0){
         mensaje($titulo, "Error al conectarse a la base de datos.");

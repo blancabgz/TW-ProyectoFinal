@@ -77,28 +77,46 @@ function mostrarLista($lista){
 function mostrarListaPacientes($pacientes, $titulo){
     echo <<< HTML
     <main class="row">
-        <section id='contenido' class='borde_verde'>
+        <section id='contenido' class='borde_verde col-md-9'>
         <h1> $titulo </h1>
+        <div class="row listausuarios">
+          <table class="table table-striped table-responsive">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Cartilla de Vacunación</th>
+                <th>Activar</th>
+              </tr>
+            </thead>
+            <tbody>
     HTML;
 
     foreach($pacientes as $p){
         echo "
-            ".$p['nombre']."
-            ".$p['estado']."
-            <form action='../controller/cartillaVacunacion.php' method='post'>
-                <input type='submit' name='cartillaVacunacion' value='Cartilla de Vacunación'/>
+          <tr>
+            <td>".$p['nombre']."</td>
+            <td>".$p['estado']."</td>
+            <form  action='../controller/cartillaVacunacion.php' method='post'></td>
+                <td><input type='submit' name='cartillaVacunacionPaciente' value='Cartilla de Vacunación'/>
                 <input type='hidden' name='dnipaciente' value='".$p['dni']."'/>
             </form>";
 
             if($p['estado'] == 'I'){
                 echo "
                 <form action='../controller/activarPaciente.php' method='post'>
-                    <input type='submit' name='activarPaciente' value='Activar Paciente'/>
+                    <td><input type='submit' name='activarPaciente' value='Activar Paciente'/></td>
                     <input type='hidden' name='dnipaciente' value='".$p['dni']."'/>
-                </form>";
+                </form>
+                </tr>";
+
             }
     }
-    echo "</section>";
+    echo "
+          </tbody>
+        </table>
+      </div>
+    </section>";
 }
 
 ?>
