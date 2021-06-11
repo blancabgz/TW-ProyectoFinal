@@ -20,6 +20,11 @@ function cabeceraCalendario($titulo, $user, $c){
         fondo rojo puedes añadir una vacuna a la cartilla clicando en la vacuna.</p>';
     }
 
+    if($c == 'calendario'){
+        $aviso = "<p> Las vacunas mostradas en color intenso son de Admistración Sistemática.
+        Las vacunas mostradas con un color claro son de Administración en personas susceptibles
+        o no vacunadas con anterioridad. Las que se muestran sin fondo son para los recién nacidos.</p> ";
+    }
     if($user == 'SP'){
         $boton = "
         
@@ -34,7 +39,7 @@ function cabeceraCalendario($titulo, $user, $c){
             echo <<< HTML
                 $aviso
                 $boton
-                <div class='container table-responsive py-5'>
+                <div class='table-responsive py-5' id='calendario'>
                     <table class='table table-bordered table-hover'>
                         <tr>
             HTML;
@@ -46,7 +51,7 @@ function cabeceraCalendario($titulo, $user, $c){
                     <h1> $titulo </h1>
                     $aviso
                     $boton
-                    <div class='container table-responsive py-5'>
+                    <div class='table-responsive py-5' id='calendario'>
                         <table class='table table-bordered table-hover'>
                             <tr>
         HTML;
@@ -90,7 +95,15 @@ function finTabla(){
 function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $comentarios, $c, $user){
     $color = '';
     if($c == 'y'){
-        $color = "style='background-color: #FFD6C5'";
+        $color = "id='y'";
+    }
+    else{
+        if($tipo == 'S'){
+            $color = "id='S'";
+        }
+        else if($tipo == 'N'){
+            $color = "id='N'";
+        }
     }
 
     echo "
@@ -101,7 +114,7 @@ function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $com
             <input type='hidden' name='idVac' value='$idVacuna'>
             <input type='hidden' name='sexo' value='$sexo'>
             <input type='hidden' name='tipo' value='$tipo'>
-            <input type='hidden' name='comment' value='$comentarios'>
+            <input type='hidden' name='comentarios' value='$comentarios'>
             <input type='hidden' name='cartilla' value='$c'>
     ";
 
@@ -111,7 +124,7 @@ function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $com
 
         echo "
 		</form>";
-		if($user =='A'){
+		if($user =='A' && $c == 'n'){
 			echo "<form action='../controller/deleteVacCalendario.php' method='post'>
 					<input class='btn btn btn-outline-danger col-md-12 btn-xs glyphicon glyphicon-trash' type='submit' name='deleteVac' value='Borrar'>
 							<input type='hidden' name='id' value='$idCalendario'>
@@ -124,7 +137,7 @@ function celdaCalendario($acronimo, $idCalendario, $idVacuna, $sexo, $tipo, $com
 
 function celdaCartilla($acronimo, $idCalendario, $idVacuna, $dnipaciente, $user, $idvacunacion){
     echo "
-    <th scope='col' style='background-color: rgb(209, 255, 185)'>
+    <th scope='col' id='C'>
         <form action='../controller/datosVacunacion.php' method='post'>
             <input class='btn col-md-12 btn btn btn-outline-success btn-xs glyphicon glyphicon-trash' type='submit' name='datosCartilla' value='$acronimo'>
             <input type='hidden' name='id' value='$idCalendario'>
@@ -142,7 +155,7 @@ function celdaCartilla($acronimo, $idCalendario, $idVacuna, $dnipaciente, $user,
 function datosVacunas($datos, $titulo, $rol){
     $botonAdd = '';
 
-    if($datos['vienede'] == 'Cartilla' && $rol == 'S'){
+    if($datos['vienede'] == 'Cartilla' && ($rol == 'S' || $rol == 'A')){
         $botonAdd = "
         <form class='row form-group form boton' action='../controller/addVacunaCartilla.php' method='post'>
             <div class='col-12 boton'>
@@ -191,7 +204,7 @@ function datosVacunas($datos, $titulo, $rol){
 function datosCartilla($datos, $titulo, $rol){
 
     $botones = '';
-    if($rol == 'S'){
+    if($rol == 'S' || $rol == 'A'){
         $botones = "
             <form class='row form-group form boton' action='../controller/editVacunaCartilla.php' method='post'>
                 <div class='col-12 boton'>

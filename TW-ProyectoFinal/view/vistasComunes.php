@@ -99,8 +99,8 @@ function HTMLnav($user){
 
                 <div class="dropdown-menu" aria-labelledby="dropdowmMenuButton">
                     <a class="dropdown-item" href="../controller/logsistema.php"> Log del sistema </a>
-                    <a class="dropdown-item" href="../controller/list.php"> Copia de seguridad </a>
-                    <a class="dropdown-item" href="../controller/list.php"> Restauración de BD </a>
+                    <a class="dropdown-item" href="../controller/copiaSeguridad.php"> Copia de seguridad </a>
+                    <a class="dropdown-item" href="../controller/restauracion.php"> Restauración de BD </a>
                 </div>
             </li>
           </ul>

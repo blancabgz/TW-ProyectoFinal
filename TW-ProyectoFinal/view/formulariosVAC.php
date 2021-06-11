@@ -15,7 +15,7 @@ function formularioVAC01($titulo, $form){
                     <label> Acrónimo: <input type="text" class="form-control" name="acronimo"></label>
                 </div>
                 <div class="form-group">
-                    <label> Descripción: <input type="text" class="form-control" name="descripcion"></label>
+                    <label> Descripción: <input type="text" class="form-control" name="comentarios"></label>
                 </div>
                 <div class='form-group form boton'>
                     <input class='btn' type='submit' name='enviarDatos' value='Enviar datos'>
@@ -42,7 +42,7 @@ function formularioVAC02($datos, $titulo, $form, $validar){
                     <label> Acrónimo: <input type='text' class='form-control' name='acronimo' value='".$campos['acronimo']."'></label>
                 </div>
                 <div class='form-group'>
-                    <label> Descripción: <input type='text' class='form-control' name='descripcion' value='".$campos['descripcion']."'></label>
+                    <label> Descripción: <input type='text' class='form-control' name='comentarios' value='".$campos['comentarios']."'></label>
                 </div>
                 <div class='form-group form boton'>
                     <input class='btn' type='submit' name='enviarDatos' value='Enviar datos'>
@@ -80,7 +80,7 @@ function formularioVAC03($datos, $titulo, $form, $accion){
                     <label> Acrónimo: <input readonly type='text' class='form-control' name='acronimo' value='".$campos['acronimo']."'></label>
                 </div>
                 <div class='form-group'>
-                    <label> Descripción: <input readonly type='text' class='form-control' name='descripcion' value='".$campos['descripcion']."'></label>
+                    <label> Descripción: <input readonly type='text' class='form-control' name='comentarios' value='".$campos['comentarios']."'></label>
                 </div>
                 <div class='form-group form boton'>".$submit." </div>
             </form>

@@ -8,7 +8,7 @@ function obtenerListadoVacunas(){
     $listado = 0;
 
     if($bd){
-        $consulta = "SELECT id, nombre, acronimo FROM vacunas";
+        $consulta = "SELECT * FROM vacunas";
         $consulta_res = mysqli_query($bd, $consulta);
         
         if($consulta_res){
@@ -53,7 +53,7 @@ function insertarVacuna($datos){
     if($bd){
         $nombre = $datos['nombre'];
         $mensaje = 'Se desconoce el error. Vuelva a intentarlo.';
-        $indice = ['nombre', 'acronimo', 'descripcion'];
+        $indice = ['nombre', 'acronimo', 'comentarios'];
         
         $consulta_select = "SELECT nombre FROM vacunas WHERE nombre='$nombre';";
         $consulta_res = mysqli_query($bd, $consulta_select);
@@ -68,7 +68,7 @@ function insertarVacuna($datos){
 
             //construimos las columnas a insertar
             foreach($indice as $k){
-                if($k == 'descripcion'){
+                if($k == 'comentarios'){
                     $consulta .= $k.") VALUES (";
                 }else{
                     $consulta .= $k.",";
@@ -77,14 +77,14 @@ function insertarVacuna($datos){
             //construimos la consulta con los datos del argumento
             foreach($indice as $k){
                 if($datos[$k] != ""){
-                    if($k == 'descripcion'){
+                    if($k == 'comentarios'){
                         $consulta .="'".mysqli_real_escape_string($bd,$datos[$k])."');";
                     }else{
                         $consulta .="'".mysqli_real_escape_string($bd,$datos[$k])."',";
                     }
                 }
                 else{
-                    if($k == 'descripcion') $consulta .= "'');";
+                    if($k == 'comentarios') $consulta .= "'');";
                     else $consulta .= " '',";
                 }
             }
@@ -112,7 +112,7 @@ function actualizarVacuna($datos, $id){
 
     if($bd){
         $mensaje = 'Se desconoce el error. Vuelva a intentarlo.';
-        $indice = ['nombre', 'acronimo', 'descripcion'];
+        $indice = ['nombre', 'acronimo', 'comentarios'];
         $nombre = $datos['nombre']; $acron = $datos['acronimo'];
         $consulta = "SELECT nombre, acronimo FROM vacunas WHERE id!='$id' AND (nombre='$nombre' OR acronimo='$acron');";
         $consulta_res = mysqli_query($bd, $consulta);
@@ -127,7 +127,7 @@ function actualizarVacuna($datos, $id){
 
             //construimos las columnas a insertar
             foreach($indice as $k){
-                if($k == 'descripcion'){
+                if($k == 'comentarios'){
                     $consulta .= " ".$k." = '".mysqli_real_escape_string($bd,$datos[$k])."' ";
                 }else{
                     $consulta .= " ".$k." = '".mysqli_real_escape_string($bd,$datos[$k])."',";

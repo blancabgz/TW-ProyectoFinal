@@ -223,7 +223,7 @@ function validarDatos($datos, $user){
 function procesarDatosVacuna($datos){
     
     $campos = [];
-    $indice = ['nombre', 'acronimo', 'descripcion'];
+    $indice = ['nombre', 'acronimo', 'comentarios'];
     
     //copiamos los valores de los campos campos
     foreach($indice as $k){

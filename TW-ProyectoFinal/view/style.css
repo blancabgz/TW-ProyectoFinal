@@ -271,9 +271,26 @@ p#error{
    background-color: rgb(229, 246, 253);
 }
 
+#calendario{
+  padding: 10px 30px;
+  margin: 10px;
+}
 
+th#y{
+  background-color: #FFD6C5;
+}
 
+th#S{
+  background-color: rgb(180, 252, 141);
+}
 
+th#N{
+  background-color: rgb(209, 255, 185);
+}
+
+th#C{
+  background-color: rgb(209, 255, 185)
+}
 @media (max-width: 800px) {
   #contenido{
     /* width: 35%; */

@@ -12,6 +12,7 @@ function mostrarListaVacunas($lista, $titulo){
               <tr>
                 <th>Nombre</th>
                 <th>Acrónimo</th>
+                <th>Comentarios</th>
                 <th>Editar</th>
                 <th>Borrar</th>
               </tr>
@@ -26,6 +27,7 @@ function mostrarListaVacunas($lista, $titulo){
           <tr>
               <td>".$k['nombre']."</td>
               <td>".$k['acronimo']."</td>
+              <td>".$k['comentarios']."</td>
               <form action='../controller/editVac.php' method='post'>
                   <td><input type='submit' name='editVac' value='Editar'/></td>
                   <input type='hidden' name='idVac' value='".$k['id']."'/>

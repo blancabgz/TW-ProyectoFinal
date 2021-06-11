@@ -18,16 +18,12 @@ if(isset($_POST['datosVacuna'])){
     $acronimo = obtenerAcronimoVacuna($_POST['idVac']);
     $sexo = $_POST['sexo'];
     $tipo = $_POST['tipo'];
-    $comentarios = $_POST['comment'];
+    $comentarios = $_POST['comentarios'];
     $calendario_id = $_POST['id'];
     $vienede = 'Calendario';
     $form = '../controller/calendario.php';
     $name = 'cartilla';
     $dnipaciente = '';
-
-    /*if(isset($_SESSION['dnipaciente'])){
-        $dnipaciente = $_SESSION['dnipaciente'];
-    }*/
     
     //comprobamos si ha habido error
 	if($nombre == 3 || $acronimo == 3){

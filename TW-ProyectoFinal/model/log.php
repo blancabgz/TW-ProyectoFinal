@@ -9,7 +9,7 @@ function obtenerLogSistema(){
     $fecha = date("Y-m-d G:i:s");
     
     if($bd){
-        $consulta = "SELECT * FROM log";
+        $consulta = "SELECT * FROM log ORDER BY fecha DESC";
         $consulta_res = mysqli_query($bd, $consulta);
 
         if(mysqli_num_rows($consulta_res) < 0){

@@ -1,14 +1,12 @@
 <?php
 require_once "../controller/check_login.php";
 require_once "../model/basedatos.php";
-require_once "../model/log.php";
+require_once "../model/backup.php";
 require_once "../view/vistasComunes.php";
-require_once "../view/vistasSistema.php";
+require_once "../model/log.php";
 
-$titulo="Consultar log";
-$titulo_form="Log del sistema";
-$form = '../controller/logsistema.php';
-$accion = 'l';
+$titulo="Copia de seguridad";
+$titulo_form="Copia de seguridad del sistema";
 
 HTMLinicio($titulo);
 HTMLheader($titulo);
@@ -21,14 +19,12 @@ if($rol != 'A'){
 //si es la persona administradora
 else{
 	
-    $log = obtenerLogSistema();
+    //realiza la copia de seguridad, que se almacena en la base de datos
+    $mensaje = copiaSeguridad();
+    mensaje($titulo_form, $mensaje);
 
-    if(!is_array($log)){
-        mensaje($titulo, $mensaje);
-    }
-    else{
-        mostrarLogSistema($titulo_form, $log);
-    }
+    $mens = "Copia de seguridad: ".$_SESSION['usuario'].". Mensaje: ".$mensaje."";
+    log_sistema($mens);
 }
 HTMLformulario($rol);
 HTMLfooter();
