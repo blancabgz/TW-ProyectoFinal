@@ -1,6 +1,6 @@
 # TW-ProyectoFinal
 
-Codigo fuente del proyecto finald de la asigantura de Tecnologías Web de la UGR.
+Código fuente del proyecto final de la asignatura de Tecnologías Web de la UGR.
 
 Desarrollado por : [blancabgz](https://github.com/blancabgz) y [postdata9](https://github.com/postdata9)
 
